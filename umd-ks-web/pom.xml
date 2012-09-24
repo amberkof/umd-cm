@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>edu.umd.ks</groupId>
+    <artifactId>umd-ks-web</artifactId>
+    <packaging>pom</packaging>
+    <name>UMD KS Web</name>
+    <description>Project for building UMD KS Wars</description>
+    <parent>
+        <groupId>edu.umd.ks</groupId>
+        <artifactId>umd-ks</artifactId>
+        <version>2.0.0-SNAPSHOT</version>
+    </parent>
+    <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>umd-ks-embedded</module>
+                <module>umd-ks-standalone</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>skip-all-wars</id>
+            <modules>
+            </modules>
+        </profile>
+        <profile>
+            <id>standalone</id>
+            <modules>
+                <module>umd-ks-standalone</module>
+             </modules>
+        </profile>
+        <profile>
+            <id>embedded</id>
+            <modules>
+                <module>umd-ks-embedded</module>
+            </modules>
+        </profile>
+    </profiles>
+    <properties>
+        <derby.version>10.4.2.0</derby.version>
+    </properties>
+</project>
