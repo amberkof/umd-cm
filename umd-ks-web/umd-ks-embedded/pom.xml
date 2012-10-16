@@ -18,8 +18,9 @@
         <ks.gwt.module.lum>org.kuali.student.lum.lu.ui.main.LUMMain</ks.gwt.module.lum>
       -->    
        
-		<umd.gwt.module.lum>edu.umd.ks.cm.ui.main.UMDCMMain</umd.gwt.module.lum>
-        
+		<!--<umd.gwt.module.lum>edu.umd.ks.cm.ui.main.UMDCMMain</umd.gwt.module.lum>-->
+        <umd.gwt.module.lum>org.kuali.student.lum.lu.ui.main.LUMMain</umd.gwt.module.lum>
+
     </properties>
     <build>
         <resources>
@@ -140,14 +141,14 @@
         </dependency>
 
         <dependency>
-            <groupId>org.kuali.rice</groupId>
-            <artifactId>rice-web</artifactId>
+            <groupId>org.kuali.student.web</groupId>
+            <artifactId>ks-embedded</artifactId>
             <type>war</type>
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>org.kuali.rice</groupId>
-            <artifactId>rice-web</artifactId>
+            <groupId>org.kuali.student.web</groupId>
+            <artifactId>ks-embedded</artifactId>
             <type>pom</type>
         </dependency>
         <dependency>
