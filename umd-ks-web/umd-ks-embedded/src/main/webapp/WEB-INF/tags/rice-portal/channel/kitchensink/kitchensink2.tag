@@ -26,14 +26,14 @@
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Combo Boxes"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-ComboBoxes-View&methodToCall=start" /></li>
-        <%-- auto-suggest waiting for M4
-        <li><portal:portalLink displayTitle="true" title="Inline Auto-Suggest"
-                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-LookupAutoSuggest-View&methodToCall=start" /></li>
+        <%--
         <li><portal:portalLink displayTitle="true" title="Lookup with default action"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-LookupDefaultAction-View&methodToCall=start" /></li>
         --%>
         <li><portal:portalLink displayTitle="true" title="Lookup Overview"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-LookupOverview-View&methodToCall=start" /></li>
+        <li><portal:portalLink displayTitle="true" title="Suggest (Auto-Complete)"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-LookupSuggest-View&methodToCall=start" /></li>
     </ul>
 
     <strong>Collections</strong>
@@ -58,6 +58,8 @@
         <li><portal:portalLink displayTitle="true" title="Collection Group Stacked Layout"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionSL-View&methodToCall=start" /></li>
         --%>
+        <li><portal:portalLink displayTitle="true" title="Collection with add blank line"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionAddBlankLine-View&methodToCall=collectionTerm" /></li>
         <li><portal:portalLink displayTitle="true" title="Nested Table"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-NestedTable-View&methodToCall=start" /></li>
         <li><portal:portalLink displayTitle="true" title="Stacked collection"

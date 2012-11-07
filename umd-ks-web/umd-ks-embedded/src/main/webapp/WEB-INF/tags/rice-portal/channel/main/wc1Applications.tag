@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
 
-<channel:portalChannelTop channelTitle="Time Setup (WC 1)" />
+<channel:portalChannelTop channelTitle="Time Setup" />
 <div class="body">
     <strong>Calendar Search</strong>
     <ul class="chan">
