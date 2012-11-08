@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+SVN-Path: enrollment/ks-enroll/trunk/ks-enroll-web
+Maven-Version: 3.0.4
+Built-By: root
+Bundle-Name: KS Enroll Web
+Created-By: Apache Maven 3.0.4
+SVN-Repository: https://svn.kuali.org/repos/student
+Bundle-Vendor: The Kuali Foundation
+SVN-Revision: 39541
+Bundle-BuildNumber: 196
+Build-Jdk: 1.6.0_35
+Bundle-Version: 1.0.0-SNAPSHOT
+SVN-URL: https://svn.kuali.org/repos/student/enrollment/ks-enroll/trun
+ k/ks-enroll-web
+Bundle-License: http://maven.kuali.org/external/org/opensource/ecl/2.0
+ /ecl-2.0.txt
+Bundle-SymbolicName: org.kuali.student.enroll.ks-enroll-web
+Bundle-DocURL: http://www.kuali.org/
+Bundle-Timestamp: 2012-11-06 05:23 UTC
+Archiver-Version: Plexus Archiver
+
