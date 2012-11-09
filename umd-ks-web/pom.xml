@@ -20,7 +20,7 @@
             </activation>
             <modules>
                 <module>umd-ks-with-rice-bundled</module>
-                <module>umd-ks-standalone</module>
+
 
             </modules>
         </profile>
