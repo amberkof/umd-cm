@@ -39,7 +39,7 @@
     <!-- used to show KS links in Rice Portal -->
     <param name="portal.show.sample.app">true</param>
 
-    <param name="appserver.url">http://umd-enr.dev.umd.edu/</param>
+    <param name="appserver.url">http://localhost:8081</param>
     <param name="app.code">ks-bundled</param>
 
     <param name="log4j.settings.path">classpath:META-INF/log4j.properties</param>
