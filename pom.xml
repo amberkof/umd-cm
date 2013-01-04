@@ -8,7 +8,7 @@
     <packaging>pom</packaging>
     <name>UMD Kuali Student</name>
     <description>
-      Parent pom for building UMD KS (enroll, cm, etc)
+      Parent pom for building UMD Enroll
     </description>
 
     <repositories>
@@ -68,8 +68,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-                <module>umd-cm-impl</module>
-                <module>umd-cm-ui</module>
+
                 <module>umd-enroll-impl</module>
                 <module>umd-enroll-ui</module>
                 <module>umd-ks-web</module>
@@ -78,8 +77,7 @@
         <profile>
             <id>skip-all-wars</id>
             <modules>
-                <module>umd-cm-impl</module>
-                <module>umd-cm-ui</module>
+
                 <module>umd-enroll-impl</module>
                 <module>umd-enroll-ui</module>
             </modules>
