@@ -68,18 +68,16 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-
-                <module>umd-enroll-impl</module>
-                <module>umd-enroll-ui</module>
+                <module>umd-cm-impl</module>
+                <module>umd-cm-ui</module>
                 <module>umd-ks-web</module>
             </modules>
         </profile>
         <profile>
             <id>skip-all-wars</id>
             <modules>
-
-                <module>umd-enroll-impl</module>
-                <module>umd-enroll-ui</module>
+                <module>umd-cm-impl</module>
+                <module>umd-cm-ui</module>
             </modules>
         </profile>
     </profiles>
@@ -104,10 +102,11 @@
         <com.lowagie.itext.version>2.1.7</com.lowagie.itext.version>
         <commons.digester.version>2.1</commons.digester.version>
         <commons.lang.version>2.6</commons.lang.version>
-        <cxf.version>2.3.8</cxf.version>
+        <cxf.version>2.7.0</cxf.version>
         <cxf.javadoc.version>latest-2.3.x</cxf.javadoc.version>
         <derby.version>10.9.1.0</derby.version>
         <dozer.version>5.3.2</dozer.version>
+        <easymock.version>2.4</easymock.version>
         <eclipselink.version>1.0</eclipselink.version>
         <ehcache.version>2.5.0</ehcache.version>
         <google.gwtx.version>1.5.3</google.gwtx.version>
@@ -126,8 +125,8 @@
         <jsr107cache.version>1.0</jsr107cache.version>
         <jta.version>1.1</jta.version>
         <junit.version>4.10</junit.version>
-        <ks-contract-docs.plugin.version>1.0.2</ks-contract-docs.plugin.version>
-        <kuali.rice.version>2.2.0-M4</kuali.rice.version>
+        <ks-contract-docs.plugin.version>1.0.4</ks-contract-docs.plugin.version>
+        <kuali.rice.version>2.2.0</kuali.rice.version>
         <log4j.version>1.2.16</log4j.version>
         <log4j.javadoc.version>1.2</log4j.javadoc.version>
         <logkit.version>2.0</logkit.version>
@@ -357,9 +356,9 @@
                                 </requirePluginVersions>
                                 <bannedDependencies>
                                     <excludes>
-                                        <!-- excluding standard release of commons-beanutils -->
-                                        <exclude>commons-beanutils:commons-beanutils</exclude>
-                                        <exclude>org.apache.commons:commons-beanutils</exclude>
+                                    <!-- excluding standard release of commons-beanutils -->
+                                    <exclude>commons-beanutils:commons-beanutils</exclude>
+                                    <exclude>org.apache.commons:commons-beanutils</exclude>
                                     </excludes>
                                 </bannedDependencies>
                             </rules>
@@ -678,6 +677,12 @@
                 <groupId>org.kuali.rice</groupId>
                 <artifactId>rice-development-tools</artifactId>
                 <version>${kuali.rice.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.kuali.rice</groupId>
+                <artifactId>rice-it-internal-tools</artifactId>
+                <version>${kuali.rice.version}</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.hibernate.javax.persistence</groupId>
@@ -1178,7 +1183,6 @@
                 <groupId>net.sf.jasperreports</groupId>
                 <artifactId>jasperreports-fonts</artifactId>
                 <version>${net.sf.jasperreports.fonts.version}</version>
-                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>com.lowagie</groupId>
@@ -1238,8 +1242,8 @@
                         <groupId>antlr</groupId>
                     </exclusion>
                     <exclusion>
-                      <artifactId>commons-beanutils</artifactId>
-                      <groupId>commons-beanutils</groupId>
+                        <artifactId>commons-beanutils</artifactId>
+                        <groupId>commons-beanutils</groupId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -1253,6 +1257,12 @@
                         <artifactId>commons-beanutils</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.easymock</groupId>
+                <artifactId>easymock</artifactId>
+                <version>${easymock.version}</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>net.sourceforge.htmlunit</groupId>
@@ -1275,21 +1285,6 @@
                 <version>${httpcomponents.httpclient.version}</version>
                 <scope>compile</scope>
             </dependency>
-
-            <dependency>
-                <groupId>org.kuali.student.web</groupId>
-                <artifactId>ks-embedded</artifactId>
-                <version>${ks.deployments.version}</version>
-                <type>war</type>
-            </dependency>
-            <dependency>
-                <groupId>org.kuali.student.web</groupId>
-                <artifactId>ks-embedded</artifactId>
-                <version>${ks.deployments.version}</version>
-                <type>pom</type>
-            </dependency>
-
-
         </dependencies>
     </dependencyManagement>
 
