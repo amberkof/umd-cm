@@ -88,11 +88,11 @@
         <developerConnection>scm:svn:https://svn.dev.umd.edu/sds/kuali/umd-ks20/trunk</developerConnection>
      </scm>
     <properties>
-        <ks.api.version>2.0.0-M5</ks.api.version>
-        <ks.core.version>2.0.0-M5</ks.core.version>
-        <ks.enroll.version>1.0.0-M5</ks.enroll.version>
-        <ks.lum.version>2.0.0-M5</ks.lum.version>
-        <ks.deployments.version>2.0.0-M5</ks.deployments.version>
+        <ks.api.version>2.0.0-M6-CM20</ks.api.version>
+        <ks.core.version>2.0.0-CM20</ks.core.version>
+        <ks.enroll.version>1.0.0-CM20</ks.enroll.version>
+        <ks.lum.version>2.0.0-CM20</ks.lum.version>
+        <ks.deployments.version>2.0.0-CM20</ks.deployments.version>
 
         <!-- 3rd party library/plugin version definitions -->
         <antlr.runtime.version>3.1.1</antlr.runtime.version>
