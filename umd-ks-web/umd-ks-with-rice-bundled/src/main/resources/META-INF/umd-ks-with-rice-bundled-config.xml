@@ -161,9 +161,9 @@
 	<param name="ks.lum.gwt.cache.config.file">classpath:ks-lum-gwt-ehcache.xml</param>
     <param name="ks.lum.gwt.metadata.enable.caching">true</param>
 
-    <!-- default config files 
+    <!-- default config files  -->
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-config.xml</param>
-    -->
+    <param name="config.location">${user.home}/kuali/main/${environment}/ks-with-rice-bundled-config.xml</param>
     <param name="config.location">${user.home}/kuali/main/${environment}/umd-ks-with-rice-bundled-config.xml</param>
     <param name="config.location">${additional.config.locations}</param>
     
