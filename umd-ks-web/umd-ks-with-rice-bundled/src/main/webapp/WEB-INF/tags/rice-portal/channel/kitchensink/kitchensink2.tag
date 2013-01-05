@@ -26,10 +26,8 @@
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Combo Boxes"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-ComboBoxes-View&methodToCall=start" /></li>
-        <%--
         <li><portal:portalLink displayTitle="true" title="Lookup with default action"
-                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-LookupDefaultAction-View&methodToCall=start" /></li>
-        --%>
+                               url="${ConfigProperties.application.url}/kr-krad/lookup?viewId=KS-KitchenSink-Population-LookupView-Uim&methodToCall=start&dataObjectClassName=org.kuali.student.r2.core.population.dto.PopulationInfo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
         <li><portal:portalLink displayTitle="true" title="Lookup Overview"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-LookupOverview-View&methodToCall=start" /></li>
         <li><portal:portalLink displayTitle="true" title="Suggest (Auto-Complete)"
