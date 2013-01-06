@@ -14,13 +14,12 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.server.screenreport.jasper.JasperScreenReportProcessorImpl;
 import org.kuali.student.common.ui.server.screenreport.jasper.KSCollectionDataSource;
 import org.kuali.student.common.ui.server.screenreport.jasper.KSCustomDataSource;
-
+import org.kuali.student.r1.common.assembly.data.Data;
 public class JasperScreenReportProcessorImplUMD extends JasperScreenReportProcessorImpl {
 
 		final Logger LOG = Logger.getLogger(JasperScreenReportProcessorImpl.class);

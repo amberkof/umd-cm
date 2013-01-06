@@ -13,7 +13,6 @@ import org.kuali.student.common.ui.client.util.ExportElement;
 import edu.umd.ks.cm.ui.common.client.lu.LUUIPermissionsUMD;
 import edu.umd.ks.cm.ui.vpac.agenda.client.configuration.VPACViews;
 import edu.umd.ks.cm.ui.vpac.agenda.client.views.VpacAgendaView;
-
 /**
  * Controller for Vpac Agenda Screen.
  * There is no configurer for this screen as it was not necessary, just a view (VpacAgendaView).

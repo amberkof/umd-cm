@@ -2,29 +2,25 @@ package edu.umd.ks.cm.ui.tools.client.configuration;
 
 import java.util.ArrayList;
 
-import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.security.AuthorizationCallback;
 import org.kuali.student.common.ui.client.security.RequiresAuthorization;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.lum.common.client.lu.LUUIPermissions;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetsManagementController;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.ClusetView;
+import org.kuali.student.r1.common.assembly.data.Data;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import edu.umd.ks.cm.ui.common.client.lu.LUUIPermissionsUMD;
-
-
 public class CluSetsManagementControllerUMD extends CluSetsManagementController {
   
 	  @Override

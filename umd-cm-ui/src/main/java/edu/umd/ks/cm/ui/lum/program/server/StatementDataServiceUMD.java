@@ -9,11 +9,9 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.core.statement.dto.ReqComponentTypeInfoUMD;
 import org.kuali.student.lum.program.server.StatementDataService;
-
-import com.google.gwt.user.client.rpc.IsSerializable;
+import org.kuali.student.r1.core.statement.dto.ReqComponentTypeInfo;
 
 
 

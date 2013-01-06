@@ -2,7 +2,6 @@ package edu.umd.ks.cm.ui.course.client.requirements;
 
 import java.util.List;
 
-import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
@@ -14,17 +13,16 @@ import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.LabelPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.ui.client.widgets.rules.SubrulePreviewWidget;
 import org.kuali.student.lum.lu.ui.course.client.configuration.AbstractCourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsManageView;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsSummaryView;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsViewController;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

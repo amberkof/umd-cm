@@ -5,10 +5,11 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.theme.Theme;
-import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenu.MenuImageLocation;
+import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.ui.main.client.widgets.ApplicationHeader;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 

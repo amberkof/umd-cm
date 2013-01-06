@@ -2,14 +2,13 @@ package edu.umd.ks.cm.ui.course.client.controllers;
 
 import java.util.HashMap;
 
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
-
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r2.common.dto.DtoConstants;
 public class CourseProposalControllerUMD extends CourseProposalController{
 
 	public void beforeShow(Callback onReadyCallback) {

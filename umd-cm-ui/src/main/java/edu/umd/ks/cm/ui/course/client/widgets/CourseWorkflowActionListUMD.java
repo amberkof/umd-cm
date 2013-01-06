@@ -1,52 +1,16 @@
 package edu.umd.ks.cm.ui.course.client.widgets;
 
-import java.util.ArrayList;
-import java.util.List;
+import static org.kuali.student.lum.lu.ui.course.client.widgets.CourseWorkflowActionList.courseServiceAsync;
 
-import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.rice.StudentIdentityConstants;
-import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
-import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
-import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
-import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
-import org.kuali.student.common.ui.client.widgets.KSRadioButton;
-import org.kuali.student.common.ui.client.widgets.StylishDropDown;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
-import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
-import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
-import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
-import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.lum.common.client.widgets.AppLocations;
-import org.kuali.student.lum.lu.LUConstants;
-import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
-import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
-import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CourseWorkflowActionList;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 public class CourseWorkflowActionListUMD extends CourseWorkflowActionList {
 

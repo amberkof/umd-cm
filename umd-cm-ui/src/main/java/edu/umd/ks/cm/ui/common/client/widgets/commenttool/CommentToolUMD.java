@@ -2,11 +2,11 @@ package edu.umd.ks.cm.ui.common.client.widgets.commenttool;
 
 import java.util.List;
 
-import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
-import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comments.ui.client.widgets.commenttool.CommentTool;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.core.comment.dto.CommentInfo;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.HTML;

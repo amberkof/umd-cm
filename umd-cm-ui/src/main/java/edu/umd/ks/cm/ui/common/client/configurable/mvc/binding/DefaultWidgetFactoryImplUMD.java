@@ -1,10 +1,5 @@
 package edu.umd.ks.cm.ui.common.client.configurable.mvc.binding;
 
-import org.kuali.student.common.assembly.data.Data.DataType;
-import org.kuali.student.common.assembly.data.LookupMetadata;
-import org.kuali.student.common.assembly.data.LookupParamMetadata;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.MetadataInterrogator;
 import org.kuali.student.common.ui.client.configurable.mvc.WidgetConfigInfo;
 import org.kuali.student.common.ui.client.configurable.mvc.impl.DefaultWidgetFactoryImpl;
 import org.kuali.student.common.ui.client.widgets.BooleanDisplayLabel;
@@ -18,6 +13,11 @@ import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
+import org.kuali.student.r1.common.assembly.data.Data.DataType;
+import org.kuali.student.r1.common.assembly.data.LookupMetadata;
+import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.MetadataInterrogator;
 
 import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.Widget;

@@ -2,7 +2,6 @@ package edu.umd.ks.cm.ui.tools.client.configuration;
 
 import java.util.ArrayList;
 
-import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
@@ -11,12 +10,13 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.ClusetView;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.ToolsConstants;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
-import edu.umd.ks.cm.ui.common.client.lu.LUUIPermissionsUMD;
 
+import edu.umd.ks.cm.ui.common.client.lu.LUUIPermissionsUMD;
 public class ClusetViewUMD extends ClusetView {
     private static final String CLU_SET_SIS_CODE_FIELD = "sisCode";
 	private static final String CLU_SET_SIS_CODE = "clusetSisCode";

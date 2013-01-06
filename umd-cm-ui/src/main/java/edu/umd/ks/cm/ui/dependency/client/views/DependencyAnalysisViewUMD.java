@@ -4,13 +4,6 @@ package edu.umd.ks.cm.ui.dependency.client.views;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.LookupMetadata;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.search.dto.SearchParam;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.util.UtilConstants;
@@ -32,9 +25,15 @@ import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lu.ui.dependency.client.controllers.DependencyAnalysisController;
 import org.kuali.student.lum.lu.ui.dependency.client.views.DependencyAnalysisView;
-import org.kuali.student.lum.lu.ui.dependency.client.widgets.DependencyResultPanel;
-import org.kuali.student.lum.lu.ui.dependency.client.widgets.DependencyTypeSection;
+import org.kuali.student.lum.lu.ui.dependency.client.widgets.DependencyResultPanel.DependencyTypeSection;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.ClusetView.Picker;
+import org.kuali.student.r1.common.assembly.data.LookupMetadata;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r2.core.search.infc.SearchParam;
+import org.kuali.student.r2.core.search.infc.SearchRequest;
+import org.kuali.student.r2.core.search.infc.SearchResult;
+import org.kuali.student.r2.core.search.infc.SearchResultCell;
+import org.kuali.student.r2.core.search.infc.SearchResultRow;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -42,7 +41,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
 import edu.umd.ks.cm.ui.dependency.client.widgets.DependencyResultPanelUMD;
-import edu.umd.ks.cm.ui.dependency.client.widgets.DependencyTypeSectionUMD;
 
 public class DependencyAnalysisViewUMD extends DependencyAnalysisView {
 

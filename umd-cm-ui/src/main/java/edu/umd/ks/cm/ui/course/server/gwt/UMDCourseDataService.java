@@ -15,7 +15,33 @@ import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.server.gwt.CourseDataService;
+import org.apache.log4j.Logger;
+import org.kuali.student.common.ui.server.gwt.AbstractDataService;
+import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.lum.clu.CLUConstants;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
+import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 /**
  * Overridden COruse data service
  *
