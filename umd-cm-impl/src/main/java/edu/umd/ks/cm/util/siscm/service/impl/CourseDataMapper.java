@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,10 +13,14 @@ import java.util.Map;
 
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.dto.AmountInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
-import org.kuali.student.r2.core.search.infc.SearchRequest;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
@@ -81,7 +86,7 @@ public class CourseDataMapper {
 								LoDisplayInfo loDispInfo = new LoDisplayInfo();
 								LoInfo loInfo = new LoInfo();
 					
-								loInfo.setDesc(rt);  // set Description
+								loInfo.setDescr(rt);  // set Description
 								loInfo.setType("kuali.lo.type.singleUse");  // Type required
 								loInfo.getAttributes().put("sequence",Integer.toString(i)); // make sure order comes out right
 								
@@ -127,7 +132,7 @@ public class CourseDataMapper {
 	}
  
 	
-	public static CourseInfo mapToCourseInfo(CourseInfo courseInfo, SisToCmImportCourseInfo importCourse, List<String> courseSetCodes, SubjectCodeService subjectCodeService) throws Exception {
+	public static CourseInfo mapToCourseInfo(CourseInfo courseInfo, SisToCmImportCourseInfo importCourse, List<String> courseSetCodes, SubjectCodeService subjectCodeService, ContextInfo contextInfo) throws Exception {
 
 		//Get fields from result set
 		String crs_cd      = importCourse.getApCrs();
@@ -288,7 +293,7 @@ public class CourseDataMapper {
 		}
 		
 		if(courseInfo.getUnitsContentOwner().isEmpty()){
-			courseInfo.getUnitsContentOwner().addAll(getOrgsFromPrefix(courseInfo.getSubjectArea(), subjectCodeService));
+			courseInfo.getUnitsContentOwner().addAll(getOrgsFromPrefix(courseInfo.getSubjectArea(), subjectCodeService, con));
 		}
 		
 		mapToCourseInfoGenedCoreDiversityOnly(courseInfo,importCourse,courseSetCodes);
@@ -361,21 +366,36 @@ public class CourseDataMapper {
 		return activity;
 	}
 
-	public static List<String> getOrgsFromPrefix(String prefix, SubjectCodeService subjectCodeService) throws MissingParameterException{
-		SearchRequest searchRequest = new SearchRequest("subjectCode.search.orgsForSubjectCode");
+	public static List<String> getOrgsFromPrefix(String prefix, SubjectCodeService subjectCodeService, ContextInfo contextInfo) throws MissingParameterException{
+		SearchRequestInfo searchRequest = new SearchRequestInfo("subjectCode.search.orgsForSubjectCode");
 		searchRequest.addParam("subjectCode.queryParam.code", prefix);
 		searchRequest.addParam("subjectCode.queryParam.optionalRestrictToValidRelations", "true");
+		SearchResult results = null;
+		List<String> orgIds = null;
+        try {
+            results = subjectCodeService.search(searchRequest, contextInfo);
+            orgIds = new ArrayList<String>();
 
-		SearchResult results = subjectCodeService.search(searchRequest);
-		List<String> orgIds = new ArrayList<String>();
-		
-		//If there are no results, try again with invalid relations 
-		if(results.getRows().isEmpty()){
-			searchRequest.getParams().clear();
-			searchRequest.addParam("subjectCode.queryParam.code", prefix);
-			results = subjectCodeService.search(searchRequest);
-		}
-		
+            // If there are no results, try again with invalid relations
+            if (results.getRows().isEmpty()) {
+                searchRequest.getParams().clear();
+                searchRequest.addParam("subjectCode.queryParam.code", prefix);
+                results = subjectCodeService.search(searchRequest, contextInfo);
+            }
+
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } catch (OperationFailedException e2) {
+            e2.printStackTrace();
+            throw new RuntimeException(e2);
+        } catch (PermissionDeniedException e3) {
+            e3.printStackTrace();
+            throw new RuntimeException(e3);
+        } catch (MissingParameterException e4) {
+            e4.printStackTrace();
+            throw new RuntimeException(e4);
+        }
 		for(SearchResultRow row:results.getRows()){
 			for(SearchResultCell cell:row.getCells()){
 				if("subjectCode.resultColumn.orgId".equals(cell.getKey())){
@@ -387,21 +407,36 @@ public class CourseDataMapper {
 		return orgIds;
 	}
 	
-	public static Map<String,String> getOrgsAndNamesFromPrefix(String prefix, SubjectCodeService subjectCodeService) throws MissingParameterException{
-		SearchRequest searchRequest = new SearchRequest("subjectCode.search.orgsForSubjectCode");
+	public static Map<String,String> getOrgsAndNamesFromPrefix(String prefix, SubjectCodeService subjectCodeService, ContextInfo contextInfo) throws MissingParameterException{
+		SearchRequestInfo searchRequest = new SearchRequestInfo("subjectCode.search.orgsForSubjectCode");
 		searchRequest.addParam("subjectCode.queryParam.code", prefix);
 		searchRequest.addParam("subjectCode.queryParam.optionalRestrictToValidRelations", "true");
 
-		SearchResult results = subjectCodeService.search(searchRequest);
-		Map<String,String> orgs = new HashMap<String,String>();
-		
-		//If there are no results, try again with invalid relations 
-		if(results.getRows().isEmpty()){
-			searchRequest.getParams().clear();
-			searchRequest.addParam("subjectCode.queryParam.code", prefix);
-			results = subjectCodeService.search(searchRequest);
-		}
-		
+        SearchResult results = null;
+        Map<String, String> orgs = null;
+        try {
+            results = subjectCodeService.search(searchRequest, contextInfo);
+            orgs = new HashMap<String, String>();
+
+            // If there are no results, try again with invalid relations
+            if (results.getRows().isEmpty()) {
+                searchRequest.getParams().clear();
+                searchRequest.addParam("subjectCode.queryParam.code", prefix);
+                results = subjectCodeService.search(searchRequest, contextInfo);
+            }
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } catch (OperationFailedException e2) {
+            e2.printStackTrace();
+            throw new RuntimeException(e2);
+        } catch (PermissionDeniedException e3) {
+            e3.printStackTrace();
+            throw new RuntimeException(e3);
+        } catch (MissingParameterException e4) {
+            e4.printStackTrace();
+            throw new RuntimeException(e4);
+        }
 		for(SearchResultRow row:results.getRows()){
 			String orgId=null;
 			String orgName=null;

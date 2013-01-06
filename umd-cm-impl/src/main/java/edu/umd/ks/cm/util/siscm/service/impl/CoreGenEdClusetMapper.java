@@ -6,13 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.rice.core.util.MaxAgeSoftReference;
-import org.kuali.rice.core.util.MaxSizeMap;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
-import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.infc.SearchResult;
+import org.kuali.student.r2.core.search.infc.SearchResultCell;
+import org.kuali.student.r2.core.search.infc.SearchResultRow;
+import org.kuali.student.r2.lum.clu.service.CluService;
+ 
 
 public class CoreGenEdClusetMapper {
 	
@@ -22,7 +22,7 @@ public class CoreGenEdClusetMapper {
 	protected int cacheMaxSize = 100;
 	protected int cacheMaxAgeSeconds = 300;
 	
-	private LuService luservice;
+	private CluService luservice;
 	
 	protected Map<String,MaxAgeSoftReference<Map<String,String>>> cache = Collections.synchronizedMap(new MaxSizeMap<String,MaxAgeSoftReference<Map<String,String>>>( cacheMaxSize ));
 	
@@ -33,26 +33,26 @@ public class CoreGenEdClusetMapper {
 		}
 		return null;
 	}
-	protected Map<String,String> getCluSetEnglishToGuidMap(){
+	protected Map<String,String> getCluSetEnglishToGuidMap(ContextInfo contextInfo){
 		Map<String,String> map = getCache(CLUSET_ENGLISH_TO_GUID_MAP);
 		if ( map == null ) {
-			map = doSearchAndAddToCaches(CLUSET_ENGLISH_TO_GUID_MAP);
+			map = doSearchAndAddToCaches(CLUSET_ENGLISH_TO_GUID_MAP,contextInfo);
 		}
 		return map;
 	}
 	
-	protected Map<String,String> getCluSetEnglishToDescriptionMap(){
+	protected Map<String,String> getCluSetEnglishToDescriptionMap(ContextInfo contextInfo){
 		Map<String,String> map = getCache(CLUSET_ENGLISH_TO_DESCRIPTION_MAP);
 		if ( map == null ) {
-			map = doSearchAndAddToCaches(CLUSET_ENGLISH_TO_DESCRIPTION_MAP);
+			map = doSearchAndAddToCaches(CLUSET_ENGLISH_TO_DESCRIPTION_MAP,contextInfo);
 		}
 		return map;
 	}
 
-	private Map<String, String> doSearchAndAddToCaches(String key) {
+	private Map<String, String> doSearchAndAddToCaches(String key, ContextInfo contextInfo) {
 		try{
-			SearchRequest sr = new SearchRequest("lu.search.cluSetsWithSisCodes");
-			SearchResult searchResult = luservice.search(sr);
+			SearchRequestInfo sr = new SearchRequestInfo("lu.search.cluSetsWithSisCodes");
+			SearchResult searchResult = luservice.search(sr,contextInfo);
 
 			Map<String,String> guidMap = new HashMap<String,String>();
 			Map<String,String> descrMap = new HashMap<String,String>();
@@ -96,22 +96,22 @@ public class CoreGenEdClusetMapper {
 		return null;
 	}
 
-	public String getCluSetId(String coreGenEdClusetName) {
-		return getCluSetEnglishToGuidMap().get(coreGenEdClusetName);
+	public String getCluSetId(String coreGenEdClusetName, ContextInfo contextInfo) {
+		return getCluSetEnglishToGuidMap(contextInfo).get(coreGenEdClusetName);
 	}
 
-	public List<String> getCluSetIds() {
-		return new ArrayList<String>(getCluSetEnglishToGuidMap().values());
+	public List<String> getCluSetIds(ContextInfo contextInfo) {
+		return new ArrayList<String>(getCluSetEnglishToGuidMap(contextInfo).values());
 	}
 	
-	public Map<String, String> getMap(){
-		return getCluSetEnglishToGuidMap();
+	public Map<String, String> getMap(ContextInfo contextInfo){
+		return getCluSetEnglishToGuidMap(contextInfo);
 	}
 	
-	public Map<String, String> getCodeToDescriptionMap(){
-		return getCluSetEnglishToDescriptionMap();
+	public Map<String, String> getCodeToDescriptionMap(ContextInfo contextInfo){
+		return getCluSetEnglishToDescriptionMap(contextInfo);
 	}
-	public void setLuservice(LuService luservice) {
+	public void setLuservice(CluService luservice) {
 		this.luservice = luservice;
 	}
 }

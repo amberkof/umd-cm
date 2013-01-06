@@ -11,6 +11,7 @@ import javax.jws.WebService;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularReferenceException;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
@@ -21,11 +22,12 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SortDirection;
-import org.kuali.student.r2.core.search.infc.SearchRequest;
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
@@ -63,22 +65,22 @@ public class SiscmServiceImpl implements SiscmService {
 	 
 	
 	   
-    @Override
+    //@Override
     @Transactional(readOnly=false, rollbackFor={Throwable.class})
-   public String diffCourse(SisToCmImportCourseInfo sisCourse, String courseCd, String startTerm) throws DataValidationErrorException, Exception {
+   public String diffCourse(SisToCmImportCourseInfo sisCourse, String courseCd, String startTerm, ContextInfo contextInfo) throws DataValidationErrorException, Exception {
         
         // Convert the SIS term to the CM term so we can compare it
         String inputCourseStartTermAtpId = CourseDataMapper.deriveTerm(sisCourse.getStartTrm());
         
         // Get the version info for the course with this start term in CM
-        CourseVersionInfo existingVersion = getExistingVersion(sisCourse.getApCrs(), inputCourseStartTermAtpId);
+        CourseVersionInfo existingVersion = getExistingVersion(sisCourse.getApCrs(), inputCourseStartTermAtpId, contextInfo);
         
         if (existingVersion == null){
             return null; // return null if course does not exist in CM
         }
       
         // Get the data in the CM course
-        CourseInfo courseInfo = courseService.getCourse(existingVersion.getCourseId());
+        CourseInfo courseInfo = courseService.getCourse(existingVersion.getCourseId(), contextInfo);
         
         // Find all differences in the course
         DiffCourseUtil diff = new DiffCourseUtil(courseInfo, sisCourse, luService, coreGenedClusetMapper);
@@ -102,9 +104,9 @@ public class SiscmServiceImpl implements SiscmService {
      * 
      * @see edu.umd.ks.cm.util.siscm.service.SiscmService#importCourseGenedCoreDiversityOnly(edu.umd.ks.cm.util.siscm.dto.SisToCmImportCourseInfo, long, java.lang.String, java.lang.String)
      */
-    @Override
+    //@Override
     @Transactional(readOnly=false, rollbackFor={Throwable.class})
-   public String importCourseGenedCoreDiversityOnly(SisToCmImportCourseInfo course, long batchJobId, String courseCd, String startTerm) throws DataValidationErrorException, Exception {
+   public String importCourseGenedCoreDiversityOnly(SisToCmImportCourseInfo course, long batchJobId, String courseCd, String startTerm, ContextInfo contextInfo) throws DataValidationErrorException, Exception {
         
         // We'll place course set codes in here
         List<String> courseSetCodes = new ArrayList<String>();
@@ -113,7 +115,7 @@ public class SiscmServiceImpl implements SiscmService {
         String inputCourseStartTermAtpId = CourseDataMapper.deriveTerm(course.getStartTrm());
         
         // Get the course from CM
-        CourseVersionInfo existingVersion = getExistingVersion(course.getApCrs(), inputCourseStartTermAtpId);
+        CourseVersionInfo existingVersion = getExistingVersion(course.getApCrs(), inputCourseStartTermAtpId,contextInfo);
         
         // Hold a reference for future use
         //CourseInfo savedCourse;
@@ -125,7 +127,7 @@ public class SiscmServiceImpl implements SiscmService {
         } 
           
         // Get the course from CM 
-        CourseInfo courseInfo = courseService.getCourse(existingVersion.getCourseId());
+        CourseInfo courseInfo = courseService.getCourse(existingVersion.getCourseId(),contextInfo);
         
         
         // Skip courses that are NOT in active state.  We need to return this to the course loader
@@ -142,11 +144,11 @@ public class SiscmServiceImpl implements SiscmService {
         
      
         //Only do Gened/CORE/Diversity for Active courses
-        //addCourseToCourseSets(savedCourse.getVersionInfo().getVersionIndId(), courseSetCodes, savedCourse.getState());
+        //addCourseToCourseSets(savedCourse.getVersion().getVersionIndId(), courseSetCodes, savedCourse.getState());
         
         String out = "Importing course " + courseCd + " start term " + startTerm + " state is " + courseInfo.getState() +" . Placing in course sets: ";
         
-        addCourseToCourseSets(courseInfo.getVersionInfo().getVersionIndId(), courseSetCodes, courseInfo.getState());
+        addCourseToCourseSets(courseInfo.getVersion().getVersionIndId(), courseSetCodes, courseInfo.getState(), contextInfo);
         
         for (String s : courseSetCodes) {
             out +=s + ", ";
@@ -178,15 +180,15 @@ public class SiscmServiceImpl implements SiscmService {
 	/**
 	 * @returns true if there are conflicts false if there are not
 	 */
-	@Override
+	//@Override
 	@Transactional(readOnly=false, rollbackFor={Throwable.class})
 	@Deprecated
-	public boolean importCourse(SisToCmImportCourseInfo course, long batchJobId, String courseCd, String startTerm) throws DataValidationErrorException, Exception {
+	public boolean importCourse(SisToCmImportCourseInfo course, long batchJobId, String courseCd, String startTerm, ContextInfo contextInfo) throws DataValidationErrorException, Exception {
 		List<String> courseSetCodes = new ArrayList<String>();
 		
 		String inputCourseStartTermAtpId = CourseDataMapper.deriveTerm(course.getStartTrm());
 		
-		CourseVersionInfo existingVersion = getExistingVersion(course.getApCrs(), inputCourseStartTermAtpId);
+		CourseVersionInfo existingVersion = getExistingVersion(course.getApCrs(), inputCourseStartTermAtpId, contextInfo);
 		
 		CourseInfo savedCourse;
 		
@@ -196,7 +198,7 @@ public class SiscmServiceImpl implements SiscmService {
 		//Uncomment this line if you want to force end dates to create new subsequent versions 
 		if(existingVersion==null/*||"Retired".equals(existingVersion.getState())*/){
 			//New Course
-			CourseInfo courseInfo = CourseDataMapper.mapToCourseInfo(null, course, courseSetCodes, subjectCodeService);
+			CourseInfo courseInfo = CourseDataMapper.mapToCourseInfo(null, course, courseSetCodes, subjectCodeService, contextInfo);
 			courseInfo.setState("Active");
 			//Check if this course is to be retired
 			if(course.getEndTrm()!=null){
@@ -208,12 +210,12 @@ public class SiscmServiceImpl implements SiscmService {
 				//Only push adds back to sis(exclude anything that is not an add)
 				courseInfo.getAttributes().put(CmToSisExportAdvice.DO_NOT_OUTPUT_TO_SIS, Boolean.TRUE.toString());
 			}
-			savedCourse = courseService.createCourse(courseInfo);
+			savedCourse = courseService.createCourse(courseInfo, contextInfo);
 		}else{
 			if(inputCourseStartTermAtpId.equals(existingVersion.getStartTerm())){
 				//This is an existing course so update. (get the existing course and merge in changes)
-				CourseInfo courseInfo = courseService.getCourse(existingVersion.getCourseId());
-				courseInfo = CourseDataMapper.mapToCourseInfo(courseInfo, course, courseSetCodes, subjectCodeService);
+				CourseInfo courseInfo = courseService.getCourse(existingVersion.getCourseId(), contextInfo);
+				courseInfo = CourseDataMapper.mapToCourseInfo(courseInfo, course, courseSetCodes, subjectCodeService, contextInfo);
 				
 				//Check if this course is to be retired and set required fields if so
 				if("Active".equals(courseInfo.getState())&&course.getEndTrm()!=null){
@@ -229,12 +231,12 @@ public class SiscmServiceImpl implements SiscmService {
 				
 				//Update the course
 				isConflict = detectConflictsAndMarkForSisPush(courseInfo);
-				savedCourse = courseService.updateCourse(courseInfo);
+				savedCourse = courseService.updateCourse(courseInfo.getId(), courseInfo,contextInfo);
 			}else{
 				//Create a new version from the previous version
-				CourseInfo courseInfo = courseService.createNewCourseVersion(existingVersion.getCourseVersionIndId(), "Versioned by Course Load");
+				CourseInfo courseInfo = courseService.createNewCourseVersion(existingVersion.getCourseVersionIndId(), "Versioned by Course Load",contextInfo);
 				courseInfo.getFormats().clear();
-				courseInfo = CourseDataMapper.mapToCourseInfo(courseInfo, course, courseSetCodes, subjectCodeService);
+				courseInfo = CourseDataMapper.mapToCourseInfo(courseInfo, course, courseSetCodes, subjectCodeService, contextInfo);
 
 				//Check if this course is to be retired
 				if(course.getEndTrm()!=null){
@@ -249,26 +251,26 @@ public class SiscmServiceImpl implements SiscmService {
 				}
 				
 				//Get the previous version and supersede it
-				CourseInfo previousCourse = courseService.getCourse(existingVersion.getCourseId());
+				CourseInfo previousCourse = courseService.getCourse(existingVersion.getCourseId(),contextInfo);
 				previousCourse.setState("Superseded");
 				previousCourse.getAttributes().put("lastTermOffered","");
 				if(previousCourse.getEndTerm()==null){
-					previousCourse.setEndTerm(findPreviousTermTo(courseInfo.getStartTerm()));	
+					previousCourse.setEndTerm(findPreviousTermTo(courseInfo.getStartTerm(), contextInfo));	
  				}
 				previousCourse.getAttributes().put(CmToSisExportAdvice.DO_NOT_OUTPUT_TO_SIS, Boolean.TRUE.toString());
-				courseService.updateCourse(previousCourse);
+				courseService.updateCourse(previousCourse.getId(),previousCourse,contextInfo);
 				
 				//Set the updated as the current version if this is not an add
 				if(!"A".equals(course.getDiffOperation())||!course.isLast()){
 					courseInfo.getAttributes().put(CmToSisExportAdvice.DO_NOT_OUTPUT_TO_SIS, Boolean.TRUE.toString());
 				}
-				savedCourse = courseService.updateCourse(courseInfo);
-				courseService.setCurrentCourseVersion(savedCourse.getId(), null);
+				savedCourse = courseService.updateCourse(courseInfo.getId(), courseInfo,contextInfo);
+				courseService.setCurrentCourseVersion(savedCourse.getId(), null, contextInfo);
 			}
 		}
 		
 		//Only do Gened/CORE/Diversity for Active courses
-		addCourseToCourseSets(savedCourse.getVersionInfo().getVersionIndId(), courseSetCodes, savedCourse.getState());
+		addCourseToCourseSets(savedCourse.getVersion().getVersionIndId(), courseSetCodes, savedCourse.getState(), contextInfo);
 		
 		//Mark this record as processed by updating the hash code
 		//Based on the operation value do an insert or an update
@@ -321,15 +323,15 @@ public class SiscmServiceImpl implements SiscmService {
 	 * @throws InvalidParameterException 
 	 * @throws DoesNotExistException 
 	 */
-	private Boolean addCourseToCourseSets(String versionIndId, List<String> courseSetCodes, String courseState) throws OperationFailedException, MissingParameterException, DoesNotExistException, InvalidParameterException, PermissionDeniedException, UnsupportedActionException {
+	private Boolean addCourseToCourseSets(String versionIndId, List<String> courseSetCodes, String courseState, ContextInfo contextInfo) throws OperationFailedException, MissingParameterException, DoesNotExistException, InvalidParameterException, PermissionDeniedException, UnsupportedActionException {
 		//find which gen ed/ core course sets relate to this course already
 		Set<String> courseSetIdsToDelete = new HashSet<String>();
-		SearchRequest searchRequest = new SearchRequest("cluset.search.generic");
-		searchRequest.addParam("cluset.queryParam.optionalIds", coreGenedClusetMapper.getCluSetIds());
+		SearchRequestInfo searchRequest = new SearchRequestInfo("cluset.search.generic");
+		searchRequest.addParam("cluset.queryParam.optionalIds", coreGenedClusetMapper.getCluSetIds(contextInfo));
 		List<String> courseIds = new ArrayList<String>(1);
 		courseIds.add(versionIndId);
 		searchRequest.addParam("cluset.queryParam.optionalVerIndId", courseIds);
-		SearchResult searchResult = luService.search(searchRequest);
+		SearchResult searchResult = luService.search(searchRequest,contextInfo);
 		if (searchResult!=null && searchResult.getRows()!=null){
 			for(SearchResultRow row:searchResult.getRows()){
 				for(SearchResultCell cell:row.getCells()){
@@ -344,14 +346,14 @@ public class SiscmServiceImpl implements SiscmService {
 		//Add this course to the course sets only if it is active
 		if("Active".equals(courseState)){
 			for(String courseSetCode:courseSetCodes){
-		 		String cluSetId = coreGenedClusetMapper.getCluSetId(courseSetCode);
+		 		String cluSetId = coreGenedClusetMapper.getCluSetId(courseSetCode,contextInfo);
 		 		if ((cluSetId != null) && (!cluSetId.equals(""))){		 			
 				    try {   
 				    	logger.info("Inserting: Clu VersionIndId: " + versionIndId + " into CluSet with guid:  " + cluSetId);
 				    	// exclude AK set, for now.
 				    	// Need to do this because it's still in the CoreGenEdClusetMapper data
 				    	if (!(cluSetId.equals("45058a59-e153-4219-be6d-3235e5c324d8"))){
-				    		luService.addCluToCluSet(versionIndId, cluSetId);
+				    		luService.addCluToCluSet(versionIndId, cluSetId, contextInfo);
 				    		courseSetIdsToDelete.remove(cluSetId);
 				    	}
 				    	   		
@@ -379,21 +381,23 @@ public class SiscmServiceImpl implements SiscmService {
 		
 		//Now remove this course from any old coursesets
 		for(String courseSetId:courseSetIdsToDelete){
-			luService.removeCluFromCluSet(versionIndId, courseSetId);
+			luService.removeCluFromCluSet(versionIndId, courseSetId, contextInfo);
 		}
 		
 		return true;
 	}
 	
-	private String findPreviousTermTo(String startTerm) throws Exception {
+	private String findPreviousTermTo(String startTerm, ContextInfo contextInfo) throws Exception {
 		if(startTerm!=null){
 			//Look up the most recent Atp before the current one.
-			SearchRequest request = new SearchRequest("atp.search.advancedAtpSearch");
+			SearchRequestInfo request = new SearchRequestInfo("atp.search.advancedAtpSearch");
 			request.addParam("atp.advancedAtpSearchParam.atpEndDateAtpConstraintIdExclusive", startTerm);
 			request.setSortDirection(SortDirection.DESC);
 			request.setSortColumn("atp.resultColumn.atpStartDate");
 			
-			SearchResult result = atpService.search(request);
+			SearchResult result = null;
+			try {
+			result = atpService.search(request, contextInfo);
 			if (result!=null && result.getRows()!=null){
 				for(SearchResultCell cell:result.getRows().get(0).getCells()){
 					if("atp.resultColumn.atpId".equals(cell.getKey())){
@@ -401,15 +405,32 @@ public class SiscmServiceImpl implements SiscmService {
 					}
 				}
 			}
+			}
+            catch (InvalidParameterException e){
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+            catch(OperationFailedException e2){
+                e2.printStackTrace();
+                throw new RuntimeException(e2);
+            }
+            catch (PermissionDeniedException e3){
+                e3.printStackTrace();
+                throw new RuntimeException(e3);
+            }
+            catch (MissingParameterException e4){
+                e4.printStackTrace();
+                throw new RuntimeException(e4);
+            }
 		}
 		return null;
 	}
 	
-	private CourseVersionInfo getExistingVersion(String apCrs, String startTrm) throws MissingParameterException {
-		SearchRequest request = new SearchRequest("lu.search.getCluFromCluCode");
+	private CourseVersionInfo getExistingVersion(String apCrs, String startTrm, ContextInfo contextInfo) throws MissingParameterException,PermissionDeniedException, OperationFailedException, InvalidParameterException {
+		SearchRequestInfo request = new SearchRequestInfo("lu.search.getCluFromCluCode");
 		request.addParam("lu.queryParam.cluCode", apCrs);
 		request.addParam("lu.queryParam.luAtpStartTerm", startTrm);
-		SearchResult result = luService.search(request);
+		SearchResult result = luService.search(request, contextInfo);
 		CourseVersionInfo courseVersionInfo = null; 
 
 		for(SearchResultRow row:result.getRows()){
@@ -431,44 +452,60 @@ public class SiscmServiceImpl implements SiscmService {
 		return courseVersionInfo;
 	}
 
-	@Override
+	//@Override
 	@Transactional(readOnly=false, rollbackFor={Throwable.class})
-	public boolean exportCourses(List<String> courseIds) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	public boolean exportCourses(List<String> courseIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		if(courseIds!=null){
 			for(String courseId:courseIds){
-				CourseInfo courseInfo = courseService.getCourse(courseId);
-				cmToSisExportAdvice.doUpdateSisCourseInfo(courseInfo);
+				CourseInfo courseInfo = courseService.getCourse(courseId, contextInfo);
+				cmToSisExportAdvice.doUpdateSisCourseInfo(courseInfo,contextInfo);
 			}
 		}
 		return true;
 	}
 	
-	@Override
-	public boolean exportAllCourses() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	//@Override
+	public boolean exportAllCourses(ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		
-		SearchRequest request = new SearchRequest("lu.search.mostCurrent.union");
+		SearchRequestInfo request = new SearchRequestInfo("lu.search.mostCurrent.union");
 		request.addParam("lu.queryParam.luOptionalType", "kuali.lu.type.CreditCourse");
-		SearchResult result = luService.search(request);
-		
-		for(SearchResultRow row:result.getRows()){
-			for(SearchResultCell cell:row.getCells()){
-				if("lu.resultColumn.cluId".equals(cell.getKey())){
-					try{
-						CourseInfo courseInfo = courseService.getCourse(cell.getValue());
-						cmToSisExportAdvice.doUpdateSisCourseInfo(courseInfo);
-					}catch (Exception ex){
-						logger.error("Could not export course with id:"+cell.getValue(),ex);
-					}
-				}
-			}
-		}
-		
-		return true;
-	}
+
+        SearchResult result = null;
+        try {
+            result = luService.search(request, contextInfo);
+
+            for (SearchResultRow row : result.getRows()) {
+                for (SearchResultCell cell : row.getCells()) {
+                    if ("lu.resultColumn.cluId".equals(cell.getKey())) {
+                        try {
+                            CourseInfo courseInfo = courseService.getCourse(cell.getValue(), contextInfo);
+                            cmToSisExportAdvice.doUpdateSisCourseInfo(courseInfo,contextInfo);
+                        } catch (Exception ex) {
+                            logger.error("Could not export course with id:" + cell.getValue(), ex);
+                        }
+                    }
+                }
+            }
+
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } catch (OperationFailedException e2) {
+            e2.printStackTrace();
+            throw new RuntimeException(e2);
+        } catch (PermissionDeniedException e3) {
+            e3.printStackTrace();
+            throw new RuntimeException(e3);
+        } catch (MissingParameterException e4) {
+            e4.printStackTrace();
+            throw new RuntimeException(e4);
+        }
+        return true;
+    }
 	
-	@Override
+	//@Override
 	@Transactional(readOnly=false, rollbackFor={Throwable.class})
-	public String updateCourseOrgsForPrefix(String prefixes) throws MissingParameterException, DoesNotExistException, InvalidParameterException, OperationFailedException, PermissionDeniedException, UnsupportedOperationException, DataValidationErrorException, VersionMismatchException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, CircularReferenceException {
+	public String updateCourseOrgsForPrefix(String prefixes, ContextInfo contextInfo) throws MissingParameterException, DoesNotExistException, InvalidParameterException, OperationFailedException, PermissionDeniedException, UnsupportedOperationException, DataValidationErrorException, VersionMismatchException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, CircularReferenceException {
 		if(prefixes==null){
 			throw new MissingParameterException("Must enter a prefix");
 		}
@@ -480,20 +517,24 @@ public class SiscmServiceImpl implements SiscmService {
 			reportSb.append("\nProcessed Prefix:"+currentPrefix+"\nUsing Orgs:");
 			
 			//Find all valid org relations for a given prefix 
-			Map<String,String> orgs = CourseDataMapper.getOrgsAndNamesFromPrefix(currentPrefix, subjectCodeService);
+			Map<String,String> orgs = CourseDataMapper.getOrgsAndNamesFromPrefix(currentPrefix, subjectCodeService, contextInfo);
 			for(String orgName:orgs.values()){
 				reportSb.append("\n"+orgName);
 			}
 			
 			//Search for all courses that start with the prefix and are of a certain set of States
-			SearchRequest searchRequest = new SearchRequest("lu.search.generic");
+			SearchRequestInfo searchRequest = new SearchRequestInfo("lu.search.generic");
 			searchRequest.addParam("lu.queryParam.luOptionalType", "kuali.lu.type.CreditCourse");
 			searchRequest.addParam("lu.queryParam.luOptionalCode", currentPrefix);
 			List<String> states = new ArrayList<String>();
 			states.add("Active"); //What other states?
 			states.add("Draft"); 
 			searchRequest.addParam("lu.queryParam.luOptionalState", states);
-			SearchResult searchResults = luService.search(searchRequest);
+			
+			
+			SearchResult searchResults = null;
+			try {
+			searchResults =      luService.search(searchRequest, contextInfo);
 			
 			//For each course, update the curriculum oversight orgs
 			for (SearchResultRow row:searchResults.getRows()){
@@ -504,12 +545,18 @@ public class SiscmServiceImpl implements SiscmService {
 						break;
 					}
 				}
-				CourseInfo course = courseService.getCourse(courseId);
+				CourseInfo course = courseService.getCourse(courseId, contextInfo);
 				reportSb.append("\nUpdated Course:"+course.getCode());
 				course.setUnitsContentOwner(new ArrayList<String>(orgs.keySet()));
-				courseService.updateCourse(course);
+				courseService.updateCourse(course.getId(), course, contextInfo);
 			}
-			
+
+
+            }
+            catch (ReadOnlyException e){
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            } 
 		}
 		return reportSb.toString();
 	}
@@ -526,7 +573,7 @@ public class SiscmServiceImpl implements SiscmService {
 		this.atpService = atpService;
 	}
 
-	public void setLuService(LuService luService) {
+	public void setLuService(CluService luService) {
 		this.luService = luService;
 	}
 

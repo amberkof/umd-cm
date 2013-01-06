@@ -6,13 +6,20 @@ import java.util.Stack;
 
 import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
-import org.kuali.student.r2.core.search.infc.SearchRequest;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
+import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+
 /**
  * This class provides custom validation on three fields:
  * courseInfo.subjectArea
@@ -34,7 +41,7 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
  */
 public class CourseCodeValidatorUMD extends DefaultValidatorImpl {
 
-	private SearchDispatcher searchDispatcher;
+	private SearchService searchDispatcher;
 	
 	/**    This helper method searches for existing Draft, Active or Suspended courses with the course code
 	 *     which is currently being proposed this method ignores Retired State Courses (the other search will handle that).
@@ -48,19 +55,19 @@ public class CourseCodeValidatorUMD extends DefaultValidatorImpl {
 	 * @return This method will return the results of the search, in a List of ValidationResultInfo objects.
 	 * Or an empty list, if no conflicts are found.
 	 */	
-	private List<ValidationResultInfo> searchForDraftActiveSuspendedConflicts(CourseInfo course, Stack<String> elementStack, FieldDefinition field){
+	private List<ValidationResultInfo> searchForDraftActiveSuspendedConflicts(CourseInfo course, Stack<String> elementStack, FieldDefinition field, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException, InvalidParameterException{
 		
 		List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
 		
 		// Setup the search
 		SearchResult result = null;
-		SearchRequest searchRequest = null;
-		searchRequest = new SearchRequest("lu.search.countNumberOfConflictingClusBasedOnCourseCodeVindId");					
+		SearchRequestInfo searchRequest = null;
+		searchRequest = new SearchRequestInfo("lu.search.countNumberOfConflictingClusBasedOnCourseCodeVindId");					
 		searchRequest.addParam("lu.queryParam.cluCode", course.getCode());
-		searchRequest.addParam("lu.queryParam.cluVersionIndId", course.getVersionInfo().getVersionIndId());
+		searchRequest.addParam("lu.queryParam.cluVersionIndId", course.getVersion().getVersionIndId());
 		
 		// Perform the search and obtain results where the course code already exists.
-		result = searchDispatcher.dispatchSearch(searchRequest);							
+		result = searchDispatcher.search(searchRequest,contextInfo);							
 		
 		// if there is a result, and there is at least one row we have a conflict, so parse it
 		if ((result!=null) && (!result.getRows().isEmpty()))
@@ -73,7 +80,7 @@ public class CourseCodeValidatorUMD extends DefaultValidatorImpl {
 							(cell.getValue().equals("Draft"))))
 					  {
 						ValidationResultInfo validationResult = new ValidationResultInfo(getElementXpath(elementStack) + "/" + field.getName());
-						validationResult.setWarning(getMessage("validation.course.preventCourseCodeReuse.draft"));	
+						validationResult.setWarning(getMessage("validation.course.preventCourseCodeReuse.draft", contextInfo));	
 						validationResults.add(validationResult);
 						return validationResults;
 					  }  
@@ -82,7 +89,7 @@ public class CourseCodeValidatorUMD extends DefaultValidatorImpl {
 							  ((cell.getValue().equals("Active") || (cell.getValue().equals("Suspended"))))))
 					  {
 						ValidationResultInfo validationResult = new ValidationResultInfo(getElementXpath(elementStack) + "/" + field.getName());
-						validationResult.setWarning(getMessage("validation.course.preventCourseCodeReuse.activeSuspended"));
+						validationResult.setWarning(getMessage("validation.course.preventCourseCodeReuse.activeSuspended", contextInfo));
 						validationResults.add(validationResult);
 						return validationResults;							
 					  } 
@@ -106,25 +113,25 @@ public class CourseCodeValidatorUMD extends DefaultValidatorImpl {
 	 * @return This method will return the results of the search, in a List of ValidationResultInfo objects.
 	 * Or an empty list, if no conflicts are found.
 	 */	
-	private List<ValidationResultInfo> searchForRetiredConflicts(CourseInfo course, Stack<String> elementStack, FieldDefinition field){
+	private List<ValidationResultInfo> searchForRetiredConflicts(CourseInfo course, Stack<String> elementStack, FieldDefinition field, ContextInfo contextInfo)throws MissingParameterException, PermissionDeniedException, OperationFailedException, InvalidParameterException{
 		
 		List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
 		
 		// Setup the search
 		SearchResult result = null;
-		SearchRequest searchRequest = null;
+		SearchRequestInfo searchRequest = null;
 		
 		// lu.search.countNumberOfConflictingClusBasedOnCourseCodeVindIdStartTerm
-		searchRequest = new SearchRequest("lu.search.countNumberOfConflictingClusBasedOnCourseCodeVindIdStartTerm");
+		searchRequest = new SearchRequestInfo("lu.search.countNumberOfConflictingClusBasedOnCourseCodeVindIdStartTerm");
 		searchRequest.addParam("lu.queryParam.cluCode", course.getCode());				
-		searchRequest.addParam("lu.queryParam.cluVersionIndId", course.getVersionInfo().getVersionIndId());	
+		searchRequest.addParam("lu.queryParam.cluVersionIndId", course.getVersion().getVersionIndId());	
 		searchRequest.addParam("lu.queryParam.luAtpStartTerm", course.getStartTerm());
 
 		// Perform the search and obtain results where the course code already exists.
 		// that is being used by a retired course, with an end date greater than the 
 		// proposed start date.
 		
-		result = searchDispatcher.dispatchSearch(searchRequest);
+		result = searchDispatcher.search(searchRequest,contextInfo);  
 		
 		// if there is a result, take the first result.  In this case there should only be one result maximum
 		// and if there are more results, someone is trying to create a course in the past 
@@ -174,8 +181,8 @@ public class CourseCodeValidatorUMD extends DefaultValidatorImpl {
 	 */
 	@Override
 	public List<ValidationResultInfo> validateObject(FieldDefinition field,
-			Object o, ObjectStructureDefinition objStructure,
-			Stack<String> elementStack) {
+			Object o, ObjectStructureDefinition objStructurie,
+			Stack<String> elementStack, ContextInfo contextInfo) {
 		
 		List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
 	
@@ -183,11 +190,12 @@ public class CourseCodeValidatorUMD extends DefaultValidatorImpl {
 			CourseInfo course = (CourseInfo) o;
 			
 			// Only Search If the code has been filled out, and a Ver Ind ID exists			
-			if(course.getCode()!=null && course.getVersionInfo()!=null){		
-				
+			if(course.getCode()!=null && course.getVersion()!=null){		
+			    try {
+	                   
 				// Draft, Active, or Suspended Search - do this first. Ignore Retired State Courses.
 				// lu.search.countNumberOfConflictingClusActiveSuspended
-				validationResults = searchForDraftActiveSuspendedConflicts(course, elementStack, field);
+				validationResults = searchForDraftActiveSuspendedConflicts(course, elementStack, field,contextInfo);
 				if (!validationResults.isEmpty()) {
 					return validationResults;
 				}
@@ -195,11 +203,29 @@ public class CourseCodeValidatorUMD extends DefaultValidatorImpl {
 				// Retired Check - 2nd Search, if Start term is filled out, include Start Term
 				// and make sure we don't have a retired course which overlaps the new course.
 				if (course.getStartTerm()!=null){
-					validationResults = searchForRetiredConflicts(course, elementStack, field);
+					validationResults = searchForRetiredConflicts(course, elementStack, field, contextInfo);
 					if (!validationResults.isEmpty()) {
 						return validationResults;
 					}				
 				}
+				 
+				}
+				catch (InvalidParameterException e){
+				    e.printStackTrace();
+				    throw new RuntimeException(e);
+				}
+			    catch(OperationFailedException e2){
+			        e2.printStackTrace();
+			        throw new RuntimeException(e2);
+			    }
+			    catch (PermissionDeniedException e3){
+			        e3.printStackTrace();
+			        throw new RuntimeException(e3);
+			    }
+			    catch (MissingParameterException e4){
+			        e4.printStackTrace();
+			        throw new RuntimeException(e4);
+			    }
 			}	
 		}
 		
@@ -207,7 +233,7 @@ public class CourseCodeValidatorUMD extends DefaultValidatorImpl {
 	  return validationResults;
 	}
 
-	public void setSearchDispatcher(SearchDispatcher searchDispatcher) {
+	public void setSearchDispatcher(SearchService searchDispatcher) {
 		this.searchDispatcher = searchDispatcher;
 	}
 

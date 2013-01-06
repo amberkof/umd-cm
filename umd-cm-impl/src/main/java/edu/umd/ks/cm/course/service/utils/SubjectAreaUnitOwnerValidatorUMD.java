@@ -8,22 +8,28 @@ import java.util.Stack;
 
 import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
-import org.kuali.student.r2.core.search.infc.SearchRequest;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
+import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 public class SubjectAreaUnitOwnerValidatorUMD extends DefaultValidatorImpl {
 
-	private SearchDispatcher searchDispatcher;
+	private SearchService searchDispatcher;
 	
 	@Override
 	public List<ValidationResultInfo> validateObject(FieldDefinition field,
 			Object o, ObjectStructureDefinition objStructure,
-			Stack<String> elementStack) {
+			Stack<String> elementStack, ContextInfo contextInfo) {
 		
 		List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
 
@@ -31,14 +37,28 @@ public class SubjectAreaUnitOwnerValidatorUMD extends DefaultValidatorImpl {
 			CourseInfo course = (CourseInfo) o;
 			if(course.getSubjectArea()!=null && !course.getUnitsContentOwner().isEmpty()){
 				//Do a search for the orgs allowed under this subject code
-				SearchRequest searchRequest = new SearchRequest("subjectCode.search.orgsForSubjectCode");
+				SearchRequestInfo searchRequest = new SearchRequestInfo("subjectCode.search.orgsForSubjectCode");
 				searchRequest.addParam("subjectCode.queryParam.code", course.getSubjectArea());
 				searchRequest.addParam("subjectCode.queryParam.optionalRestrictToValidRelations", "true");
 				
-				SearchResult result = searchDispatcher.dispatchSearch(searchRequest);
-				
-				Set<String> orgIds = new HashSet<String>();
-				boolean useageAllOf = true;
+                SearchResult result = null;
+                try {
+                    result = searchDispatcher.search(searchRequest, contextInfo);
+                } catch (InvalidParameterException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
+                } catch (OperationFailedException e2) {
+                    e2.printStackTrace();
+                    throw new RuntimeException(e2);
+                } catch (PermissionDeniedException e3) {
+                    e3.printStackTrace();
+                    throw new RuntimeException(e3);
+                } catch (MissingParameterException e4) {
+                    e4.printStackTrace();
+                    throw new RuntimeException(e4);
+                }
+                Set<String> orgIds = new HashSet<String>();
+                boolean useageAllOf = true;
 
 				if(result!=null){
 					//Parse the search results and get a list of all org ids, and if any of the subject code types was 
@@ -59,7 +79,7 @@ public class SubjectAreaUnitOwnerValidatorUMD extends DefaultValidatorImpl {
 					//Make sure that the course has all the org ids in the found set of org ids
 					if(!units.containsAll(orgIds)){
 						ValidationResultInfo validationResult = new ValidationResultInfo(getElementXpath(elementStack) + "/" + field.getName());
-						validationResult.setWarning(getMessage("validation.course.subjectAreaUsage.all"));
+						validationResult.setWarning(getMessage("validation.course.subjectAreaUsage.all", contextInfo));
 						validationResults.add(validationResult);
 					}
 				}else{
@@ -67,7 +87,7 @@ public class SubjectAreaUnitOwnerValidatorUMD extends DefaultValidatorImpl {
 					units.retainAll(orgIds);
 					if(units.size()!=1){
 						ValidationResultInfo validationResult = new ValidationResultInfo(getElementXpath(elementStack) + "/" + field.getName());
-						validationResult.setWarning(getMessage("validation.course.subjectAreaUsage.one"));
+						validationResult.setWarning(getMessage("validation.course.subjectAreaUsage.one", contextInfo));
 						validationResults.add(validationResult);
 					}
 				}
@@ -77,7 +97,7 @@ public class SubjectAreaUnitOwnerValidatorUMD extends DefaultValidatorImpl {
 		return validationResults;
 	}
 
-	public void setSearchDispatcher(SearchDispatcher searchDispatcher) {
+	public void setSearchDispatcher(SearchService searchDispatcher) {
 		this.searchDispatcher = searchDispatcher;
 	}
 

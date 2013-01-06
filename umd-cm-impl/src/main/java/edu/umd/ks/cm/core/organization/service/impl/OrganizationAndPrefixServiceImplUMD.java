@@ -6,33 +6,42 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import javax.jws.WebParam;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.core.api.criteria.GenericQueryResults;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.r1.common.dictionary.service.DictionaryService;
-import org.kuali.student.r1.common.validator.old.Validator;
-import org.kuali.student.r1.core.organization.dao.OrganizationDao;
-import org.kuali.student.r1.core.organization.entity.*;
-import org.kuali.student.r1.core.organizationsearch.service.impl.OrganizationSearch;
-import org.kuali.student.r2.common.criteria.CriteriaLookupService;
+import org.kuali.student.r1.common.dictionary.old.dto.ObjectStructure;
+import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.organization.dto.OrgHierarchyInfo;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
+import org.kuali.student.r2.core.organization.dto.OrgOrgRelationInfo;
+import org.kuali.student.r2.core.organization.dto.OrgPersonRelationInfo;
+import org.kuali.student.r2.core.organization.dto.OrgPositionRestrictionInfo;
+import org.kuali.student.r2.core.organization.dto.OrgTreeInfo;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.kuali.student.r2.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultTypeInfo;
+import org.kuali.student.r2.core.search.dto.SortDirection;
+import org.kuali.student.r2.core.search.infc.SearchParam;
+import org.kuali.student.r2.core.search.infc.SearchResult;
+import org.kuali.student.r2.core.search.infc.SearchResultRow;
 import org.kuali.student.r2.core.search.service.SearchManager;
-import org.kuali.student.r2.core.class1.organization.dao.ExtendedOrgDao;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.core.organization.dto.*;
-import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.kuali.student.r2.core.search.service.SearchService;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.jws.WebService;
-import java.util.*;
 
 import edu.umd.ks.cm.core.organization.dao.OrganizationAndPrefixDaoUMD;
 import edu.umd.ks.cm.core.organization.entity.Unit;
@@ -42,62 +51,63 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 	final Logger logger = Logger.getLogger(OrganizationAndPrefixServiceImplUMD.class);
 
 	private OrganizationAndPrefixDaoUMD dao;
-	private SearchManager searchManager;
+	SearchService searchDispatcher;
 	
-	@Override
-	public List<SearchTypeInfo> getSearchTypes()
-			throws OperationFailedException {
-		return searchManager.getSearchTypes();
+	////@Override
+	public List<TypeInfo> getSearchTypes(ContextInfo contextInfo)
+			throws OperationFailedException, InvalidParameterException, MissingParameterException {
+		return searchDispatcher.getSearchTypes(contextInfo);
 	}
 
-	@Override
-	public SearchTypeInfo getSearchType(String searchTypeKey)
+	////@Override
+	public TypeInfo getSearchType(String searchTypeKey, ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		return searchManager.getSearchType(searchTypeKey);
+		return searchDispatcher.getSearchType(searchTypeKey, contextInfo);
 	}
+ 
 
-	@Override
-	public List<SearchTypeInfo> getSearchTypesByResult(
-			String searchResultTypeKey) throws DoesNotExistException,
+	//@Override
+	public List<TypeInfo> getSearchTypesByResult(
+			String searchResultTypeKey,ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return searchManager.getSearchTypesByResult(searchResultTypeKey);
+		return searchDispatcher.getSearchTypesByResult(searchResultTypeKey,contextInfo);
 	}
 
-	@Override
-	public List<SearchTypeInfo> getSearchTypesByCriteria(
+	//@Override
+	public List<TypeInfo> getSearchTypesByCriteria(
 			String searchCriteriaTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
+		return searchDispatcher.getSearchTypesByCriteria(searchCriteriaTypeKey);
 	}
 
-	@Override
+	//@Override
 	public List<SearchResultTypeInfo> getSearchResultTypes()
 			throws OperationFailedException {
-		return searchManager.getSearchResultTypes();
+		return searchDispatcher.getSearchResultTypes();
 	}
 
-	@Override
+	//@Override
 	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		return searchManager.getSearchResultType(searchResultTypeKey);
+		return searchDispatcher.getSearchResultType(searchResultTypeKey);
 	}
 
-	@Override
+	//@Override
 	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
 			throws OperationFailedException {
-		return searchManager.getSearchCriteriaTypes();
+		return searchDispatcher.getSearchCriteriaTypes();
 	}
 
-	@Override
+	//@Override
 	public SearchCriteriaTypeInfo getSearchCriteriaType(
 			String searchCriteriaTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
+		return searchDispatcher.getSearchCriteriaType(searchCriteriaTypeKey);
 	}
 	
 	/**
@@ -105,7 +115,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 	 * a unit's Id and a unit's Short name
 	 * @return a constructed search result
 	 */
-	protected SearchResult createSearchResultFromIdAndShortName(SearchRequest searchRequest, 
+	protected SearchResult createSearchResultFromIdAndShortName(SearchRequestInfo searchRequest, 
 			String unitId, String unitShortName){
 		
         // Sort column and Direction are probably moot since we are creating a result with one row.
@@ -114,12 +124,12 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
         SortDirection sortDirection = searchRequest.getSortDirection();
 		
         // Create a search result for the return value
-        SearchResult searchResult = new SearchResult();
+        SearchResultInfo searchResult = new SearchResultInfo();
         searchResult.setSortColumn(sortColumn);
         searchResult.setSortDirection(sortDirection);
         
         // Create result Row
-        SearchResultRow resultRow = new SearchResultRow();
+        SearchResultRowInfo resultRow = new SearchResultRowInfo();
 
         // Map the result cells
         resultRow.addCell("org.resultColumn.orgId", unitId);
@@ -146,7 +156,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 	 *         Constructed SearchResult if child unit is a Academic College and a Department because 
 	 *         in these cases, 
 	 */
-	protected SearchResult createResultIfCollegeIsDept(SearchRequest searchRequest){
+	protected SearchResult createResultIfCollegeIsDept(SearchRequestInfo searchRequest){
 		SearchResult searchResults = null;
 		String orgId = "";
 		
@@ -181,9 +191,9 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		return searchResults;
 	}
 
-	@Override
+	//@Override
 	@Transactional(readOnly=true)
-	public SearchResult search(SearchRequest searchRequest)
+	public SearchResult search(SearchRequestInfo searchRequest, ContextInfo contextInfo)
 			throws MissingParameterException {
 		
 		SearchResult searchResults = null;
@@ -229,12 +239,12 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		}
 		
 		if (searchResults==null){
-			searchResults = searchManager.search(searchRequest, dao); 
+			searchResults = searchDispatcher.search(searchRequest, dao, contextInfo); 
 		}
 		return searchResults;
 	}
 
-	private SearchResult doOrgHierarchySearch(SearchRequest searchRequest) {
+	private SearchResult doOrgHierarchySearch(SearchRequestInfo searchRequest) {
 		//get params
         List<String> relatedOrgIds = null;
         List<String> orgTypes = null;
@@ -244,25 +254,28 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
         
         for (SearchParam param : searchRequest.getParams()) {
             if ("org.queryParam.relatedOrgIds".equals(param.getKey())) {
-                relatedOrgIds = (List<String>) param.getValue();
+                relatedOrgIds = (List<String>) param.getValues();
                 continue;
             } else if ("org.queryParam.optionalOrgTypeList".equals(param.getKey())) {
             	//Translate some org types
-                orgTypes = (List<String>) param.getValue();
+                orgTypes = (List<String>) param.getValues();
                 if(orgTypes==null){
                 	orgTypes = new ArrayList<String>();
                 }
                 continue;
             } else if ("org.queryParam.relOrgOptionalId".equals(param.getKey())) {
-                orgOptionalId = (String) param.getValue();
-                continue;
+                orgOptionalId = null;
+                for (String v : param.getValues()) {
+                    orgOptionalId = v;  // expect single value
+                }
+                 continue;
             }
         }
         try {
             List<Unit> units = null;
             if (orgOptionalId != null) {
                 units = new ArrayList<Unit>();
-                units.add(dao.fetch(Unit.class, Long.parseLong(orgOptionalId)));
+                units.add((Unit)dao.fetch(Unit.class, Long.parseLong(orgOptionalId)));
             } else {
         		List<Long> idListLong = new ArrayList<Long>();
         		if(relatedOrgIds!=null){
@@ -276,11 +289,11 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
             }
 
             // Create a search result for the return value
-            SearchResult searchResult = new SearchResult();
+            SearchResultInfo searchResult = new SearchResultInfo();
             searchResult.setSortColumn(sortColumn);
             searchResult.setSortDirection(sortDirection);
             for (Unit unit : units) {
-                SearchResultRow resultRow = new SearchResultRow();
+                SearchResultRowInfo resultRow = new SearchResultRowInfo();
 
                 // Map the result cells
                 resultRow.addCell("org.resultColumn.orgId", unit.getId().toString());
@@ -300,48 +313,48 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 
 	}
 
-	@Override
+	//@Override
 	public List<String> getObjectTypes() {
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public ObjectStructure getObjectStructure(String objectTypeKey) {
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public List<OrgHierarchyInfo> getOrgHierarchies()
 			throws OperationFailedException {
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public OrgHierarchyInfo getOrgHierarchy(String orgHierarchyKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
-	public List<OrgTypeInfo> getOrgTypes() throws OperationFailedException {
+	//@Override
+	public List<TypeInfo> getOrgTypes() throws OperationFailedException {
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
-	public OrgTypeInfo getOrgType(String orgTypeKey)
+	//@Override
+	public TypeInfo getOrgType(String orgTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public List<OrgOrgRelationTypeInfo> getOrgOrgRelationTypes()
 			throws OperationFailedException {
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public OrgOrgRelationTypeInfo getOrgOrgRelationType(
 			String orgOrgRelationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -349,7 +362,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public List<OrgOrgRelationTypeInfo> getOrgOrgRelationTypesForOrgType(
 			String orgTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -357,7 +370,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public List<OrgOrgRelationTypeInfo> getOrgOrgRelationTypesForOrgHierarchy(
 			String orgHierarchyKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -365,13 +378,13 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public List<OrgPersonRelationTypeInfo> getOrgPersonRelationTypes()
 			throws OperationFailedException {
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public OrgPersonRelationTypeInfo getOrgPersonRelationType(
 			String orgPersonRelationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -379,7 +392,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public List<OrgPersonRelationTypeInfo> getOrgPersonRelationTypesForOrgType(
 			String orgTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -387,7 +400,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public List<ValidationResultInfo> validateOrg(String validationType,
 			OrgInfo orgInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -395,7 +408,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public List<ValidationResultInfo> validateOrgOrgRelation(
 			String validationType, OrgOrgRelationInfo orgOrgRelationInfo)
 			throws DoesNotExistException, InvalidParameterException,
@@ -403,7 +416,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public List<ValidationResultInfo> validateOrgPersonRelation(
 			String validationType, OrgPersonRelationInfo orgPersonRelationInfo)
 			throws DoesNotExistException, InvalidParameterException,
@@ -411,7 +424,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public List<ValidationResultInfo> validateOrgPositionRestriction(
 			String validationType,
 			OrgPositionRestrictionInfo orgPositionRestrictionInfo)
@@ -420,7 +433,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	@Transactional(readOnly=true)
 	public OrgInfo getOrganization(String orgId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -429,7 +442,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		return toOrgInfo(unit);
 	}
 
-	@Override
+	//@Override
 	@Transactional(readOnly=true)
 	public List<OrgInfo> getOrganizationsByIdList(List<String> orgIdList)
 			throws DoesNotExistException, InvalidParameterException,
@@ -470,7 +483,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		return orgInfo;
 	}
 
-	@Override
+	//@Override
 	public OrgOrgRelationInfo getOrgOrgRelation(String orgOrgRelationId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -478,7 +491,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public List<OrgOrgRelationInfo> getOrgOrgRelationsByIdList(
 			List<String> orgOrgRelationIdList) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -486,7 +499,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public List<OrgOrgRelationInfo> getOrgOrgRelationsByOrg(String orgId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -494,7 +507,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public List<OrgOrgRelationInfo> getOrgOrgRelationsByRelatedOrg(
 			String relatedOrgId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -502,7 +515,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public Boolean hasOrgOrgRelation(String orgId, String comparisonOrgId,
 			String orgOrgRelationTypeKey) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -510,7 +523,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public Boolean isDescendant(String orgId, String descendantOrgId,
 			String orgHierarchy) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -518,14 +531,14 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public List<String> getAllDescendants(String orgId, String orgHierarchy)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	@Transactional(readOnly=true)
 	public List<String> getAllAncestors(String orgId, String orgHierarchy)
 			throws InvalidParameterException, MissingParameterException,
@@ -541,7 +554,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		return ancestors;
 	}
 
-	@Override
+	//@Override
 	public OrgPersonRelationInfo getOrgPersonRelation(String orgPersonRelationId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -549,7 +562,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public List<OrgPersonRelationInfo> getOrgPersonRelationsByIdList(
 			List<String> orgPersonRelationIdList) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -557,7 +570,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public List<String> getPersonIdsForOrgByRelationType(String orgId,
 			String orgPersonRelationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -565,7 +578,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public List<OrgPersonRelationInfo> getOrgPersonRelationsByOrg(String orgId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -573,7 +586,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public List<OrgPersonRelationInfo> getOrgPersonRelationsByPerson(
 			String personId, String orgId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -581,7 +594,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public List<OrgPersonRelationInfo> getAllOrgPersonRelationsByPerson(
 			String personId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -589,7 +602,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public List<OrgPersonRelationInfo> getAllOrgPersonRelationsByOrg(
 			String orgId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -597,7 +610,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public Boolean hasOrgPersonRelation(String orgId, String personId,
 			String orgPersonRelationTypeKey) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -605,7 +618,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public List<OrgPositionRestrictionInfo> getPositionRestrictionsByOrg(
 			String orgId) throws DataValidationErrorException,
 			DoesNotExistException, InvalidParameterException,
@@ -614,7 +627,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public OrgInfo createOrganization(String orgTypeKey, OrgInfo orgInfo)
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
@@ -622,7 +635,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public OrgInfo updateOrganization(String orgId, OrgInfo orgInfo)
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -631,7 +644,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public StatusInfo deleteOrganization(String orgId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -639,7 +652,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public OrgOrgRelationInfo createOrgOrgRelation(String orgId,
 			String relatedOrgId, String orgOrgRelationTypeKey,
 			OrgOrgRelationInfo orgOrgRelationInfo)
@@ -650,7 +663,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public OrgOrgRelationInfo updateOrgOrgRelation(String orgOrgRelationId,
 			OrgOrgRelationInfo orgOrgRelationInfo)
 			throws DataValidationErrorException, DoesNotExistException,
@@ -660,7 +673,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public StatusInfo removeOrgOrgRelation(String orgOrgRelationId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -668,7 +681,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public OrgPersonRelationInfo createOrgPersonRelation(String orgId,
 			String personId, String orgPersonRelationTypeKey,
 			OrgPersonRelationInfo orgPersonRelationInfo)
@@ -679,7 +692,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public OrgPersonRelationInfo updateOrgPersonRelation(
 			String orgPersonRelationId,
 			OrgPersonRelationInfo orgPersonRelationInfo)
@@ -690,7 +703,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public StatusInfo removeOrgPersonRelation(String orgPersonRelationId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -698,7 +711,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public OrgPositionRestrictionInfo addPositionRestrictionToOrg(String orgId,
 			String orgPersonRelationTypeKey,
 			OrgPositionRestrictionInfo orgPositionRestrictionInfo)
@@ -709,7 +722,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public OrgPositionRestrictionInfo updatePositionRestrictionForOrg(
 			String orgId, String orgPersonRelationTypeKey,
 			OrgPositionRestrictionInfo orgPositionRestrictionInfo)
@@ -720,7 +733,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public StatusInfo removePositionRestrictionFromOrg(String orgId,
 			String orgPersonRelationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -728,7 +741,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		throw new UnsupportedOperationException("This implementation does not support this operation");
 	}
 
-	@Override
+	//@Override
 	public List<OrgTreeInfo> getOrgTree(String rootOrgId,
 			String orgHierarchyId, int maxLevels) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -740,8 +753,8 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		this.dao = dao;
 	}
 
-	public void setSearchManager(SearchManager searchManager) {
-		this.searchManager = searchManager;
+	public void setSearchManager(SearchService searchDispatcher) {
+		this.searchDispatcher = searchDispatcher;
 	}
 
 }

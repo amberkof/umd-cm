@@ -31,6 +31,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.r1.lum.course.service.CourseServiceConstants;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.core.statement.service.StatementService;
@@ -80,7 +81,7 @@ public class CmToSisExportAdvice implements Advice {
 
 	//  after CourseService.updateCourse/createCourse
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public CourseInfo updateSisCourseInfo(ProceedingJoinPoint pjp) throws Throwable {
+	public CourseInfo updateSisCourseInfo(ProceedingJoinPoint pjp, ContextInfo contextInfo) throws Throwable {
 
 	    //Check the inbound course for a special attribute flag
 		//which says not to use this advice
@@ -103,7 +104,7 @@ public class CmToSisExportAdvice implements Advice {
   		
 		//Only output if the course did not have that attribute
 		if(outputToSis)
-			doUpdateSisCourseInfo(courseInfo);
+			doUpdateSisCourseInfo(courseInfo,contextInfo);
 
 		// Only do the Audit if parameter passed is true KSCM-1016
 //		boolean outputToWF = true;
@@ -118,7 +119,7 @@ public class CmToSisExportAdvice implements Advice {
 	}
 	
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public void doUpdateSisCourseInfo(CourseInfo courseInfo){
+	public void doUpdateSisCourseInfo(CourseInfo courseInfo, ContextInfo contextInfo){
 		String state = courseInfo.getState();
 		// Write courses with these states to SIS export table
 		// Superseded courses must be written to ensure end term is updated in SIS
@@ -126,15 +127,15 @@ public class CmToSisExportAdvice implements Advice {
 			String statusInd = "P"; // Used to be P for pending pending for sis retrival
 			List<CmToSisExportCourse> coursePending = sisCmDao.getSisCourseByCrsTrmStat(courseInfo, null);
 			if(coursePending.size() > 0)
-				sisCmDao.updateSisCourseInfo(courseInfo, coursePending.get(0), statusInd);
+				sisCmDao.updateSisCourseInfo(courseInfo, coursePending.get(0), statusInd, contextInfo);
 			else
-				sisCmDao.updateSisCourseInfo(courseInfo, null, statusInd);
+				sisCmDao.updateSisCourseInfo(courseInfo, null, statusInd, contextInfo);
 		}
 	}
 	
 	// after CourseService.updateCourseStatement/createCourseStatement
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public void updateSisCourseInfoStatement(JoinPoint jp, Object retVal) throws Throwable {
+	public void updateSisCourseInfoStatement(JoinPoint jp, Object retVal, ContextInfo contextInfo) throws Throwable {
 	    // If the enablePushToSis environment variable is false, do not write course to SIS
         // (allows us to turn off push for public environment)
         if (!enablePushToSis){
@@ -143,7 +144,7 @@ public class CmToSisExportAdvice implements Advice {
 	    
 	    StatementTreeViewInfo statement = (StatementTreeViewInfo) retVal;
 		String courseId = (String) jp.getArgs()[0];		
-		CourseInfo courseInfo = courseService.getCourse(courseId);
+		CourseInfo courseInfo = courseService.getCourse(courseId,contextInfo);
 		
 		//Only update approved courses
 		if(courseInfo!=null && ("Active".equals(courseInfo.getState()) || 
@@ -153,9 +154,9 @@ public class CmToSisExportAdvice implements Advice {
 			String statusInd = "P"; // pending for sis retrival
 			List<CmToSisExportCourse> coursePending = sisCmDao.getSisCourseByCrsTrmStat(courseInfo, null);
 			if(coursePending.size() > 0)
-				sisCmDao.updateSisCourseInfo(courseInfo, coursePending.get(0), statusInd);
+				sisCmDao.updateSisCourseInfo(courseInfo, coursePending.get(0), statusInd, contextInfo);
 			else
-				sisCmDao.updateSisCourseInfo(courseInfo, null, statusInd);			
+				sisCmDao.updateSisCourseInfo(courseInfo, null, statusInd, contextInfo);			
 		}
 		
 		// Only do the Audit if parameter passed is true KSCM-1016
@@ -170,7 +171,7 @@ public class CmToSisExportAdvice implements Advice {
 		
 	// before LuService.updateCluSet - what UMDCM uses on manual changes
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public void updateSisCourseInfoCluSetUpdate(ProceedingJoinPoint pjp) throws Throwable{
+	public void updateSisCourseInfoCluSetUpdate(ProceedingJoinPoint pjp, ContextInfo contextInfo) throws Throwable{
 	    if(true){
 	    	return;
 	    }
@@ -190,7 +191,7 @@ public class CmToSisExportAdvice implements Advice {
 		// "cluSetName" will now be a long description name (was just the code before)
 		// So, get and check the new map which contains hardcoded set description names.
 		
-		Map<String, String> CoreGenCluSetCodeToDescriptionMap = coreGenedClusetMapper.getCodeToDescriptionMap();
+		Map<String, String> CoreGenCluSetCodeToDescriptionMap = coreGenedClusetMapper.getCodeToDescriptionMap(contextInfo);
 	 
 		Boolean weCare = CoreGenCluSetCodeToDescriptionMap.containsValue(cluSetName);
 		if (weCare){
@@ -200,7 +201,7 @@ public class CmToSisExportAdvice implements Advice {
 			List<String> listNewCluIds = newCluSetInfo.getCluIds();
             
 			// Obtain old ("current") Ids via luService call			
-			List<String> listOldCluIds = luService.getAllCluIdsInCluSet(newCluSetId);		
+			List<String> listOldCluIds = luService.getAllCluIdsInCluSet(newCluSetId,contextInfo);		
 			Set<String> oldCluIds = new HashSet<String>(listOldCluIds);
 			
 			// Removed Courses (old - new)
@@ -209,8 +210,8 @@ public class CmToSisExportAdvice implements Advice {
             System.out.println("Removed these clu IDs: " + removedCluIds );
             for(String cluId :removedCluIds){
             	// Translate from VerIndId to current Ver Id to get current courseInfo obj
-            	VersionDisplayInfo vdi = courseService.getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, cluId); 	
-            	CourseInfo courseInfo = courseService.getCourse(vdi.getId());               
+            	VersionDisplayInfo vdi = courseService.getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, cluId,contextInfo); 	
+            	CourseInfo courseInfo = courseService.getCourse(vdi.getId(),contextInfo);               
             	//sisCmDao.updateSisCourseInfo(courseInfo, "P");//FIXME we should test to see if there is a pushed record before we update vs create
             }
             
@@ -220,8 +221,8 @@ public class CmToSisExportAdvice implements Advice {
             System.out.println("Added these clu IDs: " + addedCluIds );
             for(String cluId :addedCluIds){
               	// Translate from VerIndId to current Ver Id to get current courseInfo obj
-            	VersionDisplayInfo vdi = courseService.getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, cluId); 	
-            	CourseInfo courseInfo = courseService.getCourse(vdi.getId());
+            	VersionDisplayInfo vdi = courseService.getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, cluId,contextInfo); 	
+            	CourseInfo courseInfo = courseService.getCourse(vdi.getId(),contextInfo);
             	//sisCmDao.updateSisCourseInfo(courseInfo, "P");//FIXME we should test to see if there is a pushed record before we update vs create            	         
             }        
 		} // end if weCare
@@ -263,10 +264,10 @@ public class CmToSisExportAdvice implements Advice {
 			course.setRepeatableNL(repeatable);
 			
 			List<StatementTreeViewInfo> statements;
-			statements = courseService.getCourseStatements(courseInfo.getId(), null, null);
+			statements = courseService.getCourseStatements(courseInfo.getId(), null, null,contextInfo);
 
 			for(StatementTreeViewInfo statement : statements){					
-				String nl = statementService.getNaturalLanguageForStatement(statement.getId(), "KUALI.RULE", "en");
+				String nl = statementService.getNaturalLanguageForStatement(statement.getId(), "KUALI.RULE", "en",contextInfo);
 				
 				if (statement.getType().equals("kuali.statement.type.course.academicReadiness.studentEligibility"))
 					course.setStudentEligibilityNL(nl);
@@ -307,11 +308,11 @@ public class CmToSisExportAdvice implements Advice {
 		this.sisCmDao = sisCmDao;
 	}
 
-	public LuService getLuService() {
+	public CluService getLuService() {
 		return luService;
 	}
 
-	public void setLuService(LuService luService) {
+	public void setLuService(CluService luService) {
 		this.luService = luService;
 	}
 	

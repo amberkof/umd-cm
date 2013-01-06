@@ -112,7 +112,7 @@ public class SisCmDaoImpl extends AbstractCrudDaoImpl implements SisCmDao {
 	
 
 	
-	@Override
+	//@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public void updateSisCourseInfo(CourseInfo courseInfo, CmToSisExportCourse course, String statusInd,  ContextInfo contextInfo) {
 		try {
@@ -189,7 +189,7 @@ public class SisCmDaoImpl extends AbstractCrudDaoImpl implements SisCmDao {
 
 			// params for genEd, core, diversity
 			String genEd = "", core = "", diversity = "";
-			List<String> cluSetNameList = getCluSetName(courseInfo.getId());			
+			List<String> cluSetNameList = getCluSetName(courseInfo.getId(), contextInfo);			
 			if (!cluSetNameList.isEmpty()) {
 				for (String name : cluSetNameList) {
 					if (name.equalsIgnoreCase("CORE"))
@@ -610,7 +610,7 @@ public class SisCmDaoImpl extends AbstractCrudDaoImpl implements SisCmDao {
 		return nl.trim();
 	}
 	
-	@Override
+	//@Override
 	public SiscmDiff findSiscmDiff(String courseCd, String startTerm) {
 		SiscmDiffPK key = new SiscmDiffPK();
 		key.setCrs(courseCd);
@@ -618,7 +618,7 @@ public class SisCmDaoImpl extends AbstractCrudDaoImpl implements SisCmDao {
 		return em.find(SiscmDiff.class, key);
 	}
 	
-	@Override
+	//@Override
 	@Transactional(readOnly = false, noRollbackFor = { DoesNotExistException.class }, rollbackFor = { Throwable.class })
 	public SisToCmImportCourse updateSisToCmImportCourseInTransaction(SisToCmImportCourse course){
 		return update(course);

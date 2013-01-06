@@ -21,101 +21,12 @@ public class FormatAssemblerUMD extends FormatAssembler {
 	private final String ACTIVITY_TYPE_LAB = "kuali.lu.type.activity.Lab";
 	private final String ACTIVITY_TYPE_EXPERIENTIAL= "kuali.lu.type.activity.ExperientialLearningOROther";
 
-	/* 
-	 * Sorts the activities to match a specific order for certain activity types
-	 * (non-Javadoc)
-	 * @see org.kuali.student.lum.course.service.assembler.FormatAssembler#assemble(org.kuali.student.lum.lu.dto.CluInfo, org.kuali.student.lum.course.dto.FormatInfo, boolean)
-	 */
-
-    @Override
-    public FormatInfo assemble(CluInfo clu, FormatInfo formatInfo,
-            boolean shallowBuild,ContextInfo contextInfo) throws AssemblyException {
-
-        if (clu == null) {
-            return null;
-        }
-
-        FormatInfo format = (null != formatInfo) ? formatInfo
-                : new FormatInfo();
-
-        // Copy base properties
-        format.setId(clu.getId());
-        format.setTypeKey(clu.getTypeKey());
-        format.setStateKey(clu.getStateKey());
-        format.setMeta(clu.getMeta());
-        format.setAttributes(clu.getAttributes());
-        format.setDuration(clu.getStdDuration());
-        format.setTermsOffered(clu.getOfferedAtpTypes());
-
-        // Don't make any changes to nested datastructures if this is
-        if (!shallowBuild) {
-            // Use the cluService to find activities, then convert and add to the
-            // format
-            try {
-                List<CluInfo> activities = cluService.getRelatedClusByCluAndRelationType(
-                                        format.getId(),
-                                        CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE,
-                                        contextInfo);
-                for (CluInfo activity : activities) {
-                    ActivityInfo activityInfo = activityAssembler.assemble(
-                            activity, null, false,contextInfo);
-                    format.getActivities().add(activityInfo);
-                }
-
-            } catch (Exception e) {
-                throw new AssemblyException("Error getting related activities", e);
-            } 
-        }
-        return format;
-    }
+ 
 	   
 	@Override
 	public FormatInfo assemble(CluInfo clu, FormatInfo formatInfo,
 			boolean shallowBuild,ContextInfo contextInfo) throws AssemblyException {
 		
-	    
-	    
-	    
-	    if (clu == null) {
-            return null;
-        }
-
-        FormatInfo format = (null != formatInfo) ? formatInfo
-                : new FormatInfo();
-
-        // Copy base properties
-        format.setId(clu.getId());
-        format.setTypeKey(clu.getTypeKey());
-        format.setStateKey(clu.getStateKey());
-        format.setMeta(clu.getMeta());
-        format.setAttributes(clu.getAttributes());
-        format.setDuration(clu.getStdDuration());
-        format.setTermsOffered(clu.getOfferedAtpTypes());
-
-        // Don't make any changes to nested datastructures if this is
-        if (!shallowBuild) {
-            // Use the cluService to find activities, then convert and add to the
-            // format
-            try {
-                List<CluInfo> activities = cluService.getRelatedClusByCluAndRelationType(
-                                        format.getId(),
-                                        CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE,
-                                        contextInfo);
-                for (CluInfo activity : activities) {
-                    ActivityInfo activityInfo = activityAssembler.assemble(
-                            activity, null, false,contextInfo);
-                    format.getActivities().add(activityInfo);
-                }
-
-            } catch (Exception e) {
-                throw new AssemblyException("Error getting related activities", e);
-            } 
-        }
-        return format;
-        
-        
-        
-	    
 	    
 	    
 		FormatInfo format = super.assemble(clu, formatInfo, shallowBuild, contextInfo);

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.bouncycastle.asn1.cmp.CMPCertificate;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -454,7 +455,7 @@ public class DiffCourseUtil {
      * <p>
      * These are stored as course sets in CM. So we
      */
-    protected void diffCoreGenedDiversity() {
+    protected void diffCoreGenedDiversity(ContextInfo contextInfo) {
 
      
            
@@ -477,18 +478,18 @@ public class DiffCourseUtil {
         boolean diff = false;
 
         for (String courseSetCode : courseSetCodes) {
-            String cluSetId = coreGenedClusetMapper.getCluSetId(courseSetCode);
+            String cluSetId = coreGenedClusetMapper.getCluSetId(courseSetCode, contextInfo);
             try {
 
                 // Info on cluset
-                CluSetInfo info = luService.getCluSetInfo(cluSetId);
+                CluSetInfo info = luService.getCluSet(cluSetId, contextInfo);
 
                 // Get the version independent IDs of clus in the cluset
                 // NOTE: these are not clu ids!
-                List<String> verIndIdsInCluSet = luService.getCluIdsFromCluSet(cluSetId);
+                List<String> verIndIdsInCluSet = luService.getCluIdsFromCluSet(cluSetId, contextInfo);
 
                 // Grab the version independent ID for this course
-                String verIndId = cmCourse.getVersionInfo().getVersionIndId();
+                String verIndId = cmCourse.getVersion().getVersionIndId();
 
                 // Check if version independent ID is in this cluset
                 if (!verIndIdsInCluSet.contains(verIndId)) {

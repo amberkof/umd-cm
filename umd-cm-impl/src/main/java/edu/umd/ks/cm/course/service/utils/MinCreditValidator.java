@@ -7,6 +7,7 @@ import java.util.Stack;
 
 import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
 import org.kuali.student.r2.lum.lrc.dto.ResultComponentInfo;
@@ -17,7 +18,7 @@ public class MinCreditValidator extends DefaultValidatorImpl {
 
     @Override
     public List<ValidationResultInfo> validateObject(FieldDefinition field, Object o,
-            ObjectStructureDefinition objStructure, Stack<String> elementStack) {
+            ObjectStructureDefinition objStructure, Stack<String> elementStack, ContextInfo contextInfo) {
         List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
         if (!MIN_CREDIT_VALUE.equalsIgnoreCase(field.getName())) {
             throw new RuntimeException("Custom Validator " + this.getClass().getName()
@@ -36,7 +37,7 @@ public class MinCreditValidator extends DefaultValidatorImpl {
                         if (minCreditNumValue >= maxCreditNumValue) {
                             ValidationResultInfo result = new ValidationResultInfo(getElementXpath(elementStack) + "/"
                                     + field.getName());
-                            result.setError(getMessage("validation.minCredits"));
+                            result.setError(getMessage("validation.minCredits", contextInfo));
                             results.add(result);
                         }
                     } catch (NumberFormatException nfe) {
