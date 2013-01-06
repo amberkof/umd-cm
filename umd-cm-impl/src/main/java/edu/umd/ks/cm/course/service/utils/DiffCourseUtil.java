@@ -80,7 +80,7 @@ public class DiffCourseUtil {
      * 
      * @return
      */
-    public DiffCourse diff() {
+    public DiffCourse diff(ContextInfo contextInfo) {
 
         List<String> diffs = new ArrayList<String>();
 
@@ -108,7 +108,7 @@ public class DiffCourseUtil {
         //  diffLearningOutcomes("LEARNING_OUTCOMES", sisCourse, cmCourse, diffs);
         // Remove LO as per Mike C request
         
-        diffCoreGenedDiversity();
+        diffCoreGenedDiversity(contextInfo);
 
         return diffCourse;
     }
@@ -345,7 +345,7 @@ public class DiffCourseUtil {
 
         List<String> cmField = cmCourse.getGradingOptions();
 
-        Map<String, String> attributes = cmCourse.getAttributes();
+        Map<String, String> attributes = CM20.attributeInfoToMap(cmCourse.getAttributes());
 
         // Create a map of all types of grading options
         Map<String, String> m = new HashMap<String, String>();

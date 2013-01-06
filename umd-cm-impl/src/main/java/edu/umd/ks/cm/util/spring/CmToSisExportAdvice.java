@@ -33,7 +33,7 @@ import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.r1.lum.course.service.CourseServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.core.statement.service.StatementService;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
@@ -42,6 +42,7 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.umd.ks.cm.course.service.utils.CM20;
 import edu.umd.ks.cm.util.audit.CourseModifyAuditInfo;
 import edu.umd.ks.cm.util.siscm.dao.SisCmDao;
 import edu.umd.ks.cm.util.siscm.entity.CmToSisExportCourse;
@@ -89,7 +90,7 @@ public class CmToSisExportAdvice implements Advice {
 		
 		//Remove the flag if it's there and save state
 		boolean outputToSis = true;
-		if(inboundCourse.getAttributes().containsKey(DO_NOT_OUTPUT_TO_SIS)){
+		if(CM20.attributeInfoToMap(inboundCourse.getAttributes()).containsKey(DO_NOT_OUTPUT_TO_SIS)){
 			inboundCourse.getAttributes().remove(DO_NOT_OUTPUT_TO_SIS);
 			outputToSis = false;
 		}
@@ -230,12 +231,12 @@ public class CmToSisExportAdvice implements Advice {
 
 	// KSCM-1016
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	private void doWorkflowDocument(CourseInfo courseInfo){
+	private void doWorkflowDocument(CourseInfo courseInfo, ContextInfo contextInfo){
 		try {
 			String principalId = SecurityUtils.getCurrentPrincipalId();
 
 			// Creating xml element with all info
-			CourseModifyAuditInfo course = getCourseModifyAuditInfo (courseInfo, principalId);
+			CourseModifyAuditInfo course = getCourseModifyAuditInfo (courseInfo, principalId, contextInfo);
 			JAXBContext context = JAXBContext.newInstance(CourseModifyAuditInfo.class);
 			Marshaller marshaller = context.createMarshaller();
 			StringWriter writer = new StringWriter();
@@ -253,14 +254,14 @@ public class CmToSisExportAdvice implements Advice {
 	}
 
 	// KSCM-1016
-	private CourseModifyAuditInfo getCourseModifyAuditInfo (CourseInfo courseInfo, String principalId) {
+	private CourseModifyAuditInfo getCourseModifyAuditInfo (CourseInfo courseInfo, String principalId, ContextInfo contextInfo) {
 		CourseModifyAuditInfo course = new CourseModifyAuditInfo();
 		try {
 			course.setUserId(principalId);
 			course.setCluId(courseInfo.getId());
 			course.setCourseInfo(courseInfo);
 			
-			String repeatable = getRepeatableCredits(courseInfo.getAttributes());
+			String repeatable = getRepeatableCredits(CM20.attributeInfoToMap(courseInfo.getAttributes()));
 			course.setRepeatableNL(repeatable);
 			
 			List<StatementTreeViewInfo> statements;

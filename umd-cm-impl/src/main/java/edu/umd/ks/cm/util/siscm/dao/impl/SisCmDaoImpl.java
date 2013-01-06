@@ -385,7 +385,7 @@ public class SisCmDaoImpl extends AbstractCrudDaoImpl implements SisCmDao {
 	private String getCourseAttributes(List<AttributeInfo> attributesListObjs, String courseOfferedAs) {
 		String attributeNL = "";
  
-		Map attributes = CM20.attributeInfoToMap(attributesListObjs);
+		Map<String,String> attributes = CM20.attributeInfoToMap(attributesListObjs);
 		
 		if (attributes != null && attributes.containsKey("repeatableNumCredits") &&  attributes.get("repeatableNumCredits") != null && attributes.get("repeatableNumCredits").length() > 0) {
 			attributeNL = "Repeatable to " + attributes.get("repeatableNumCredits") + " credits";

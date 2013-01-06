@@ -11,6 +11,7 @@ import javax.jws.WebService;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularReferenceException;
@@ -203,12 +204,12 @@ public class SiscmServiceImpl implements SiscmService {
 			//Check if this course is to be retired
 			if(course.getEndTrm()!=null){
 				courseInfo.setState("Retired");
-				courseInfo.getAttributes().put("retirementRationale", "Retired by CourseLoader");
-				courseInfo.getAttributes().put("lastTermOffered", courseInfo.getEndTerm());
+				courseInfo.getAttributes().add(new AttributeInfo("retirementRationale", "Retired by CourseLoader"));
+			 	courseInfo.getAttributes().add(new AttributeInfo( "lastTermOffered", courseInfo.getEndTerm()));
 			}
 			if(!"A".equals(course.getDiffOperation())||!course.isLast()){
-				//Only push adds back to sis(exclude anything that is not an add)
-				courseInfo.getAttributes().put(CmToSisExportAdvice.DO_NOT_OUTPUT_TO_SIS, Boolean.TRUE.toString());
+				//Only push adds back to sis(exclude anything that is not an add) 
+			  	courseInfo.getAttributes().add(new AttributeInfo( CmToSisExportAdvice.DO_NOT_OUTPUT_TO_SIS, Boolean.TRUE.toString()));
 			}
 			savedCourse = courseService.createCourse(courseInfo, contextInfo);
 		}else{
@@ -220,8 +221,8 @@ public class SiscmServiceImpl implements SiscmService {
 				//Check if this course is to be retired and set required fields if so
 				if("Active".equals(courseInfo.getState())&&course.getEndTrm()!=null){
 					courseInfo.setState("Retired");
-					courseInfo.getAttributes().put("retirementRationale", "Retired by CourseLoader");
-					courseInfo.getAttributes().put("lastTermOffered", courseInfo.getEndTerm());
+					courseInfo.getAttributes().add(new AttributeInfo( "retirementRationale", "Retired by CourseLoader" ));
+					courseInfo.getAttributes().add(new AttributeInfo( "lastTermOffered", courseInfo.getEndTerm()));
 				}
 				
 				//If the change from sis is bringing this course out of retirement, then make it active
@@ -240,29 +241,29 @@ public class SiscmServiceImpl implements SiscmService {
 
 				//Check if this course is to be retired
 				if(course.getEndTrm()!=null){
-					courseInfo.setState("Retired");
-					courseInfo.getAttributes().put("retirementRationale", "Retired by CourseLoader");
-					courseInfo.getAttributes().put("lastTermOffered", courseInfo.getEndTerm());
+					courseInfo.setState("Retired"); 
+					courseInfo.getAttributes().add(new AttributeInfo( "retirementRationale", "Retired by CourseLoader" ));
+					courseInfo.getAttributes().add(new AttributeInfo( "lastTermOffered", courseInfo.getEndTerm() ));
 				}else{
 					courseInfo.setState("Active");
 					courseInfo.setEndTerm(null);
-					courseInfo.getAttributes().put("retirementRationale","");
-					courseInfo.getAttributes().put("lastTermOffered","");
+					courseInfo.getAttributes().add(new AttributeInfo( "retirementRationale","" ));
+					courseInfo.getAttributes().add(new AttributeInfo( "lastTermOffered","" ));
 				}
 				
 				//Get the previous version and supersede it
 				CourseInfo previousCourse = courseService.getCourse(existingVersion.getCourseId(),contextInfo);
-				previousCourse.setState("Superseded");
-				previousCourse.getAttributes().put("lastTermOffered","");
+				previousCourse.setState("Superseded"); 
+				courseInfo.getAttributes().add(new AttributeInfo( "lastTermOffered","" ));
 				if(previousCourse.getEndTerm()==null){
 					previousCourse.setEndTerm(findPreviousTermTo(courseInfo.getStartTerm(), contextInfo));	
- 				}
-				previousCourse.getAttributes().put(CmToSisExportAdvice.DO_NOT_OUTPUT_TO_SIS, Boolean.TRUE.toString());
+ 				} 
+				courseInfo.getAttributes().add(new AttributeInfo( CmToSisExportAdvice.DO_NOT_OUTPUT_TO_SIS, Boolean.TRUE.toString() ));
 				courseService.updateCourse(previousCourse.getId(),previousCourse,contextInfo);
 				
 				//Set the updated as the current version if this is not an add
 				if(!"A".equals(course.getDiffOperation())||!course.isLast()){
-					courseInfo.getAttributes().put(CmToSisExportAdvice.DO_NOT_OUTPUT_TO_SIS, Boolean.TRUE.toString());
+					courseInfo.getAttributes().add(new AttributeInfo( CmToSisExportAdvice.DO_NOT_OUTPUT_TO_SIS, Boolean.TRUE.toString()));
 				}
 				savedCourse = courseService.updateCourse(courseInfo.getId(), courseInfo,contextInfo);
 				courseService.setCurrentCourseVersion(savedCourse.getId(), null, contextInfo);
@@ -303,7 +304,7 @@ public class SiscmServiceImpl implements SiscmService {
 
 		//If there is no pending there is no conflict so don't push in change.
 		if(coursePending==null||coursePending.isEmpty()){
-			courseInfo.getAttributes().put(CmToSisExportAdvice.DO_NOT_OUTPUT_TO_SIS, Boolean.TRUE.toString());
+			courseInfo.getAttributes().add(new AttributeInfo( CmToSisExportAdvice.DO_NOT_OUTPUT_TO_SIS, Boolean.TRUE.toString() ));
 			return false;
 		}
 		return true;

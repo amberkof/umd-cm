@@ -6,6 +6,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularReferenceException;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
@@ -41,7 +42,7 @@ public interface SiscmService {
      * @throws DataValidationErrorException
      * @throws Exception
      */
-    public String diffCourse(@WebParam(name="course") SisToCmImportCourseInfo course, @WebParam(name="courseCd")String courseCd,@WebParam(name="startTerm")String startTerm) throws DataValidationErrorException, Exception;
+    public String diffCourse(@WebParam(name="course") SisToCmImportCourseInfo course, @WebParam(name="courseCd")String courseCd,@WebParam(name="startTerm")String startTerm, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, Exception;
     
     /**
      * 
@@ -56,7 +57,7 @@ public interface SiscmService {
      * @throws DataValidationErrorException
      * @throws Exception
      */
-    public String importCourseGenedCoreDiversityOnly(@WebParam(name="course") SisToCmImportCourseInfo course,@WebParam(name="batchJobId")long batchJobId, @WebParam(name="courseCd")String courseCd,@WebParam(name="startTerm")String startTerm) throws DataValidationErrorException, Exception;
+    public String importCourseGenedCoreDiversityOnly(@WebParam(name="course") SisToCmImportCourseInfo course,@WebParam(name="batchJobId")long batchJobId, @WebParam(name="courseCd")String courseCd,@WebParam(name="startTerm")String startTerm, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, Exception;
     
 	/**
 	 * @param courses list of sis data to load into UMDCM. all courses should have the same course code or this call will fail
@@ -64,7 +65,7 @@ public interface SiscmService {
 	 * @throws Exception 
 	 */
     @Deprecated
-	public boolean importCourse(@WebParam(name="course") SisToCmImportCourseInfo course,@WebParam(name="batchJobId")long batchJobId, @WebParam(name="courseCd")String courseCd,@WebParam(name="startTerm")String startTerm) throws DataValidationErrorException, Exception;
+	public boolean importCourse(@WebParam(name="course") SisToCmImportCourseInfo course,@WebParam(name="batchJobId")long batchJobId, @WebParam(name="courseCd")String courseCd,@WebParam(name="startTerm")String startTerm, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, Exception;
 
 	/**
 	 * Exports courses with the input course ids to the sis cm table
@@ -76,7 +77,7 @@ public interface SiscmService {
 	 * @throws InvalidParameterException 
 	 * @throws DoesNotExistException 
 	 */
-	public boolean exportCourses(@WebParam(name="courseIds") List<String> courseIds) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+	public boolean exportCourses(@WebParam(name="courseIds") List<String> courseIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 	/**
 	 * Exports latest version of all courses to the sis cm table
@@ -87,7 +88,7 @@ public interface SiscmService {
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
 	 */
-	public boolean exportAllCourses() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,	PermissionDeniedException;
+	public boolean exportAllCourses(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,	PermissionDeniedException;
 	
 	
 	/**
@@ -109,5 +110,5 @@ public interface SiscmService {
 	 * @throws DataValidationErrorException 
 	 * @throws UnsupportedOperationException 
 	 */
-	public String updateCourseOrgsForPrefix(@WebParam(name="prefixes") String prefixes) throws MissingParameterException, DoesNotExistException, InvalidParameterException, OperationFailedException, PermissionDeniedException, UnsupportedOperationException, DataValidationErrorException, VersionMismatchException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, CircularReferenceException;
+	public String updateCourseOrgsForPrefix(@WebParam(name="prefixes") String prefixes, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, DoesNotExistException, InvalidParameterException, OperationFailedException, PermissionDeniedException, UnsupportedOperationException, DataValidationErrorException, VersionMismatchException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, CircularReferenceException;
 }

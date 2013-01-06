@@ -13,6 +13,7 @@ import java.util.Map;
 
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.dto.AmountInfo;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -32,6 +33,7 @@ import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstant
 import org.kuali.student.r2.lum.lo.dto.LoInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultComponentInfo;
 
+import edu.umd.ks.cm.course.service.utils.CM20;
 import edu.umd.ks.cm.util.siscm.dto.SisToCmImportCourseInfo;
 
 public class CourseDataMapper {
@@ -88,7 +90,7 @@ public class CourseDataMapper {
 					
 								loInfo.setDescr(rt);  // set Description
 								loInfo.setType("kuali.lo.type.singleUse");  // Type required
-								loInfo.getAttributes().put("sequence",Integer.toString(i)); // make sure order comes out right
+								loInfo.getAttributes().add(new AttributeInfo("sequence",Integer.toString(i))); // make sure order comes out right
 								
 								loDispInfo.setLoInfo(loInfo);
 								loList.add(loDispInfo);
@@ -118,15 +120,15 @@ public class CourseDataMapper {
 			// Populate generic VPAC shell
 			
 			// String action  = rs[SchField.ACTION.ordinal()];
-	        proposalInfo.getAttributes().put("vpacAction","Add");
-			proposalInfo.getAttributes().put("vpacLogNo","00000");
+	        proposalInfo.getAttributes().add(new AttributeInfo("vpacAction","Add" ));
+			proposalInfo.getAttributes().add(new AttributeInfo("vpacLogNo","00000" ));
 	   		proposalInfo.setType("kuali.proposal.type.course.create");		
 	   		proposalInfo.setName("Add: "+courseInfo.getCode()+" ver. "+versionCount);
 	   		proposalInfo.setState("final");
 	   		proposalInfo.setProposalReferenceType("kuali.proposal.referenceType.clu");
 	   		proposalInfo.getProposalReference().add(courseInfo.getId());
             //Set the node attribute on the proposal to preroute as an initial value
-            proposalInfo.getAttributes().put("workflowNode", "PreRoute");
+            proposalInfo.getAttributes().add(new AttributeInfo( "workflowNode", "PreRoute" ));
             
 			return proposalInfo;
 	}
@@ -195,9 +197,9 @@ public class CourseDataMapper {
 		
 		//Grading Method
 		courseInfo.setGradingOptions(new ArrayList<String>());
-		//dynamic attributes are never deleted(see KSLAB-1733) so set these to false
-		courseInfo.getAttributes().put(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_PASSFAIL, "false");
-		courseInfo.getAttributes().put(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT, "false");
+		//dynamic attributes are never deleted(see KSLAB-1733) so set these to false 
+		courseInfo.getAttributes().add(new AttributeInfo(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_PASSFAIL, "false"   ));
+		courseInfo.getAttributes().add(new AttributeInfo( CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT, "false"  ));
 		if(gradeMethod!=null){
 			if(gradeMethod.contains("R")){
 				courseInfo.getGradingOptions().add("kuali.resultComponent.grade.letter");
@@ -210,12 +212,12 @@ public class CourseDataMapper {
 			}
 			
 			//These go into a separate field on the screen.. but we might be able to split it up just in the ui 
-			if(gradeMethod.contains("P")){
-				courseInfo.getAttributes().put(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_PASSFAIL,"true");
+			if(gradeMethod.contains("P")){ 
+				courseInfo.getAttributes().add(new AttributeInfo( CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_PASSFAIL,"true" ));
 				courseInfo.getGradingOptions().add("kuali.resultComponent.grade.passFail");
 			}
 			if(gradeMethod.contains("A")){
-				courseInfo.getAttributes().put(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT,"true");
+				courseInfo.getAttributes().add(new AttributeInfo( CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT,"true" ));
 				courseInfo.getGradingOptions().add("kuali.resultComponent.grade.audit");
 			}
 
@@ -262,8 +264,8 @@ public class CourseDataMapper {
 			courseInfo.getCampusLocations().add("NO");
 		}
 		
-		if(null == courseInfo.getAttributes().get("finalExamStatus")){
-			courseInfo.getAttributes().put("finalExamStatus", "STD");
+		if(null == CM20.attributeInfoToMap(courseInfo.getAttributes()).get("finalExamStatus")){
+		    courseInfo.getAttributes().add(new AttributeInfo( "finalExamStatus", "STD" ));
 		}
 		
 		//Default credit hours to min credit for variable
@@ -283,17 +285,16 @@ public class CourseDataMapper {
 			courseInfo.getFormats().add(format);
 			
 			//Set some required fields 
-			courseInfo.getAttributes().put("semesterType", "semesterType.standard");
+			courseInfo.getAttributes().add(new AttributeInfo( "semesterType", "semesterType.standard"  ));
 			//Calculate contact hours total
 			DecimalFormat deciamlFormat = new DecimalFormat("#.##");
-			courseInfo.getAttributes().put("activityTotalContactHours", deciamlFormat.format(Float.parseFloat(lectureHours)*HOURS_PER_WEEK));
-			courseInfo.getAttributes().put("activityTotalCredits", lectureHours);
-			courseInfo.getAttributes().put("activityTypeExplanation", ".");
-			
+			courseInfo.getAttributes().add(new AttributeInfo( "activityTotalContactHours", deciamlFormat.format(Float.parseFloat(lectureHours)*HOURS_PER_WEEK)  ));
+			courseInfo.getAttributes().add(new AttributeInfo(  "activityTotalCredits", lectureHours ));
+			courseInfo.getAttributes().add(new AttributeInfo( "activityTypeExplanation", "."  ));
 		}
 		
 		if(courseInfo.getUnitsContentOwner().isEmpty()){
-			courseInfo.getUnitsContentOwner().addAll(getOrgsFromPrefix(courseInfo.getSubjectArea(), subjectCodeService, con));
+			courseInfo.getUnitsContentOwner().addAll(getOrgsFromPrefix(courseInfo.getSubjectArea(), subjectCodeService, contextInfo));
 		}
 		
 		mapToCourseInfoGenedCoreDiversityOnly(courseInfo,importCourse,courseSetCodes);
@@ -361,8 +362,8 @@ public class CourseDataMapper {
 		amount.setUnitQuantity(hours);
 		activity.setContactHours(amount);
 		DecimalFormat deciamlFormat = new DecimalFormat("#.##");
-		activity.getAttributes().put("calculatedContactHours",deciamlFormat.format(HOURS_PER_WEEK*Float.parseFloat(hours)));
-		activity.getAttributes().put("credits",hours);
+		activity.getAttributes().add(new AttributeInfo( "calculatedContactHours",deciamlFormat.format(HOURS_PER_WEEK*Float.parseFloat(hours))  ));
+		activity.getAttributes().add(new AttributeInfo( "credits",hours  ));
 		return activity;
 	}
 
