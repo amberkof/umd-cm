@@ -11,4 +11,222 @@
         <artifactId>umd-ks</artifactId>
         <version>2.0.0-SNAPSHOT</version>
     </parent>
+        <properties>
+      <selenium.pattern>**/selenium/**/*Test.java</selenium.pattern>
+    </properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>${selenium.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.kuali.student.lum</groupId>
+			<artifactId>ks-lum-ui</artifactId>
+			<version>${ks.lum.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.umd.ks.cm</groupId>
+			<artifactId>umd-cm-impl</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.0.0.GA</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.0.0.GA</version>
+			<classifier>sources</classifier>
+			<scope>test</scope>
+		</dependency>
+        <dependency>
+        	<groupId>junit</groupId>
+        	<artifactId>junit</artifactId>
+        	<scope>test</scope>
+		</dependency>
+	</dependencies>
+ 	<build>
+        <plugins>
+             <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-surefire-plugin</artifactId>
+              <configuration>
+                <excludes>
+                  <exclude>${selenium.pattern}</exclude>
+                </excludes>
+              </configuration>
+          </plugin>
+        </plugins>
+    </build>
+	<profiles>
+		<profile>
+			<!-- Profile used to build the gwt war for running dev mode in umd-embedded -->
+			<id>build-codehaus-gwt</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<configuration>
+							<webappDirectory>target/${project.artifactId}-webapp</webappDirectory>
+						</configuration>
+						<executions>
+							<execution>
+								<phase>compile</phase>
+								<goals>
+									<goal>war</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<!-- 
+					<plugin>
+						<artifactId>maven-resources-plugin</artifactId>
+						<version>2.5</version>
+						<executions>
+							<execution>
+								<id>copy-resources</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>target/${project.artifactId}-webapp-gwt/WEB-INF</outputDirectory>
+									<resources>
+										<resource>
+											<directory>src/main/config/gwt-dev-mode-WEB-INF</directory>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					-->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+					</plugin>
+				</plugins>
+			</build>
+
+			<!-- Required dependencies for testing lum-ui -->
+			<dependencies>
+				<dependency>
+					<!--
+						Jax-ws impl dependency so client isn't created using jaxws bundled
+						w/jdk 1.6, which has problems finding exception beans.
+					-->
+					<groupId>org.kuali.student.core</groupId>
+					<artifactId>ks-cxf</artifactId>
+					<version>${ks.core.version}</version>
+					<type>pom</type>
+					<scope>runtime</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-aop</artifactId>
+					<scope>runtime</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-aspects</artifactId>
+					<scope>runtime</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-web</artifactId>
+					<scope>runtime</scope>
+				</dependency>
+
+				<!-- core-impl used to get mock message service impl -->
+		        <dependency>
+		            <groupId>org.kuali.student.core</groupId>
+		            <artifactId>ks-core-impl</artifactId>
+		            <version>${ks.core.version}</version>
+		        </dependency>
+				<dependency>
+					<groupId>com.oracle</groupId>
+					<artifactId>ojdbc14</artifactId>
+					<version>${oracle.ojdbc.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.kuali.rice</groupId>
+					<artifactId>rice-impl</artifactId>
+				</dependency>
+                <dependency>
+                    <groupId>org.kuali.student.core</groupId>
+                    <artifactId>ks-standard-sec</artifactId>
+                    <version>${ks.core.version}</version>
+                </dependency>
+				
+				<!-- KSCM-1016 -->
+				<dependency>
+					<groupId>edu.umd.ks.cm</groupId>
+					<artifactId>umd-cm-impl</artifactId>
+					<version>${project.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+     <profile>
+      <id>headless</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>selenium-maven-plugin</artifactId>
+            <version>2.0</version>
+            <executions>
+              <execution>
+                <id>xvfb</id>
+                <phase>initialize</phase>
+                <goals>
+                  <goal>xvfb</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+        
+        <profile>
+			<id>selenium</id>
+            <properties>
+              <selenium.include>**/selenium/**/*Test.java</selenium.include>
+            </properties>
+			<build>
+				<plugins>
+					<!-- Setup Selenium browser configuration -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration>
+							<forkMode>always</forkMode>
+							<systemPropertyVariables>
+								<selenium.remote>false</selenium.remote>
+								<selenium.browser>firefox</selenium.browser>
+								<selenium.browser.version>7</selenium.browser.version>
+								<selenium.platform>ANY</selenium.platform>
+								<selenium.baseurl>http://umd-cm.qa.umd.edu</selenium.baseurl>
+							</systemPropertyVariables>
+                            <includes>
+                              <include>${selenium.include}</include>
+                            </includes>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		
+		
+		
+	</profiles>
 </project>
