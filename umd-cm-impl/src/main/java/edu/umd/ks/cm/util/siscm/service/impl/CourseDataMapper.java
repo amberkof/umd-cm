@@ -355,10 +355,10 @@ public class CourseDataMapper {
 	
 	private static ActivityInfo makeActivity(String activityType, String hours) {
 		ActivityInfo activity = new ActivityInfo();
-		activity.setActivityType(activityType);
+		activity.setTypeKey(activityType);
 		activity.setState("Active");
 		AmountInfo amount = new AmountInfo();
-		amount.setUnitType("kuali.atp.duration.week");
+		amount.setUnitTypeKey("kuali.atp.duration.week");
 		amount.setUnitQuantity(hours);
 		activity.setContactHours(amount);
 		DecimalFormat deciamlFormat = new DecimalFormat("#.##");

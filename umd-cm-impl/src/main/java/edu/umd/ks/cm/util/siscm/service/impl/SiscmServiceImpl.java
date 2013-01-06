@@ -87,7 +87,7 @@ public class SiscmServiceImpl implements SiscmService {
         DiffCourseUtil diff = new DiffCourseUtil(courseInfo, sisCourse, luService, coreGenedClusetMapper);
  
         // Create list of diffs
-        DiffCourse diffCourse = diff.diff();
+        DiffCourse diffCourse = diff.diff(contextInfo);
         
         // Convert to XML
         String xml = new XStream().toXML(diffCourse);

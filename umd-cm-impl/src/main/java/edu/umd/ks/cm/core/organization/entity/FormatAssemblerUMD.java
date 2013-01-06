@@ -46,16 +46,16 @@ public class FormatAssemblerUMD extends FormatAssembler {
 			
 			ActivityInfo activity = iter.next();
 			
-			if(ACTIVITY_TYPE_LECTURE.equals(activity.getActivityType())){
+			if(ACTIVITY_TYPE_LECTURE.equals(activity.getTypeKey())){
 				activityLecture = activity;
 				iter.remove();
-			}else if(ACTIVITY_TYPE_DISCUSSION.equals(activity.getActivityType())){
+			}else if(ACTIVITY_TYPE_DISCUSSION.equals(activity.getTypeKey())){
 				activityDiscussion = activity;
 				iter.remove();
-			}else if(ACTIVITY_TYPE_LAB.equals(activity.getActivityType())){
+			}else if(ACTIVITY_TYPE_LAB.equals(activity.getTypeKey())){
 				activityLab = activity;
 				iter.remove();
-			}else if(ACTIVITY_TYPE_EXPERIENTIAL.equals(activity.getActivityType())){
+			}else if(ACTIVITY_TYPE_EXPERIENTIAL.equals(activity.getTypeKey())){
 				activityExperiential = activity;
 				iter.remove();
 			}

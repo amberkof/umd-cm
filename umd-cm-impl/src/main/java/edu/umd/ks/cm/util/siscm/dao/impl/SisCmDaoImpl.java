@@ -222,7 +222,7 @@ public class SisCmDaoImpl extends AbstractCrudDaoImpl implements SisCmDao {
 			List<FormatInfo> formats = courseInfo.getFormats();
 			List <ActivityInfo> activities = formats.get(0).getActivities();
 			for (ActivityInfo ai:activities){
-				String aType = ai.getActivityType();
+				String aType = ai.getTypeKey();
 				if (ai.getContactHours()!=null && ai.getContactHours().getUnitQuantity()!=null) {
 					int hours = 0;
 					try{
