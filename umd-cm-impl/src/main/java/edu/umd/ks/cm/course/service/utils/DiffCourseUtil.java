@@ -62,7 +62,7 @@ public class DiffCourseUtil {
      * @param luService
      * @param coreGenedClusetMapper
      */
-    public DiffCourseUtil(CourseInfo cmCourse, SisToCmImportCourseInfo sisCourse, LuService luService,
+    public DiffCourseUtil(CourseInfo cmCourse, SisToCmImportCourseInfo sisCourse, CluService luService,
             CoreGenEdClusetMapper coreGenedClusetMapper) {
         this.cmCourse = cmCourse;
         this.sisCourse = sisCourse;
