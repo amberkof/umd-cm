@@ -11,17 +11,18 @@ import javax.transaction.TransactionManager;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.core.organization.dto.OrgInfo;
-import org.kuali.student.core.organization.service.OrganizationService;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.kuali.student.r2.core.search.infc.SearchRequest;
+import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 
 public class TestOrganizationServiceUMD {
 
