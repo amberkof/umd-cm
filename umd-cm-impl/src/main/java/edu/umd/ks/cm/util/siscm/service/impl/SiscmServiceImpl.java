@@ -2,7 +2,6 @@ package edu.umd.ks.cm.util.siscm.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -11,28 +10,28 @@ import java.util.Set;
 import javax.jws.WebService;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.exceptions.AlreadyExistsException;
-import org.kuali.student.common.exceptions.CircularReferenceException;
-import org.kuali.student.common.exceptions.CircularRelationshipException;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.exceptions.UnsupportedActionException;
-import org.kuali.student.common.exceptions.VersionMismatchException;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
-import org.kuali.student.common.search.dto.SortDirection;
-import org.kuali.student.core.atp.service.AtpService;
-import org.kuali.student.core.subjectcode.service.SubjectCodeService;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.service.CourseService;
-import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.CircularReferenceException;
+import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.search.dto.SortDirection;
+import org.kuali.student.r2.core.search.infc.SearchRequest;
+import org.kuali.student.r2.core.search.infc.SearchResult;
+import org.kuali.student.r2.core.search.infc.SearchResultCell;
+import org.kuali.student.r2.core.search.infc.SearchResultRow;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thoughtworks.xstream.XStream;
@@ -53,7 +52,7 @@ public class SiscmServiceImpl implements SiscmService {
 			
 	private CourseService courseService;
 	private AtpService atpService;
-	private LuService luService;
+	private CluService luService;
 	private SubjectCodeService subjectCodeService;
 	private CmToSisExportAdvice cmToSisExportAdvice;
 	

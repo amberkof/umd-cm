@@ -28,24 +28,24 @@ import org.aopalliance.aop.Advice;
 import org.apache.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.kuali.rice.kew.service.WorkflowDocument;
-import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.student.common.util.security.SecurityUtils;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.service.StatementService;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.service.CourseService;
-import org.kuali.student.lum.course.service.CourseServiceConstants;
-import org.kuali.student.lum.lu.dto.CluSetInfo;
-import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.r1.lum.course.service.CourseServiceConstants;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.core.statement.service.StatementService;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.umd.ks.cm.util.audit.CourseModifyAuditInfo;
 import edu.umd.ks.cm.util.siscm.dao.SisCmDao;
 import edu.umd.ks.cm.util.siscm.entity.CmToSisExportCourse;
 import edu.umd.ks.cm.util.siscm.service.impl.CoreGenEdClusetMapper;
-
+ 
 /**
  * @Author VG 10/20/11
  * @See https://issues.umd.edu/browse/KSCM-616
@@ -59,7 +59,7 @@ public class CmToSisExportAdvice implements Advice {
 	final Logger LOG = Logger.getLogger(getClass());
 
 	private SisCmDao sisCmDao;
-	private LuService luService;
+	private CluService luService;
 	private CourseService courseService;
 	private StatementService statementService;
 

@@ -9,8 +9,7 @@ import java.util.Set;
 
 import javax.persistence.Query;
 
-import org.kuali.student.common.dao.impl.AbstractSearchableCrudDaoImpl;
-import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 
 import edu.umd.ks.cm.core.organization.entity.Unit;
 

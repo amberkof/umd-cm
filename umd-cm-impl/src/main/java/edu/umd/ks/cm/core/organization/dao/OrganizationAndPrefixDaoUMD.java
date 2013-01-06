@@ -2,9 +2,8 @@ package edu.umd.ks.cm.core.organization.dao;
 
 import java.util.List;
 
-import org.kuali.student.common.dao.CrudDao;
-import org.kuali.student.common.dao.SearchableDao;
-import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.r1.common.dao.CrudDao;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 
 import edu.umd.ks.cm.core.organization.entity.Unit;
 

@@ -6,16 +6,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 
-import org.kuali.student.common.dictionary.dto.FieldDefinition;
-import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
-import org.kuali.student.common.search.service.SearchDispatcher;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validator.DefaultValidatorImpl;
-import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
+import org.kuali.student.r2.core.search.infc.SearchRequest;
+import org.kuali.student.r2.core.search.infc.SearchResult;
+import org.kuali.student.r2.core.search.infc.SearchResultCell;
+import org.kuali.student.r2.core.search.infc.SearchResultRow;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 public class SubjectAreaUnitOwnerValidatorUMD extends DefaultValidatorImpl {
 

@@ -5,12 +5,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import org.kuali.student.common.dictionary.dto.FieldDefinition;
-import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validator.DefaultValidatorImpl;
-import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
-
+import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
+import org.kuali.student.r2.lum.lrc.dto.ResultComponentInfo;
 public class MinCreditValidator extends DefaultValidatorImpl {
 
     private static final String MIN_CREDIT_VALUE = "minCreditValue";
