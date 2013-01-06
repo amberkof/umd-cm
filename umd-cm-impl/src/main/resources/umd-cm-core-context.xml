@@ -1,0 +1,64 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd">
+	
+	<!-- create an empty bean for disabling beans we don't want -->
+	<bean id="nullBean" class="java.lang.Object" />
+	
+	<bean id="proposalSearchManager" class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+		<constructor-arg index="0" value="classpath:umd-cm-proposal-search-config.xml"/>
+	</bean>
+
+    <!--  Organization Service Config -->
+    <bean id="orgEntityManagerFactory" parent="coreDefaultEntityManagerFactory">
+        <property name="persistenceUnitName" value="${umd.cm.organization.persistenceUnit}"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/umd-cm-organization-persistence.xml" />
+        <property name="dataSource" ref="coreDataSource" />
+    </bean>
+
+    <bean id="orgDao"
+        class="edu.umd.ks.cm.core.organization.dao.OrganizationAndPrefixDaoImplUMD">
+        <property name="em" ref="orgEntityManager" />
+    </bean>
+    
+    <alias alias="organizationSearch" name="nullBean"/>
+
+    <bean id="orgServiceImpl"
+        class="edu.umd.ks.cm.core.organization.service.impl.OrganizationAndPrefixServiceImplUMD">
+        <property name="dao" ref="orgDao" />
+        <property name="searchManager" ref="orgSearchManager" />
+    </bean>
+
+    <bean id="orgSearchManager"
+        class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0" value="classpath:umd-cm-organization-prefix-search-config.xml" />
+    </bean>
+
+    <bean id="ks.exp.organizationService" class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="orgServiceImpl" />
+                <property name="serviceInterface" value="org.kuali.student.core.organization.service.OrganizationService" />
+                <property name="localServiceName" value="OrganizationService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/organization" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
+	<bean id="ks.exp.subjectCodeService" class="org.kuali.rice.ksb.messaging.KSBExporter">
+		<property name="serviceDefinition">
+			<bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+				<property name="jaxWsService" value="true" />
+				<property name="service" ref="orgServiceImpl" />
+				<property name="serviceInterface" value="org.kuali.student.core.subjectcode.service.SubjectCodeService" />
+				<property name="localServiceName" value="SubjectCodeService" />
+				<property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/subjectCode" />
+				<property name="busSecurity" value="${ks.core.bus.security}" />
+			</bean>
+		</property>
+	</bean>
+
+</beans>

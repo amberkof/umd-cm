@@ -1,0 +1,20 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd">
+	
+	<!-- add a dynamic attribute to cluset -->
+	<bean id="org.kuali.student.lum.lu.dto.CluSetInfo" parent="org.kuali.student.lum.lu.dto.CluSetInfo-parent">
+		<property name="attributes">
+			<list merge="true">
+				<ref bean="cluSetInfo.sisCode"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="cluSetInfo.sisCode" parent="baseString">
+		<property name="name" value="sisCode" />
+		<property name="dynamic" value="true" />
+	</bean>
+
+</beans>

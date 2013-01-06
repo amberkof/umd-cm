@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="VPACExportXLS" pageWidth="340" pageHeight="842" columnWidth="340" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="header1" class="java.lang.String"/>
+	<field name="header2" class="java.lang.String"/>
+	<field name="header3" class="java.lang.String"/>
+	<field name="header4" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="85" height="13" isPrintWhenDetailOverflows="true"/>
+				<box bottomPadding="5" rightPadding="5"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{header1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="85" y="0" width="85" height="13" isPrintWhenDetailOverflows="true"/>
+				<box bottomPadding="5" rightPadding="5"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{header2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="170" y="0" width="85" height="13" isPrintWhenDetailOverflows="true"/>
+				<box bottomPadding="5" rightPadding="5"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{header3}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="255" y="0" width="85" height="13" isPrintWhenDetailOverflows="true"/>
+				<box bottomPadding="5" rightPadding="5"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{header4}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

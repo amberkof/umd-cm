@@ -1,0 +1,15 @@
+<module>
+	<inherits name="edu.umd.ks.cm.ui.theme.ThemeUMD"/>
+
+	<replace-with class="edu.umd.ks.cm.ui.tools.client.configuration.CatalogBrowserConfigurerUMD">
+		<when-type-is class="org.kuali.student.lum.lu.ui.tools.client.configuration.CatalogBrowserConfigurer" />
+	</replace-with>
+	
+	<replace-with class="edu.umd.ks.cm.ui.tools.client.configuration.ClusetViewUMD">
+		<when-type-is class="org.kuali.student.lum.lu.ui.tools.client.configuration.ClusetView" />
+	</replace-with>
+	
+	<replace-with class="edu.umd.ks.cm.ui.tools.client.configuration.CluSetsManagementControllerUMD">
+		<when-type-is class="org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetsManagementController" />
+	</replace-with>
+</module>

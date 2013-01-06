@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!-- Config file used by developers.  Compiled for firefox only.-->
+
+<module rename-to="org.kuali.student.lum.lu.ui.main.LUMMain">
+
+  	<inherits name="org.kuali.student.lum.lu.ui.main.LumUI"/>
+  	
+  	<inherits name="edu.umd.ks.cm.ui.adminutils.AdminUtils"/>
+  	
+  	<inherits name="edu.umd.ks.cm.ui.course.CourseUMD"/>
+  	
+  	<inherits name="edu.umd.ks.cm.ui.common.CommonUMD"/>
+  	
+  	<inherits name="edu.umd.ks.cm.ui.core.workflow.WorkflowUIUMD"/>
+  	
+  	<inherits name="edu.umd.ks.cm.ui.dependency.DependencyUMD"/>
+  	
+  	<inherits name="edu.umd.ks.cm.ui.tools.ToolsUMD"/>
+  	
+  	<inherits name="edu.umd.ks.cm.ui.vpac.agenda.VpacAgenda"/>
+  	
+  	<set-property name="user.agent" value="gecko1_8" />
+	<set-property name="locale" value="default" />
+  	
+  	<entry-point class="org.kuali.student.lum.lu.ui.main.client.LUMMainEntryPoint"/>
+ 
+	<!--  Used to replace/handle all types of failures including timeouts in the UMD application -->
+	<replace-with class="edu.umd.ks.cm.ui.common.client.security.AsyncCallbackFailureHandlerUMD">
+		<when-type-is class="org.kuali.student.common.ui.client.security.AsyncCallbackFailureHandler" />
+	</replace-with>
+
+
+</module>

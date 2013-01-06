@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<module>
+
+	<!-- Inherits for UI components -->
+	<inherits name="org.kuali.student.common.ui.CommonUI" />
+</module>

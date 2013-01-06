@@ -1,0 +1,225 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+ 
+ <bean id="reqCompFieldInfo.value-parent" abstract="true" parent="baseStringLong">
+  <property name="name" value="value"/>
+  <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="type"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>kuali.reqComponent.field.type.gpa</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <bean parent="reqCompFieldInfo.value.gpa"/>
+       </property>
+      </bean>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>kuali.reqComponent.field.type.operator</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <bean parent="reqCompFieldInfo.value.operator"/>
+       </property>
+      </bean>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>kuali.reqComponent.field.type.clu.id</value>
+         <value>kuali.reqComponent.field.type.course.clu.id</value>
+         <value>kuali.reqComponent.field.type.program.clu.id</value>
+         <value>kuali.reqComponent.field.type.test.clu.id</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <bean parent="reqCompFieldInfo.value.clu.id"/>
+       </property>
+      </bean>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>kuali.reqComponent.field.type.cluSet.id</value>
+         <value>kuali.reqComponent.field.type.course.cluSet.id</value>
+         <value>kuali.reqComponent.field.type.program.cluSet.id</value>
+         <value>kuali.reqComponent.field.type.test.cluSet.id</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <bean parent="reqCompFieldInfo.value.cluSet.id"/>
+       </property>
+      </bean>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>kuali.reqComponent.field.type.person.id</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <bean parent="reqCompFieldInfo.value.person.id"/>
+       </property>
+      </bean>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>kuali.reqComponent.field.type.org.id</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <bean parent="reqCompFieldInfo.value.org.id"/>
+       </property>
+      </bean>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>kuali.reqComponent.field.type.value.positive.integer</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <bean parent="reqCompFieldInfo.value.positive.integer"/>
+       </property>
+      </bean>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>kuali.reqComponent.field.type.gradeType.id</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <bean parent="reqCompFieldInfo.value.gradeType.id"/>
+       </property>
+      </bean>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>kuali.reqComponent.field.type.grade.id</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <bean parent="reqCompFieldInfo.value.grade.id"/>
+       </property>
+      </bean>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>kuali.reqComponent.field.type.durationType.id</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <bean parent="reqCompFieldInfo.value.durationType.id"/>
+       </property>
+      </bean>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>kuali.reqComponent.field.type.duration</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <bean parent="reqCompFieldInfo.value.duration"/>
+       </property>
+      </bean>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>kuali.reqComponent.field.type.test.score</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <bean parent="reqCompFieldInfo.value.test.score"/>
+       </property>
+      </bean>
+	  <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>kuali.reqComponent.field.type.course.prefix</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <bean parent="reqCompFieldInfo.value.course.prefix"/>
+       </property>
+      </bean>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>kuali.reqComponent.field.type.gradePoint</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <bean parent="reqCompFieldInfo.value.gradePoint"/>
+       </property>
+      </bean>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>kuali.reqComponent.field.type.classStanding</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <bean parent="reqCompFieldInfo.value.classStanding"/>
+       </property>
+      </bean>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>kuali.reqComponent.field.type.operatorOption</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <bean parent="reqCompFieldInfo.value.operatorOption"/>
+       </property>
+      </bean>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>kuali.reqComponent.field.type.math.elig.codes</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <bean parent="reqCompFieldInfo.value.mathEligCodes"/>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
+ </bean>
+
+ <bean id="reqCompFieldInfo.value.course.prefix-parent" abstract="true" parent="baseKualiCodeLoose" >
+  <property name="lookupDefinition" ref="constraint.lookup.subjectCodes"/>
+  <property name="minOccurs" value="1" />
+  <property name="maxLength" value="4"/>
+ </bean>
+ <bean id="reqCompFieldInfo.value.course.prefix" parent="reqCompFieldInfo.value.course.prefix-parent"/>
+ 
+ <bean id="reqCompFieldInfo.value.gradePoint-parent" abstract="true" parent="baseKualiCodeLoose" >
+  <property name="minOccurs" value="1" />
+  <property name="minLength" value="3"/>
+  <property name="maxLength" value="4"/>  
+ </bean>
+ <bean id="reqCompFieldInfo.value.gradePoint" parent="reqCompFieldInfo.value.gradePoint-parent"/>
+ 
+ <bean id="reqCompFieldInfo.value.classStanding-parent" abstract="true" parent="baseKualiCodeLoose" >
+  <property name="minOccurs" value="1" />
+ </bean>
+ <bean id="reqCompFieldInfo.value.classStanding" parent="reqCompFieldInfo.value.classStanding-parent"/>
+ 
+ <bean id="reqCompFieldInfo.value.operatorOption-parent" abstract="true" parent="baseKualiCodeLoose" >
+  <property name="minOccurs" value="1" />
+ </bean>
+ <bean id="reqCompFieldInfo.value.operatorOption" parent="reqCompFieldInfo.value.operatorOption-parent"/>
+ 
+ <bean id="reqCompFieldInfo.value.mathEligCodes-parent" abstract="true" parent="baseKualiCodeLoose" >
+  <property name="minOccurs" value="1" />
+ </bean>
+ <bean id="reqCompFieldInfo.value.mathEligCodes" parent="reqCompFieldInfo.value.mathEligCodes-parent"/>
+ 
+</beans>

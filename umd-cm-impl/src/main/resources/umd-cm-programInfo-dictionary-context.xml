@@ -1,0 +1,222 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd">
+		
+	<!-- This file is removing all required fields from program so we can safely load program shells.    -->
+	<!-- When programs are implemented in UMDCM, you'll want to add back in many of these restrictions.  -->
+	
+	<bean id="majorDisciplineInfo.credentialProgramId" parent="majorDisciplineInfo.credentialProgramId-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="majorDisciplineInfo.cip2010Code" parent="majorDisciplineInfo.cip2010Code-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="majorDisciplineInfo.hegisCode" parent="majorDisciplineInfo.hegisCode-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="majorDisciplineInfo.universityClassification" parent="majorDisciplineInfo.universityClassification-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="majorDisciplineInfo.resultOptions" parent="majorDisciplineInfo.resultOptions-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="majorDisciplineInfo.startTerm" parent="majorDisciplineInfo.startTerm-parent" >
+		<property name="minOccurs" value="1"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="majorDisciplineInfo.shortTitle" parent="majorDisciplineInfo.shortTitle-parent" >
+		<property name="maxLength" value="100" />
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="majorDisciplineInfo.transcriptTitle" parent="majorDisciplineInfo.transcriptTitle-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="majorDisciplineInfo.descr" parent="majorDisciplineInfo.descr-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="majorDisciplineInfo.catalogPublicationTargets" parent="majorDisciplineInfo.catalogPublicationTargets-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="majorDisciplineInfo.campusLocations" parent="majorDisciplineInfo.campusLocations-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="majorDisciplineInfo.divisionsContentOwner" parent="majorDisciplineInfo.divisionsContentOwner-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="majorDisciplineInfo.divisionsStudentOversight" parent="majorDisciplineInfo.divisionsStudentOversight-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="majorDisciplineInfo.divisionsDeployment" parent="majorDisciplineInfo.divisionsDeployment-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="majorDisciplineInfo.divisionsFinancialResources" parent="majorDisciplineInfo.divisionsFinancialResources-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="majorDisciplineInfo.divisionsFinancialControl" parent="majorDisciplineInfo.divisionsFinancialControl-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="majorDisciplineInfo.unitsContentOwner" parent="majorDisciplineInfo.unitsContentOwner-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="majorDisciplineInfo.unitsStudentOversight" parent="majorDisciplineInfo.unitsStudentOversight-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="majorDisciplineInfo.unitsDeployment" parent="majorDisciplineInfo.unitsDeployment-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="majorDisciplineInfo.unitsFinancialResources" parent="majorDisciplineInfo.unitsFinancialResources-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="majorDisciplineInfo.unitsFinancialControl" parent="majorDisciplineInfo.unitsFinancialControl-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="programVariationInfo.catalogPublicationTargets" parent="programVariationInfo.catalogPublicationTargets-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+
+	<bean id="programVariationInfo.campusLocations" parent="programVariationInfo.campusLocations-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="programVariationInfo.cip2010Code" parent="programVariationInfo.cip2010Code-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="programVariationInfo.descr" parent="programVariationInfo.descr-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="programVariationInfo.divisionsContentOwner" parent="programVariationInfo.divisionsContentOwner-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="programVariationInfo.divisionsDeployment" parent="programVariationInfo.divisionsDeployment-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="programVariationInfo.divisionsFinancialControl" parent="programVariationInfo.divisionsFinancialControl-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="programVariationInfo.divisionsFinancialResources" parent="programVariationInfo.divisionsFinancialResources-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="programVariationInfo.divisionsStudentOversight" parent="programVariationInfo.divisionsStudentOversight-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="programVariationInfo.resultOptions" parent="programVariationInfo.resultOptions-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="programVariationInfo.shortTitle" parent="programVariationInfo.shortTitle-parent" >
+		<property name="maxLength" value="100" />
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="programVariationInfo.transcriptTitle" parent="programVariationInfo.transcriptTitle-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="programVariationInfo.unitsContentOwner" parent="programVariationInfo.unitsContentOwner-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="programVariationInfo.unitsDeployment" parent="programVariationInfo.unitsDeployment-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="programVariationInfo.unitsFinancialControl" parent="programVariationInfo.unitsFinancialControl-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="programVariationInfo.unitsFinancialResources" parent="programVariationInfo.unitsFinancialResources-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="programVariationInfo.unitsStudentOversight" parent="programVariationInfo.unitsStudentOversight-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="programVariationInfo.universityClassification" parent="programVariationInfo.universityClassification-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+
+	<bean id="programVariationInfo.hegisCode" parent="programVariationInfo.hegisCode-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+
+	<bean id="majorDisciplineInfo.learningObjectives" parent="majorDisciplineInfo.learningObjectives-parent">
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	<bean id="majorDisciplineInfo.descr.plain" parent="majorDisciplineInfo.descr.plain-parent" >
+		<property name="minOccurs" value="0"/>
+		<property name="caseConstraint"><null/></property>
+	</bean>
+	
+	
+</beans>

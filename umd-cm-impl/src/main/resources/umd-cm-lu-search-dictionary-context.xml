@@ -1,0 +1,29 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+ <import resource="classpath:ks-base-dictionary-context.xml" />
+ <import resource="classpath:ks-cluset-ui-object-dictionary-context.xml" />
+ <import resource="classpath:ks-lu-search-dictionary-context.xml" />
+
+ <!-- freestanding fields used just for searching -->
+
+	<!-- VPAC Agenda search and filters: without this you get null errors trying to load the lookup data. -->
+	<bean id="freestanding.vpacAgenda-parent" abstract="true" parent="objectStructureDefinition">
+		<property name="name" value="vpacAgenda" />
+		<property name="attributes">
+			<list>
+				<bean id="freestanding.vpacAgenda.filter" parent="baseString">
+					<property name="name" value="filter" />
+				</bean>
+				<bean id="freestanding.vpacAgenda.search" parent="baseString">
+					<property name="name" value="search" />
+				</bean>
+			</list>
+		</property>
+		<property name="hasMetaData" value="false" />
+	</bean>
+	<bean id="freestanding.vpacAgenda" parent="freestanding.vpacAgenda-parent" />
+
+
+
+</beans>

@@ -1,0 +1,105 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:search="http://student.kuali.org/xsd/search-extension"
+	xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+	xsi:schemaLocation="
+    http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
+    http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<import resource="classpath:proposal-search-config.xml" />
+
+	<dict:fieldDescriptor id="field.proposalInfo.code.fd.abstract" abstract="true">
+		<dict:name>Proposal Course Code</dict:name>
+		<dict:desc>The course code of the proposal.</dict:desc>
+		<dict:dataType>string</dict:dataType>
+	</dict:fieldDescriptor>
+	<dict:fieldDescriptor id="field.proposalInfo.code.fd" parent="field.proposalInfo.code.fd.abstract" />
+
+    <search:queryParam id="proposal.queryParam.proposalOptionalCode" parent="proposal.queryParam.proposalOptionalCode-parent"/>
+    <search:queryParam id="proposal.queryParam.proposalOptionalCode-parent" optional="true" abstract="true">
+        <ref bean="field.proposalInfo.code.fd"/>
+    </search:queryParam>
+    
+    <search:queryParam id="proposal.queryParam.proposalDateLastModified" parent="proposal.queryParam.proposalDateLastModified-parent"/>
+    <search:queryParam id="proposal.queryParam.proposalDateLastModified-parent" optional="true" abstract="true">
+        <ref bean="field.proposalInfo.code.fd"/>
+    </search:queryParam>
+
+    <search:searchCriteriaTypeInfo id="proposal.criteria.proposalAdvancedCriteria" parent="proposal.criteria.proposalAdvancedCriteria-parent">
+        <search:queryParams>
+            <ref bean="proposal.queryParam.proposalId"/>
+            <ref bean="proposal.queryParam.proposalOptionalName"/>
+            <ref bean="proposal.queryParam.proposalOptionalType"/>
+            <ref bean="proposal.queryParam.proposalOptionalCode"/>
+        </search:queryParams>
+    </search:searchCriteriaTypeInfo>
+    
+    <search:searchResultTypeInfo id="proposal.result.generic" parent="proposal.result.generic-parent"/>
+	<search:searchResultTypeInfo id="proposal.result.generic-parent"  abstract="true">
+        <search:name>CourseProposalResult</search:name>
+        <search:desc>List of course proposals</search:desc>
+        <search:resultColumns>
+            <ref bean="proposal.resultColumn.proposalId" />
+            <ref bean="proposal.resultColumn.proposalOptionalName" />
+            <ref bean="proposal.resultColumn.proposalOptionalType" />
+            <ref bean="proposal.resultColumn.proposalOptionalStatus" />
+            <ref bean="proposal.resultColumn.proposalOptionalTypeName" />
+            <ref bean="proposal.resultColumn.proposalLastModifiedDate" />
+            <ref bean="proposal.resultColumn.proposalOptionalCourseCode" />          
+        </search:resultColumns>
+    </search:searchResultTypeInfo>
+    
+    <search:resultColumn id="proposal.resultColumn.proposalOptionalCourseCode" parent="proposal.resultColumn.proposalOptionalCourseCode-parent"/>
+	<search:resultColumn id="proposal.resultColumn.proposalOptionalCourseCode-parent"  abstract="true">
+        <search:name>Code</search:name>
+        <search:desc>Course Code</search:desc>
+        <search:dataType>STRING</search:dataType>
+    </search:resultColumn>
+    
+    <search:resultColumn id="proposal.resultColumn.proposalLastModifiedDate" parent="proposal.resultColumn.proposalLastModifiedDate-parent"/>
+	<search:resultColumn id="proposal.resultColumn.proposalLastModifiedDate-parent"  abstract="true">
+        <search:name>Last Modified Date</search:name>
+        <search:desc>Last Modified Date for the proposal</search:desc>
+        <search:dataType>TIMESTAMP</search:dataType>
+    </search:resultColumn>
+    
+
+	<bean id="queryMap" parent="queryMap-parent">
+		<property name="sourceMap">
+			<map merge="true">
+                <entry key="proposal.search.generic">
+                    <value>NATIVE:SELECT prop.proposal_id PID,
+		       							 prop.name PNAME,
+		       							 proptype.type_key PTYPE_KEY,
+								         prop.state PSTATE,
+								         proptype.name PTYPENAME,
+								         prop.updatetime PUPDATE,
+								         cluident.cd CLUCD
+								         
+								  	FROM kspr_proposal              prop,
+								         kspr_proposal_type         proptype,
+								         kspr_proposal_jn_reference proprefjn,
+								         kspr_proposal_reference    propref,
+								         kslu_clu                   clu,
+								         kslu_clu_ident             cluident
+								   WHERE prop.type = proptype.type_key
+								     AND prop.proposal_id = proprefjn.proposal_id
+								     AND proprefjn.reference_id = propref.reference_id
+								     AND clu.id = propref.object_reference_id
+								     AND clu.offic_clu_id = cluident.id
+                    </value>
+                </entry>
+                <entry key="proposal.queryParam.proposalOptionalCode">
+                	<value>cluident.cd</value>
+                </entry>
+                <entry key="proposal.queryParam.proposalOptionalName">
+                    <value>prop.name</value>
+                </entry>
+                <entry key="proposal.queryParam.proposalOptionalType">
+                    <value>proptype.type_key IN(:proposal_queryParam_proposalOptionalType)</value>
+                </entry>
+            </map>
+		</property>
+	</bean>
+
+</beans>

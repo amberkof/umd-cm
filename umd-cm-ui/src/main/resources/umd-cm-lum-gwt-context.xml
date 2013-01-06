@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:simple="http://cxf.apache.org/simple" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+		  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		  http://cxf.apache.org/simple http://cxf.apache.org/schemas/simple.xsd
+		  http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+	<!-- Import the KS lum-gwt context -->
+	<import resource="classpath:lum-gwt-context.xml" />
+
+	<!--                                            -->
+	<!-- Use this file to overwrite any GWT context -->
+	<!--                                            -->
+	
+
+	<!-- Spring to GWT servlet mapping (Copied over because merge only works for parent)-->
+	<bean id="urlMapping"
+          class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="alwaysUseFullPath" value="true"/>
+        <property name="urlMap">
+            <map>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/statementRpcService"
+                       value-ref="statementServiceGwtController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LuRpcService"
+                        value-ref="LuRpcGwtServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/MessageService"
+                        value-ref="messageServiceGwtController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/OrgRpcService"
+                        value-ref="OrgRpcGwtServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/AtpRpcService"
+                        value-ref="atpRpcServiceGwtController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LoCategoryRpcService"
+                        value-ref="LoCategoryRpcGwtServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService"
+                        value-ref="CourseProposalRpcGwtServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseRetireProposalRpcService"
+                        value-ref="CourseProposalRetireRpcGwtServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SecurityRpcService"
+                        value-ref="SecurityRpcGwtServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/ServerPropertiesRpcService"
+                        value-ref="ServerPropertiesServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CommentRpcService"
+                        value-ref="CommentRpcGwtServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/ProposalRpcService"
+                        value-ref="ProposalRpcGwtServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/DocumentRpcService"
+                        value-ref="DocumentRpcGwtServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/DocumentUpload"
+                        value-ref="documentUploadGwtController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/UploadStatusRpcService"
+                        value-ref="uploadStatusRpcGwtController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService"
+                        value-ref="searchRpcGwtController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CourseRpcService"
+                        value-ref="CourseRpcGwtServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/WorkflowRpcService"
+                        value-ref="WorkflowRpcGwtServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CluSetManagementRpcService"
+                        value-ref="CluSetManagementRpcGwtServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LogRpcService"
+                        value-ref="LogRpcGwtServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/MetadataRpcService"
+                       value-ref="metadataGwtController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/majorDisciplineRpcService"
+                       value-ref="majorDisciplineRpcServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/majorDisciplineProposalRpcService"
+                       value-ref="majorDisciplineProposalRpcServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/credentialProgramRpcService"
+                       value-ref="credentialProgramRpcServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/coreProgramRpcService"
+                       value-ref="coreProgramRpcServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/DependencyAnalysisRpcService"
+                       value-ref="dependencyAnalysisRpcServletController"/>
+				<entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/GwtExportRpcService"
+					   value-ref="GwtExportServletController" />
+				<!--<entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CourseRpcService2"
+					value-ref="CourseRpcGwtServletController2" />-->
+				<entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/courseModifyAuditInfo" 
+					   value-ref="courseModifyAuditInfoController"/>
+				<entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/AdminUtilsRpcService" 
+					   value-ref="AdminUtilsRpcServletController"/>
+					   
+            </map>
+        </property>
+    </bean>
+    <!-- Example of creating a new RPC service  -->
+<!--
+	<bean id="CourseRpcGwtServletController2" class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="CourseRpcGwtServlet2" />
+		<property name="servletInstance" ref="CourseRpcGwtServlet2" />
+	</bean>
+
+	<bean id="CourseRpcGwtServlet2"
+		class="org.kuali.student.lum.lu.ui.course.server.gwt.CourseRpcGwtServlet2"
+		parent="CourseRpcGwtServlet" />
+-->
+
+	<bean id="copyCourseService.ignoreProperties" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<value>transcriptTitle</value>
+				<value>unitsContentOwner</value>
+				<value>startTerm</value>
+				<value>endTerm</value>
+				<value>feeJustification</value>
+				<value>fees</value>
+				<value>revenues</value>
+				<value>expenditure</value>
+				<value>attributes(retirementRationale)</value>
+				<value>attributes(retirementComment)</value>
+			</list>
+		</constructor-arg>
+	</bean>
+    
+    <!-- KSCM-1016 : Controller for the Home page XSLT View -->
+    <bean id="courseModifyAuditInfoController" class="edu.umd.ks.cm.util.audit.CourseModifyAuditInfoController"/>
+
+  	<!-- View Resolver -->
+  	<bean id="xsltViewResolver" class="org.springframework.web.servlet.view.xslt.XsltViewResolver">
+    	<property name="viewClass" value="org.springframework.web.servlet.view.xslt.XsltView"/>
+    	<property name="prefix" value="/WEB-INF/xsl/"/>
+    	<property name="suffix" value=".xsl"/>
+  	</bean>
+  	
+  	<!-- KSCM-1067 -->
+    <bean id="WorkflowRpcGwtServlet"
+          class="edu.umd.ks.cm.ui.core.workflow.server.gwt.WorkflowRpcGwtServletUMD">
+        <property name="simpleDocService" ref="simpleDocActionsClient"/>
+        <property name="identityService" ref="identityServiceClient"/>
+        <property name="workflowUtilityService" ref="workflowUtilityClient"/>
+    </bean>
+    
+    <!-- Use our custom UMD CourseDataService -->
+    <bean id="CourseDataService"
+          class="edu.umd.ks.cm.ui.course.server.gwt.UMDCourseDataService">
+        <property name="permissionService" ref="permissionServiceClient"/>
+        <property name="courseService" ref="courseClient"/>
+        <property name="luService" ref="luClient"/>
+        <property name="transformationManager" ref="courseTransformationManager"/>
+        <property name="orgService" ref="orgClient"/>
+    </bean>
+    
+	<bean id="CourseProposalDataService"
+          class="edu.umd.ks.cm.ui.course.server.gwt.UMDCourseDataService">
+        <property name="permissionService" ref="permissionServiceClient"/>
+        <property name="courseService" ref="courseClient"/>
+        <property name="proposalService" ref="proposalClient"/>
+        <property name="luService" ref="luClient"/>
+        <property name="transformationManager" ref="courseProposalTransformationManager"/>
+        <property name="workflowUtilityService" ref="workflowUtilityClient"/>
+		<property name="orgService" ref="orgClient"/>
+    </bean>
+    
+    
+    <!-- Administrative utilities -->
+   	<bean id="AdminUtilsRpcServletController" class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="AdminUtilsRpcGwtServlet" />
+		<property name="servletInstance" ref="AdminUtilsRpcGwtServlet" />
+	</bean>
+
+	<bean id="AdminUtilsRpcGwtServlet"
+		class="edu.umd.ks.cm.ui.adminutils.server.AdminUtilsRpcServlet">
+		<property name="siscmService" ref="SiscmServiceClient"/>
+		<property name="permissionService" ref="permissionServiceClient"/>
+	</bean>
+    
+    <bean id="SiscmServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="edu.umd.ks.cm.util.siscm.service.SiscmService"/>
+        <property name="serviceQName" value="{http://cm.ks.umd.edu/wsdl/siscm}SiscmService"/>
+    </bean>
+    
+    <!-- UMD Custom Screen Report Processor -->
+	<bean id="ReportProcessor"
+          class="edu.umd.ks.cm.ui.common.ui.server.screenreport.jasper.JasperScreenReportProcessorImplUMD">
+    </bean>
+    
+    <!-- Override statementDataService to allow UMD customization based on Statement Attributes -->
+    <bean id="statementDataService" class="edu.umd.ks.cm.ui.lum.program.server.StatementDataServiceUMD">
+   		<property name="luService" ref="luClient"/>
+        <property name="statementService" ref="statementServiceClient"/>
+    </bean>  
+</beans>

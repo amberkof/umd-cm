@@ -1,0 +1,126 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd">
+       
+        <import resource="classpath:ksb/ks-lu-context.xml"/> 
+        <import resource="classpath:umd-cm-statement-context.xml"/> 
+       	
+	<bean id="courseAssembler"
+		class="org.kuali.student.lum.course.service.assembler.CourseAssembler">
+		<property name="formatAssembler" ref="formatAssembler" />
+		<property name="courseJointAssembler" ref="courseJointAssembler" />
+		<property name="loAssembler" ref="loAssembler" />
+		<property name="loService" ref="loClient" />
+		<property name="luService" ref="luClient" />
+		<property name="lrcService" ref="lrcClient" />
+		<property name="cluAssemblerUtils" ref="cluAssemblerUtils" />
+		<property name="atpService" ref="atpClient" />
+		<property name="defaultCreditIncrement" value="0.5"/>
+	</bean>
+    
+    <!-- Use custom search config for lu-search -->   	
+	<bean id="luSearchManager"
+          class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0"
+                         value="classpath:umd-cm-lu-search-config.xml"/>
+        <property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
+    </bean>
+       	
+	<!-- KSCM-616: Sis table config -->
+
+	<bean id="sisEntityManagerFactory" parent="lumDefaultEntityManagerFactory">
+		<property name="persistenceUnitName" value="${umd.cm.sis.persistenceUnit}" />
+		<property name="persistenceXmlLocation" value="classpath:META-INF/sis-persistence.xml" />
+		<property name="dataSource" ref="lumDataSource" />
+	</bean>
+
+	<bean id="sisEntityManager"
+		class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+		<property name="entityManagerFactory" ref="sisEntityManagerFactory" />
+	</bean>
+
+	<bean id="sisCmDao" class="edu.umd.ks.cm.util.siscm.dao.impl.SisCmDaoImpl">
+		<property name="em" ref="sisEntityManager" />
+		<property name="courseService" ref="courseServiceImpl" />
+		<property name="statementService" ref="statementServiceClient" />
+    	<property name="luService" ref="luServiceImpl" />
+    	<property name="statementDao" ref="statementDao"/>
+    	<property name="reqComponentTranslator" ref="reqComponentTranslator"/>
+	</bean>
+
+    <bean id="siscmService" class="edu.umd.ks.cm.util.siscm.service.impl.SiscmServiceImpl" >
+    	<property name="atpService" ref="atpClient" />
+    	<property name="courseService" ref="courseServiceImpl" />
+    	<property name="luService" ref="luServiceImpl" />
+    	<property name="dao" ref="sisCmDao" />
+    	<property name="cmToSisExportAdvice" ref="cmToSisExportAdvisor"/>
+    	<property name="subjectCodeService" ref="subjectCodeClient"/>
+    	<property name="coreGenedClusetMapper" ref="coreGenedClusetMapper"/>
+    </bean>
+      
+    <bean id="ks.exp.siscmService" class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+                <property name="jaxWsService" value="true"/>
+                <property name="service" ref="siscmService"/>
+                <property name="serviceInterface"
+                          value="edu.umd.ks.cm.util.siscm.service.SiscmService"/>
+                <property name="localServiceName" value="SiscmService"/>
+                <property name="serviceNameSpaceURI" value="http://cm.ks.umd.edu/wsdl/siscm"/>
+                <property name="busSecurity" value="${ks.lum.bus.security}"/>
+            </bean>
+        </property>
+    </bean>
+       
+    <!-- KSCM-616: SisCourseInfoAdvice to run after CourseService.updateCourse/createCourse/updateCourseStatement/createCourseStatement is called
+   	     KSCM-956: Also runs after luService.updateCluSet -->
+	<bean id="cmToSisExportAdvisor" class="edu.umd.ks.cm.util.spring.CmToSisExportAdvice">
+         <property name="sisCmDao" ref="sisCmDao"/>
+         <property name="luService" ref="luServiceImpl"/>
+         <property name="courseService" ref="courseServiceImpl"/>
+		 <property name="statementService" ref="statementServiceClient" />
+         <property name="enablePushToSis" value="${umd.cm.sis.enablePushToSis}"/>       
+         <property name="enableWFDoc" value="${umd.cm.sis.enableWFDoc}"/>
+         <property name="coreGenedClusetMapper" ref="coreGenedClusetMapper"/>       
+	</bean>
+	
+	<bean id="coreGenedClusetMapper" class="edu.umd.ks.cm.util.siscm.service.impl.CoreGenEdClusetMapper">
+		<property name="luservice" ref="luServiceImpl"/>
+	</bean>
+	
+	<bean id="lumValidatorFactory" parent="lumValidatorFactory-parent">
+		<property name="validatorList">
+			<list merge="true">
+				<bean class="edu.umd.ks.cm.course.service.utils.MinCreditValidator" />
+				<bean class="edu.umd.ks.cm.course.service.utils.CourseCodeValidatorUMD">
+					<property name="searchDispatcher" ref="lumSearchDispatcher"/>
+				</bean>
+				<bean class="edu.umd.ks.cm.course.service.utils.SubjectAreaUnitOwnerValidatorUMD">
+					<property name="searchDispatcher" ref="lumSearchDispatcher"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Override the Lo search config -->
+	<bean id="loSearchManager"
+          class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0"
+                         value="classpath:umd-cm-lo-search-config.xml"/>
+        <property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
+    </bean>
+
+	<!-- KSCM-1251: Override ActivityAssembler -->
+    <bean id="activityAssembler"
+          class="edu.umd.ks.cm.course.service.assembler.ActivityAssemblerUMD">
+        <property name="luService" ref="luClient"/>
+    </bean>
+	
+	<!-- Override the format assembler -->
+	<bean id="formatAssembler"
+          class="edu.umd.ks.cm.course.service.assembler.FormatAssemblerUMD">
+        <property name="activityAssembler" ref="activityAssembler"/>
+        <property name="luService" ref="luClient"/>
+    </bean>   
+</beans>

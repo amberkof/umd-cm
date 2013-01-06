@@ -1,0 +1,570 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:search="http://student.kuali.org/xsd/search-extension"
+	xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+	xsi:schemaLocation="
+	http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
+	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	 ">
+	 
+	<!-- Prefix Searches -->
+	<search:searchType id="subjectCode.search.subjectCodeGeneric">
+		<search:name>Generic Subject Code Search</search:name>
+		<search:desc>Search for all Subject Codes</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="subjectCode.results.generic"/>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="subjectCode.criteria.generic"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+
+	<search:searchType id="subjectCode.search.orgsForSubjectCode">
+		<search:name>Subject Code Organization Relations</search:name>
+		<search:desc>Search for all Organizations related to the giiven Subject Code</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="subjectCode.results.orgsForSubjectCode"/>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="subjectCode.criteria.orgsForSubjectCode"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
+	<search:searchType id="subjectCode.search.orgsForSubjectCodeUnique">
+		<search:name>Unique Subject Code Organization Relations</search:name>
+		<search:desc>Search for all Organizations related to the giiven Subject Code</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="subjectCode.results.orgsForSubjectCodeUnique"/>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="subjectCode.criteria.orgsForSubjectCode"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+
+	<!-- Search Results -->	
+	<search:searchResultTypeInfo id="subjectCode.results.generic" parent="subjectCode.results.generic-parent"/>
+	<search:searchResultTypeInfo id="subjectCode.results.generic-parent" abstract="true">
+		<search:name>Subject Code Results</search:name>
+		<search:desc>Subject Code Results</search:desc>
+		<search:resultColumns>
+			<ref bean="subjectCode.resultColumn.id" />
+			<ref bean="subjectCode.resultColumn.code"/>
+			<ref bean="subjectCode.resultColumn.name"/>
+			<ref bean="subjectCode.resultColumn.type"/>
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+
+	<search:searchResultTypeInfo id="subjectCode.results.orgsForSubjectCode" parent="subjectCode.results.orgsForSubjectCode-parent"/>
+	<search:searchResultTypeInfo id="subjectCode.results.orgsForSubjectCode-parent" abstract="true">
+		<search:name>Subject Code Results</search:name>
+		<search:desc>Subject Code Results</search:desc>
+		<search:resultColumns>
+			<ref bean="subjectCode.resultColumn.code"/>
+			<ref bean="subjectCode.resultColumn.type"/>
+			<ref bean="subjectCode.resultColumn.activeFrom"/>
+			<ref bean="subjectCode.resultColumn.activeTo"/>
+			<ref bean="subjectCode.resultColumn.orgId"/>
+			<ref bean="subjectCode.resultColumn.orgShortName"/>
+			<ref bean="subjectCode.resultColumn.orgLongName"/>
+			<ref bean="subjectCode.resultColumn.orgType"/>
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+	
+	<search:searchResultTypeInfo id="subjectCode.results.orgsForSubjectCodeUnique" parent="subjectCode.results.orgsForSubjectCodeUnique-parent"/>
+	<search:searchResultTypeInfo id="subjectCode.results.orgsForSubjectCodeUnique-parent" abstract="true">
+		<search:name>Subject Code Results</search:name>
+		<search:desc>Subject Code Results</search:desc>
+		<search:resultColumns>
+			<ref bean="subjectCode.resultColumn.activeFrom"/>
+			<ref bean="subjectCode.resultColumn.activeTo"/>
+			<ref bean="subjectCode.resultColumn.orgId"/>
+			<ref bean="subjectCode.resultColumn.orgShortName"/>
+			<ref bean="subjectCode.resultColumn.orgLongName"/>
+			<ref bean="subjectCode.resultColumn.orgType"/>
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+	 
+	 
+	<search:resultColumn id="subjectCode.resultColumn.id" parent="subjectCode.resultColumn.id-parent"/>
+	<search:resultColumn id="subjectCode.resultColumn.id-parent"  abstract="true">
+        <search:name>Subject Code Id</search:name>
+        <search:desc>Internal identifier of a Subject Code</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+    
+	<search:resultColumn id="subjectCode.resultColumn.code" parent="subjectCode.resultColumn.code-parent"/>
+	<search:resultColumn id="subjectCode.resultColumn.code-parent"  abstract="true">
+        <search:name>Subject Code </search:name>
+        <search:desc>Subject Code</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+    
+	<search:resultColumn id="subjectCode.resultColumn.name" parent="subjectCode.resultColumn.name-parent"/>
+	<search:resultColumn id="subjectCode.resultColumn.name-parent"  abstract="true">
+        <search:name>Subject Code Name</search:name>
+        <search:desc>Name of a Subject Code</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>	 
+    
+	<search:resultColumn id="subjectCode.resultColumn.type" parent="subjectCode.resultColumn.type-parent"/>
+	<search:resultColumn id="subjectCode.resultColumn.type-parent"  abstract="true">
+        <search:name>Subject Code Usage Type</search:name>
+        <search:desc>Usage of a Subject Code (All of/One of)</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+
+	<search:resultColumn id="subjectCode.resultColumn.activeFrom" parent="subjectCode.resultColumn.activeFrom-parent"/>
+	<search:resultColumn id="subjectCode.resultColumn.activeFrom-parent"  abstract="true">
+        <search:name>Active From</search:name>
+        <search:desc>Active From</search:desc>
+        <search:dataType>date</search:dataType>
+    </search:resultColumn>
+    
+	<search:resultColumn id="subjectCode.resultColumn.activeTo" parent="subjectCode.resultColumn.activeTo-parent"/>
+	<search:resultColumn id="subjectCode.resultColumn.activeTo-parent"  abstract="true">
+        <search:name>Active To</search:name>
+        <search:desc>Active To</search:desc>
+        <search:dataType>date</search:dataType>
+    </search:resultColumn>
+    
+	<search:resultColumn id="subjectCode.resultColumn.orgId" parent="subjectCode.resultColumn.orgId-parent"/>
+	<search:resultColumn id="subjectCode.resultColumn.orgId-parent"  abstract="true">
+        <search:name>Org Id</search:name>
+        <search:desc>Org Id</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+    
+	<search:resultColumn id="subjectCode.resultColumn.orgShortName" parent="subjectCode.resultColumn.orgShortName-parent"/>
+	<search:resultColumn id="subjectCode.resultColumn.orgShortName-parent"  abstract="true">
+        <search:name>Org Short Name</search:name>
+        <search:desc>Org Short Name</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+    
+	<search:resultColumn id="subjectCode.resultColumn.orgLongName" parent="subjectCode.resultColumn.orgLongName-parent"/>
+	<search:resultColumn id="subjectCode.resultColumn.orgLongName-parent"  abstract="true">
+        <search:name>Org Long Name</search:name>
+        <search:desc>Org Long Name</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+    
+	<search:resultColumn id="subjectCode.resultColumn.orgType" parent="subjectCode.resultColumn.orgType-parent"/>
+	<search:resultColumn id="subjectCode.resultColumn.orgType-parent"  abstract="true">
+        <search:name>Org Type</search:name>
+        <search:desc>Org Type</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+
+	<!-- Search Criteria -->
+	<search:searchCriteriaTypeInfo id="subjectCode.criteria.generic" parent="subjectCode.criteria.generic-parent"/>
+	<search:searchCriteriaTypeInfo id="subjectCode.criteria.generic-parent" abstract="true">
+		<search:name>Subject Code Criteria</search:name>
+		<search:desc>Subject Code Criteria</search:desc>
+		<search:queryParams>
+			<ref bean="subjectCode.queryParam.code"/>
+			<ref bean="subjectCode.queryParam.optionalRestrictToValidPrefixes"/>
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+
+	<search:searchCriteriaTypeInfo id="subjectCode.criteria.orgsForSubjectCode" parent="subjectCode.criteria.orgsForSubjectCode-parent"/>
+	<search:searchCriteriaTypeInfo id="subjectCode.criteria.orgsForSubjectCode-parent" abstract="true">
+		<search:name>Subject Code Organizations Criteria</search:name>
+		<search:desc>Subject Code Organizations Criteria</search:desc>
+		<search:queryParams>
+			<ref bean="subjectCode.queryParam.code"/>
+			<ref bean="subjectCode.queryParam.optionalOrgId"/>
+			<ref bean="subjectCode.queryParam.optionalRestrictToValidRelations"/>
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+
+	<search:queryParam id="subjectCode.queryParam.code"	parent="subjectCode.queryParam.code-parent" />
+	<search:queryParam id="subjectCode.queryParam.code-parent" optional="true" abstract="true">
+		<dict:fieldDescriptor>
+			<dict:name>Subject Code</dict:name>
+			<dict:desc>Subject Code</dict:desc>
+			<dict:dataType>string</dict:dataType>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+	
+	<search:queryParam id="subjectCode.queryParam.optionalOrgId" parent="subjectCode.queryParam.optionalOrgId-parent" />
+	<search:queryParam id="subjectCode.queryParam.optionalOrgId-parent" optional="true" abstract="true">
+		<dict:fieldDescriptor>
+			<dict:name>Organization Id</dict:name>
+			<dict:desc>Organization Id</dict:desc>
+			<dict:dataType>long</dict:dataType>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+
+	<search:queryParam id="subjectCode.queryParam.optionalRestrictToValidPrefixes" parent="subjectCode.queryParam.optionalRestrictToValidPrefixes-parent" />
+	<search:queryParam id="subjectCode.queryParam.optionalRestrictToValidPrefixes-parent" optional="true" abstract="true">
+		<dict:fieldDescriptor>
+			<dict:name>RestrictToValidPrefixes</dict:name>
+			<dict:desc>Restricts to only valid relations</dict:desc>
+			<dict:dataType>string</dict:dataType>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+
+
+	<search:queryParam id="subjectCode.queryParam.optionalRestrictToValidRelations" parent="subjectCode.queryParam.optionalRestrictToValidRelations-parent" />
+	<search:queryParam id="subjectCode.queryParam.optionalRestrictToValidRelations-parent" optional="true" abstract="true">
+		<dict:fieldDescriptor>
+			<dict:name>RestrictToValidRelations</dict:name>
+			<dict:desc>Restricts to only valid relations</dict:desc>
+			<dict:dataType>string</dict:dataType>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+
+	<!-- Organization Searches -->
+	<!-- definition for generic search component -->
+	<search:searchType id="org.search.generic" parent="org.search.generic-parent"/>
+	<search:searchType id="org.search.generic-parent"  abstract="true">
+		<search:name>Generic search for organizations</search:name>
+		<search:desc>Query with multiple optional elements to satisfy most advanced pickers</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="org.result.generic"/>  <!--  could be defined as stand alone -->
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="org.criteria.generic"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
+	<search:searchType id="org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId" parent="org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId-parent"/>
+	<search:searchType id="org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId-parent"  abstract="true">
+		<search:name>Organization Quick View By Relation Type, Org Id and RelatedOrg type</search:name>
+		<search:desc>Returns a quick view of organization information for orgs in a relation with and org and specified types</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="org.result.orgQuickView" />
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="org.criteria.orgQuickViewByRelationTypeRelatedOrgTypeOrgId" />
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
+	<search:searchType id="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgId" parent="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgId-parent"/>
+	<search:searchType id="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgId-parent"  abstract="true">
+		<search:name>Organization Quick View By Related Org Id and Org type</search:name>
+		<search:desc>Returns a quick view of inverse organization information for orgs in a relation with and org and specified types</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="org.result.orgQuickView" />
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="org.criteria.orgQuickViewByRelationTypeOrgTypeRelatedOrgId" />
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
+	<!-- definition for finding parent orgs, given the child org ids, parent relation type and parent org type -->
+	<!-- In UMD implementation, the relation type is ignored -->
+	<search:searchType id="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds" parent="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds-parent"/>
+	<search:searchType id="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds-parent"  abstract="true">
+		<search:name>Org Quick View by Relation Type, Org Type and Related Org Ids</search:name>
+		<search:desc>Finding parent orgs, given the child org ids, parent relation type and parent org type</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="org.result.generic"/>  <!--  could be defined as stand alone -->
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="org.criteria.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
+	<!-- Search Results -->
+	<search:searchResultTypeInfo id="org.result.generic" parent="org.result.generic-parent"/>
+	<search:searchResultTypeInfo id="org.result.generic-parent"  abstract="true">
+		<search:name>Organization Full View Less Hierarchies</search:name>
+		<search:desc>Full view of the Organization Less Hierarchies</search:desc>
+		<search:resultColumns>
+			<ref bean="org.resultColumn.orgId" /> 
+			<ref bean="org.resultColumn.orgShortName" />
+			<ref bean="org.resultColumn.orgOptionalLongName"/>
+			<ref bean="org.resultColumn.orgType" />
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+	
+	<search:searchResultTypeInfo id="org.result.orgQuickView" parent="org.result.orgQuickView-parent"/>
+	<search:searchResultTypeInfo id="org.result.orgQuickView-parent"  abstract="true">
+		<search:name>Organization Quick View</search:name>
+		<search:desc>Quick view of the Organization</search:desc>
+		<search:resultColumns>
+			<ref bean="org.resultColumn.orgId" />
+			<ref bean="org.resultColumn.orgShortName" />
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+	
+	<search:resultColumn id="org.resultColumn.orgId" parent="org.resultColumn.orgId-parent"/>
+	<search:resultColumn id="org.resultColumn.orgId-parent"  abstract="true">
+		<search:name>Organization Identifier</search:name>
+		<search:desc>Identifier for the organization</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+
+	<search:resultColumn id="org.resultColumn.orgShortName" parent="org.resultColumn.orgShortName-parent"/>
+	<search:resultColumn id="org.resultColumn.orgShortName-parent"  abstract="true">
+		<search:name>Organization Short Name</search:name>
+		<search:desc>Short name for the organization, recorded as the default listing.</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+
+	<search:resultColumn id="org.resultColumn.orgOptionalLongName" parent="org.resultColumn.orgOptionalLongName-parent"/>
+	<search:resultColumn id="org.resultColumn.orgOptionalLongName-parent"  abstract="true">
+		<search:name>Name</search:name>
+		<search:desc>Long name for the organization, recorded as the default listing.</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+	
+	<search:resultColumn id="org.resultColumn.orgType" parent="org.resultColumn.orgType-parent"/>
+	<search:resultColumn id="org.resultColumn.orgType-parent"  abstract="true">
+		<search:name>Organization Type</search:name>
+		<search:desc>Organization Type</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+	
+	<!-- Search Criteria -->
+	<search:searchCriteriaTypeInfo id="org.criteria.generic" parent="org.criteria.generic-parent"/>
+	<search:searchCriteriaTypeInfo id="org.criteria.generic-parent"  abstract="true">
+		<search:name>List of generic criteria</search:name>
+		<search:desc>Generic criteria</search:desc>
+		<search:queryParams>
+			<ref bean="org.queryParam.orgOptionalLongName"/>
+			<ref bean="org.queryParam.orgOptionalId"/>
+			<ref bean="org.queryParam.orgOptionalIds"/>
+			<ref bean="org.queryParam.orgOptionalShortName"/>
+			<ref bean="org.queryParam.startswith.orgOptionalShortName"/>
+			<ref bean="org.queryParam.orgOptionalType"/>
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+
+	<search:searchCriteriaTypeInfo id="org.criteria.orgQuickViewByRelationTypeRelatedOrgTypeOrgId" parent="org.criteria.orgQuickViewByRelationTypeRelatedOrgTypeOrgId-parent"/>
+	<search:searchCriteriaTypeInfo id="org.criteria.orgQuickViewByRelationTypeRelatedOrgTypeOrgId-parent"  abstract="true">
+		<search:name>OrgQuickViewByRelationTypeRelatedOrgTypeOrgId</search:name>
+		<search:desc>Orgs in a relation with the given orgid, type and related org type</search:desc>
+		<search:queryParams>
+			<ref bean="org.queryParam.relationType" />
+			<ref bean="org.queryParam.orgId" />
+			<ref bean="org.queryParam.relatedOrgType" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+	<search:searchCriteriaTypeInfo id="org.criteria.orgQuickViewByRelationTypeOrgTypeRelatedOrgId" parent="org.criteria.orgQuickViewByRelationTypeOrgTypeRelatedOrgId-parent"/>
+	<search:searchCriteriaTypeInfo id="org.criteria.orgQuickViewByRelationTypeOrgTypeRelatedOrgId-parent"  abstract="true">
+		<search:name>OrgQuickViewByRelationTypeRelatedOrgTypeOrgId</search:name>
+		<search:desc>Orgs in a relation with the given orgid, type and related org type</search:desc>
+		<search:queryParams>
+			<ref bean="org.queryParam.relatedOrgId" />
+			<ref bean="org.queryParam.orgType" />
+			<ref bean="org.queryParam.relationType" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+	<search:searchCriteriaTypeInfo id="org.criteria.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds" parent="org.criteria.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds-parent"/>
+	<search:searchCriteriaTypeInfo id="org.criteria.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds-parent"  abstract="true">
+		<search:name>OrgByRelationTypeOrgTypeRelatedOrgIds</search:name>
+		<search:desc>child org ids, parent relation type and parent org type</search:desc>
+		<search:queryParams>
+			<ref bean="org.queryParam.optionalOrgTypeList" />
+			<ref bean="org.queryParam.relatedOrgIds" />
+			<ref bean="org.queryParam.optionalRelationType" />
+			<ref bean="org.queryParam.relOrgOptionalId" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+	<search:queryParam id="org.queryParam.optionalOrgTypeList" parent="org.queryParam.optionalOrgTypeList-parent"/>
+	<search:queryParam id="org.queryParam.optionalOrgTypeList-parent"  abstract="true" optional="true">
+				<dict:fieldDescriptor>
+			<dict:name>Org Types</dict:name>
+			<dict:desc>Org Types</dict:desc>
+			<dict:dataType>list</dict:dataType>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+
+	<search:queryParam id="org.queryParam.relatedOrgIds" parent="org.queryParam.relatedOrgIds-parent"/>
+	<search:queryParam id="org.queryParam.relatedOrgIds-parent" optional="true" abstract="true">
+		<dict:fieldDescriptor abstract="true">
+			<dict:name>Ids</dict:name>
+			<dict:desc>Related Organization Ids</dict:desc>
+			<dict:dataType>list</dict:dataType>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+
+	<search:queryParam id="org.queryParam.optionalRelationType" parent="org.queryParam.relationType-parent" optional="true"/>
+	
+	<search:queryParam id="org.queryParam.relOrgOptionalId" parent="org.queryParam.orgOptionalId-parent"/>
+	
+	<search:queryParam id="org.queryParam.relationType" parent="org.queryParam.relationType-parent"/>
+	<search:queryParam id="org.queryParam.relationType-parent"  abstract="true">
+		<dict:fieldDescriptor>
+			<dict:name>Relation Type</dict:name>
+			<dict:desc>Relation Type</dict:desc>
+			<dict:dataType>string</dict:dataType>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+
+	<search:queryParam id="org.queryParam.relatedOrgId" parent="org.queryParam.relatedOrgId-parent"/>
+	<search:queryParam id="org.queryParam.relatedOrgId-parent"  abstract="true">
+		<dict:fieldDescriptor>
+			<dict:name>Related Org Id</dict:name>
+			<dict:desc>Related Org Id</dict:desc>
+			<dict:dataType>string</dict:dataType>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+
+	<search:queryParam id="org.queryParam.orgId" parent="org.queryParam.orgId-parent"/>
+	<search:queryParam id="org.queryParam.orgId-parent"  abstract="true">
+		<dict:fieldDescriptor>
+			<dict:name>Org Id</dict:name>
+			<dict:desc>Org Id</dict:desc>
+			<dict:dataType>long</dict:dataType>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+
+	<search:queryParam id="org.queryParam.orgType" parent="org.queryParam.orgType-parent"/>
+	<search:queryParam id="org.queryParam.orgType-parent"  abstract="true" optional="true">
+		<dict:fieldDescriptor>
+			<dict:name>Org Type</dict:name>
+			<dict:desc>Org Type</dict:desc>
+			<dict:dataType>string</dict:dataType>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+
+	<search:queryParam id="org.queryParam.relatedOrgType" parent="org.queryParam.relatedOrgType-parent"/>
+	<search:queryParam id="org.queryParam.relatedOrgType-parent"  abstract="true" optional="true">
+		<dict:fieldDescriptor>
+			<dict:name>Related Org Type</dict:name>
+			<dict:desc>Related Org Type</dict:desc>
+			<dict:dataType>string</dict:dataType>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+
+	<search:queryParam id="org.queryParam.orgOptionalLongName" parent="org.queryParam.orgOptionalLongName-parent"/>
+	<search:queryParam id="org.queryParam.orgOptionalLongName-parent" 
+		optional="true" abstract="true">
+		<dict:fieldDescriptor>
+			<dict:name>Long Name</dict:name>
+			<dict:desc>Long Name</dict:desc>
+			<dict:dataType>string</dict:dataType>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+	
+	<search:queryParam id="org.queryParam.orgOptionalId" parent="org.queryParam.orgOptionalId-parent"/>
+	<search:queryParam id="org.queryParam.orgOptionalId-parent" 
+		optional="true" abstract="true">
+		<dict:fieldDescriptor>
+			<dict:name>Org Id</dict:name>
+			<dict:desc>Org Id</dict:desc>
+			<dict:dataType>long</dict:dataType>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+	
+	<search:queryParam id="org.queryParam.orgOptionalIds" parent="org.queryParam.orgOptionalIds-parent"/>
+	<search:queryParam id="org.queryParam.orgOptionalIds-parent" 
+		optional="true" abstract="true">
+		<dict:fieldDescriptor>
+			<dict:name>Ids</dict:name>
+			<dict:desc>Organization Ids</dict:desc>
+			<dict:dataType>long</dict:dataType>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+
+	<search:queryParam id="org.queryParam.orgOptionalShortName" parent="org.queryParam.orgOptionalShortName-parent"/>
+	<search:queryParam id="org.queryParam.orgOptionalShortName-parent" 
+		optional="true" abstract="true">
+		<dict:fieldDescriptor>
+			<dict:name>Short Name</dict:name>
+			<dict:desc>Short Name</dict:desc>
+			<dict:dataType>string</dict:dataType>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+	
+	<search:queryParam id="org.queryParam.startswith.orgOptionalShortName" parent="org.queryParam.startswith.orgOptionalShortName-parent"/>
+	<search:queryParam id="org.queryParam.startswith.orgOptionalShortName-parent" 
+		optional="true" abstract="true">
+		<dict:fieldDescriptor>
+			<dict:name>Short Name</dict:name>
+			<dict:desc>Short Name</dict:desc>
+			<dict:dataType>string</dict:dataType>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+	
+	<search:queryParam id="org.queryParam.orgOptionalType" parent="org.queryParam.orgOptionalType-parent"/>
+	<search:queryParam id="org.queryParam.orgOptionalType-parent" 
+		optional="true" abstract="true">
+		<dict:fieldDescriptor>
+			<dict:name>Type</dict:name>
+			<dict:desc>Type</dict:desc>
+			<dict:dataType>string</dict:dataType>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+
+	<!-- Search JPQL Definitions -->
+    <bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
+		<property name="sourceMap">
+			<map>
+				<!-- Prefix/Subject Code Queries -->
+				<entry key="subjectCode.search.subjectCodeGeneric">
+					<value>SELECT p.prefix, p.prefix, p.name, p.prefix FROM Prefix p</value>
+				</entry>
+				<entry key="subjectCode.queryParam.code">
+					<value>p.prefix</value>
+				</entry>
+				<entry key="subjectCode.search.orgsForSubjectCodeUnique">
+					<value>SELECT DISTINCT u.startDate, u.endDate, u.id, u.shortName, u.longName, u.type FROM PrefixUnitRelation pur JOIN pur.prefix p JOIN pur.unit u</value>
+				</entry>
+				<entry key="subjectCode.search.orgsForSubjectCode">
+					<value>SELECT p.prefix, p.prefix, u.startDate, u.endDate, u.id, u.shortName, u.longName, u.type FROM PrefixUnitRelation pur JOIN pur.prefix p JOIN pur.unit u</value>
+				</entry>
+				<entry key="subjectCode.queryParam.optionalOrgId">
+					<value>u.id = :subjectCode_queryParam_optionalOrgId</value>
+				</entry>
+				<entry key="subjectCode.queryParam.optionalRestrictToValidRelations">
+					<value>:subjectCode_queryParam_optionalRestrictToValidRelations = :subjectCode_queryParam_optionalRestrictToValidRelations AND pur.active='Y'</value>
+				</entry>
+				<entry key="subjectCode.queryParam.optionalRestrictToValidPrefixes">
+					<value>:subjectCode_queryParam_optionalRestrictToValidPrefixes = :subjectCode_queryParam_optionalRestrictToValidPrefixes AND p.obsoleteInd='N'</value>
+				</entry>
+				<!-- Org Queries -->
+				<entry key="org.search.generic">
+					<value>SELECT u.id, u.shortName, u.longName, u.type FROM Unit u</value>
+				</entry>				
+				<entry key="org.queryParam.orgGenericType">
+					<value>(('kuali.org.Department' = :org_queryParam_orgGenericType AND u.umType IN ('Academic Program Home','Academic Instructional &amp; Research Support','Academic Research Group','Academic Outreach','Academic Administrative Support','Academic Department','Center/Institute') ) OR 
+					        ('kuali.org.College' = :org_queryParam_orgGenericType AND u.umType IN ('Academic College','Academic College and Department') ))</value>
+				</entry>
+				<entry key="org.queryParam.orgGenericShortName">
+					<value>u.shortName like :org_queryParam_orgGenericShortName</value>
+				</entry>
+				<entry key="org.queryParam.orgOptionalId">
+					<value>u.id = :org_queryParam_orgOptionalId</value>
+				</entry>
+				<entry key="org.queryParam.orgOptionalIds">
+					<value>u.id IN (:org_queryParam_orgOptionalIds)</value>
+				</entry>		
+				<entry key="org.queryParam.orgOptionalType">
+					<value>(('Both' = :org_queryParam_orgOptionalType AND u.umType IN ('Academic College','Academic College and Department','Academic Program Home','Academic Instructional &amp; Research Support','Academic Research Group','Academic Outreach','Academic Administrative Support','Academic Department','Center/Institute') ) OR 
+					        ('kuali.org.Department' = :org_queryParam_orgOptionalType AND u.umType IN ('Academic Program Home','Academic Instructional &amp; Research Support','Academic Research Group','Academic Outreach','Academic Administrative Support','Academic Department','Center/Institute') ) OR 
+					        ('kuali.org.College' = :org_queryParam_orgOptionalType AND u.umType IN ('Academic College','Academic College and Department') ))</value>
+				</entry>	
+				<entry key="org.queryParam.orgOptionalShortName">
+					<value>u.shortName</value>
+				</entry>
+				<entry key="org.queryParam.startswith.orgOptionalShortName">
+				    <value>u.shortName like :org_queryParam_startswith_orgOptionalShortName || '%' OR u.shortName like '% ' || :org_queryParam_startswith_orgOptionalShortName || '%'</value>
+				</entry>	
+				<entry key="org.queryParam.orgOptionalLongName">
+					<value>u.longName</value>
+				</entry>
+				<entry key="org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId">
+					<value>SELECT DISTINCT parent.id, parent.shortName FROM UnitRelation ur JOIN ur.parentUnit parent JOIN ur.childUnit child WHERE (child.id = :org_queryParam_orgId OR (parent.id = :org_queryParam_orgId AND parent.umType IN ('Academic College','Academic College and Department') )) </value>
+				</entry>
+				<entry key="org.queryParam.relatedOrgType">
+					<value>(('kuali.org.Department' = :org_queryParam_relatedOrgType AND parent.umType IN ('Academic Program Home','Academic Instructional &amp; Research Support','Academic Research Group','Academic Outreach','Academic Administrative Support','Academic Department','Center/Institute') ) OR 
+					        ('kuali.org.College' = :org_queryParam_relatedOrgType AND parent.umType IN ('Academic College','Academic College and Department') ))</value>
+				</entry>
+				<entry key="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgId">
+					<value>SELECT child.id, child.shortName FROM UnitRelation ur JOIN ur.parentUnit parent JOIN ur.childUnit child WHERE parent.id = :org_queryParam_relatedOrgId</value>
+				</entry>
+				<entry key="org.queryParam.orgType">
+					<value>(('kuali.org.Department' = :org_queryParam_orgType AND child.umType IN ('Academic Program Home','Academic Instructional &amp; Research Support','Academic Research Group','Academic Outreach','Academic Administrative Support','Academic Department','Center/Institute') ) OR 
+					        ('kuali.org.College' = :org_queryParam_orgType AND child.umType IN ('Academic College','Academic College and Department') ))</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+</beans>

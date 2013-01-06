@@ -1,0 +1,86 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<import resource="classpath:ks-courseInfo-dictionary-context.xml"/>
+	<import resource="classpath:umd-cm-courseInfo-dictionary-context.xml"/>
+	
+	<bean id="proposalInfo.rationale.requiredByNode" parent="courseInfo.requiredByAllNodesList-parent" />
+	
+	<bean id="proposalInfo.prevEndTerm.requiredByNode" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<value>Scheduling Office Processing</value>
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<bean id="proposalInfo.rationale-parent" abstract="true"
+		parent="baseKualiDescription">
+		<property name="name" value="rationale" />
+		<property name="maxOccurs" value="1" />
+		<property name="minOccurs" value="0" />
+		<property name="maxLength" value="1000"/>
+  		<property name="caseConstraint">
+	  	  <bean parent="caseConstraint">
+	   		<property name="operator" value="EQUALS"/>
+	   		<property name="fieldPath" value="state"/>
+	   		<property name="caseSensitive" value="false"/>
+	   		<property name="whenConstraint">
+	    	  <list>
+	    	  <bean parent="whenConstraint">
+		       <property name="values">
+		        <list>
+		         <value>DRAFT</value>
+		        </list>
+		       </property>
+		       <property name="constraint">
+		        <bean parent="baseKualiDescription">
+				 <property name="maxOccurs" value="1" />
+				 <property name="maxLength" value="1000"/>
+		         <property name="caseConstraint">
+		            <bean parent="caseConstraint">
+	           		    <property name="operator" value="EQUALS"/>
+		    			<property name="caseSensitive" value="false"/>
+		        		<property name="fieldPath" value="proposal/workflowNode"/>
+				        <property name="whenConstraint">
+							<list>
+								<bean parent="whenConstraint">
+									<property name="values" ref="proposalInfo.rationale.requiredByNode"/>
+									<property name="constraint">
+						                <bean parent="baseKualiDescription">
+							              <property name="maxOccurs" value="1" />
+							              <property name="minOccurs" value="1" />
+							              <property name="maxLength" value="1000"/>
+					        			</bean>
+									</property>
+								</bean>
+							</list>
+						</property>
+				    </bean>
+				    </property>
+		        </bean>
+		       </property>
+		      </bean>
+	     		<bean parent="whenConstraint">
+	      		  <property name="values">
+	       	        <list>
+	                  <value>ENROUTE</value>
+	                  <value>APPROVED</value>
+	                  <value>RETIRED</value>
+	       		    </list>
+	              </property>
+	      		  <property name="constraint">
+	                <bean parent="baseKualiDescription">
+		              <property name="maxOccurs" value="1" />
+		              <property name="minOccurs" value="1" />
+		              <property name="maxLength" value="1000"/>
+        			</bean>
+	      		  </property>
+	     		</bean>
+	    	  </list>
+	   		</property>
+	  	  </bean>
+	   </property>
+	</bean>
+</beans>

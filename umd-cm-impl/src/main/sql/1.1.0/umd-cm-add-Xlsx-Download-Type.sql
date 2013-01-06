@@ -1,0 +1,2 @@
+insert into KSDO_DOCUMENT_TYPE  (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME, OBJ_ID, VER_NBR)
+VALUES ('documentType.xlsx',	'xlsx Document',	TIMESTAMP '2000-01-01 00:00:00', null,	'xlxs',	SYS_GUID(),	0)

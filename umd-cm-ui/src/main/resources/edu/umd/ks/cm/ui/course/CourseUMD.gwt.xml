@@ -1,0 +1,88 @@
+<module>
+	<inherits name="edu.umd.ks.cm.ui.theme.ThemeUMD"/>
+	
+	<replace-with class="edu.umd.ks.cm.ui.course.client.configuration.CourseAdminConfigurerUMD">
+		<when-type-is class="org.kuali.student.lum.lu.ui.course.client.configuration.CourseAdminConfigurer" />
+	</replace-with>
+	
+	<replace-with class="edu.umd.ks.cm.ui.course.client.configuration.CourseAdminRetireConfigurerUMD">
+		<when-type-is class="org.kuali.student.lum.lu.ui.course.client.configuration.CourseAdminRetireConfigurer" />
+	</replace-with>
+	
+	<replace-with class="edu.umd.ks.cm.ui.course.client.configuration.CourseAdminWithoutVersionConfigurerUMD">
+		<when-type-is class="org.kuali.student.lum.lu.ui.course.client.configuration.CourseAdminWithoutVersionConfigurer" />
+	</replace-with>
+
+	<replace-with class="edu.umd.ks.cm.ui.course.client.configuration.CourseProposalConfigurerUMD">
+		<when-type-is class="org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer" />
+	</replace-with>
+	
+	<replace-with class="edu.umd.ks.cm.ui.course.client.configuration.CourseRetireByProposalConfigurerUMD">
+		<when-type-is class="org.kuali.student.lum.lu.ui.course.client.configuration.CourseRetireByProposalConfigurer" />
+	</replace-with>
+	
+	<replace-with class="edu.umd.ks.cm.ui.course.client.configuration.CourseRetireSummaryConfigurerUMD">
+		<when-type-is class="org.kuali.student.lum.lu.ui.course.client.configuration.CourseRetireSummaryConfigurer" />
+	</replace-with>
+
+	<replace-with class="edu.umd.ks.cm.ui.course.client.configuration.CourseSummaryConfigurerUMD">
+		<when-type-is class="org.kuali.student.lum.lu.ui.course.client.configuration.CourseSummaryConfigurer" />
+	</replace-with>
+
+	<replace-with class="edu.umd.ks.cm.ui.course.client.configuration.CurriculumHomeConfigurerUMD">
+		<when-type-is class="org.kuali.student.lum.lu.ui.main.client.configuration.CurriculumHomeConfigurer" />
+	</replace-with>
+	 
+	<replace-with class="edu.umd.ks.cm.ui.course.client.controllers.CourseAdminControllerUMD">
+		<when-type-is class="org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminController" />
+	</replace-with>
+	
+	<replace-with class="edu.umd.ks.cm.ui.course.client.controllers.CourseAdminWithoutVersionControllerUMD">
+		<when-type-is class="org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminWithoutVersionController" />
+	</replace-with>
+	
+	<replace-with class="edu.umd.ks.cm.ui.course.client.controllers.CourseProposalControllerUMD">
+		<when-type-is class="org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController" />
+	</replace-with>
+	
+	<replace-with class="edu.umd.ks.cm.ui.course.client.controllers.ViewCourseControllerUMD">
+		<when-type-is class="org.kuali.student.lum.lu.ui.course.client.controllers.ViewCourseController" />
+	</replace-with>
+  
+	<replace-with class="edu.umd.ks.cm.ui.course.client.requirements.CourseRequirementsManageViewUMD">
+		<when-type-is class="org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsManageView" />
+	</replace-with>
+
+	<replace-with class="edu.umd.ks.cm.ui.course.client.requirements.CourseRequirementsSummaryViewUMD">
+		<when-type-is class="org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsSummaryView" />
+	</replace-with>
+
+	<replace-with class="edu.umd.ks.cm.ui.course.client.widgets.CourseWorkflowActionListUMD">
+		<when-type-is class="org.kuali.student.lum.lu.ui.course.client.widgets.CourseWorkflowActionList" />
+	</replace-with>
+
+	<replace-with class="edu.umd.ks.cm.ui.main.client.configuration.CurriculumHomeHelpTableUMD">
+		<when-type-is class="org.kuali.student.lum.lu.ui.main.client.configuration.CurriculumHomeHelpTable" />
+	</replace-with>
+	
+	<replace-with class="edu.umd.ks.cm.ui.main.client.controllers.CurriculumHomeControllerUMD">
+		<when-type-is class="org.kuali.student.lum.lu.ui.main.client.controllers.CurriculumHomeController" />
+	</replace-with>
+	
+	<replace-with class="edu.umd.ks.cm.ui.main.client.controllers.HomeControllerUMD">
+		<when-type-is class="org.kuali.student.lum.lu.ui.main.client.controllers.HomeController" />
+	</replace-with>
+	
+	<replace-with class="edu.umd.ks.cm.ui.main.client.widgets.ApplicationHeaderUMD">
+		<when-type-is class="org.kuali.student.lum.lu.ui.main.client.widgets.ApplicationHeader" />
+	</replace-with>
+	
+    <replace-with class="edu.umd.ks.cm.ui.theme.client.CommonImagesImplUMD">
+        <when-type-is class="org.kuali.student.common.ui.theme.standard.client.CommonImagesImpl"/>
+    </replace-with>
+
+    <replace-with class="edu.umd.ks.cm.ui.theme.client.LumCssImplUMD">
+        <when-type-is class="org.kuali.student.lum.ui.theme.standard.client.LumCssImpl"/>
+    </replace-with>
+
+</module>

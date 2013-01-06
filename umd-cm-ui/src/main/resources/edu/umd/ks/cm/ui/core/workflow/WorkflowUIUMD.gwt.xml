@@ -1,0 +1,7 @@
+<module>
+	<!-- <inherits name="org.kuali.student.core.workflow.ui.WorkflowUI"/> -->
+	
+	<replace-with class="edu.umd.ks.cm.ui.core.workflow.client.views.CollaboratorSectionViewUMD">
+        <when-type-is class="org.kuali.student.core.workflow.ui.client.views.CollaboratorSectionView" />
+    </replace-with>
+</module>

@@ -1,0 +1,20 @@
+<module>
+	<!-- inherits name="edu.umd.ks.cm.ui.theme.ThemeUMD"/ -->
+	
+	<replace-with class="edu.umd.ks.cm.ui.dependency.client.views.DependencyAnalysisViewUMD">
+		<when-type-is class="org.kuali.student.lum.lu.ui.dependency.client.views.DependencyAnalysisView" />
+	</replace-with>
+	
+	<replace-with class="edu.umd.ks.cm.ui.dependency.client.widgets.DependencyResultsPanelUMD">
+		<when-type-is class="org.kuali.student.lum.lu.ui.dependency.client.widgets.DependencyResultsPanel" />		
+	</replace-with>
+	
+	<replace-with class="edu.umd.ks.cm.ui.dependency.client.widgets.DependencySectionUMD">
+		<when-type-is class="org.kuali.student.lum.lu.ui.dependency.client.widgets.DependencySection" />		
+	</replace-with>
+	
+	<replace-with class="edu.umd.ks.cm.ui.dependency.client.widgets.DependencyTypeSectionUMD">
+		<when-type-is class="org.kuali.student.lum.lu.ui.dependency.client.widgets.DependencyTypeSection" />		
+	</replace-with>
+
+</module>

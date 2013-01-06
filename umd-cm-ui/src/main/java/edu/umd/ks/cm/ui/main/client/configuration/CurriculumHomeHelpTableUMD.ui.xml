@@ -1,0 +1,180 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+
+	<ui:style>
+		.helpTable{
+			margin-left: 20px;
+			margin-right: 20px;
+			margin-bottom: 10px;
+		}
+		
+		.helpTable td{
+			padding-top: 3px;
+			padding-bottom: 3px;
+		}
+		
+		.tableSectionHeader td{
+			background-color: gainsboro;
+			border-right: 1px solid white;
+			padding-right: 10px;
+		}
+		
+	</ui:style>
+
+	<g:HTMLPanel>
+		<table class='{style.helpTable}'>
+			<tr class='{style.tableSectionHeader}'>
+				<td width='30%'>How do I...</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><b>Search for a course?</b></td>
+				<td>Under the <b>Find...</b> heading, locate and click <b>Find
+						a Course</b>.</td>
+			</tr>
+<!-- 			<tr> -->
+<!-- 				<td><b>Browse the course catalog?</b></td> -->
+<!-- 				<td>Under the <b>Find...</b> heading, locate and click <a -->
+<!-- 					href="#/HOME/CURRICULUM_HOME/COURSE_CATALOG">Browse Course -->
+<!-- 						Catalog</a>.</td> -->
+<!-- 			</tr> -->
+			<tr>
+				<td><b>Create a course?</b></td>
+				<td>Under the <b>Create...</b> heading, select <b>Create a Course</b>. You can then choose to start a blank course proposal or copy an existing course to a new proposal.</td>
+			</tr>
+			<tr>
+				<td><b>Modify a course?</b></td>
+				<td>Under the <b>Find...</b> heading, locate and click <b>Find
+						a Course</b> to locate the course you want to modify. Once viewing the
+					course, use the <b>Course Actions</b> menu to select <b>Modify
+						Course</b>.</td>
+			</tr>
+			<tr>
+				<td><b>Retire a course?</b></td>
+				<td>Under the <b>Find...</b> heading, locate and click <b>Find
+						a Course</b> to locate the course you want to retire. Once viewing the course, 
+						use the <b>Course Actions</b> menu to select <b>Retire Course</b>.</td>
+			</tr>
+			<tr>
+				<td><b>View a course's history or compare two versions of a course?</b></td>
+				<td>Under the <b>Find</b> heading, locate and click <b>Find
+						a Course</b> to locate the course you want to view. Once viewing the
+					course, you can click the <b>Version History</b> link near the
+					course title. If the course has multiple versions, click the box for both versions
+					and then click <b>Show Version(s)</b> for a side by side comparison.</td>
+			</tr>
+<!-- 			<tr class='{style.tableSectionHeader}'> -->
+<!-- 				<td>Programs</td> -->
+<!-- 				<td></td> -->
+<!-- 			</tr> -->
+<!-- 			<tr> -->
+<!-- 				<td><b>Search for a program?</b></td> -->
+<!-- 				<td>Under the <b>Find...</b> heading, locate and click <b>Find -->
+<!-- 						Academic Programs</b>.</td> -->
+<!-- 			</tr> -->
+<!-- 			<tr> -->
+<!-- 				<td><b>Browse the program inventory?</b></td> -->
+<!-- 				<td>Under the <b>Find...</b> heading, locate and click <a -->
+<!-- 					href="#/HOME/CURRICULUM_HOME/BROWSE_PROGRAM">Browse Academic -->
+<!-- 						Programs</a>.</td> -->
+<!-- 			</tr> -->
+<!-- 			<tr> -->
+<!-- 				<td><b>Create a program?</b></td> -->
+<!-- 				<td>Under the <b>Create...</b> heading, locate and click <b>Create -->
+<!-- 						an Academic Program</b> (Authorized users only).</td> -->
+<!-- 			</tr> -->
+<!-- 			<tr> -->
+<!-- 				<td><b>Modify a program?</b></td> -->
+<!-- 				<td>Under the <b>Find...</b> heading, locate and click <b>Find -->
+<!-- 						Academic Programs</b> to locate the program you want to modify. Once -->
+<!-- 					viewing the program, use the <b>Program Actions</b> menu to select -->
+<!-- 					<b>Modify Program</b>.</td> -->
+<!-- 			</tr> -->
+<!-- 			<tr class='{style.tableSectionHeader}'> -->
+<!-- 				<td>Proposed Curriculum</td> -->
+<!-- 				<td></td> -->
+<!-- 			</tr> -->
+			<tr>
+				<td><b>Check the status of my proposal?</b></td>
+				<td>Click <a href="#/HOME">My Action List</a> near the top of
+					the page. At the Action List, click on <b>Outbox</b> to find proposals
+					you've submitted and their associated status.</td>
+			</tr>
+			<tr>
+				<td><b>Search for a course proposal?</b></td>
+				<td>Under the <b>Find...</b> heading, locate and click <b>Find a Course Proposal</b> link. Leave
+					the search criteria blank and click the <b>Search</b> button if you want to see
+					a list of all proposals.</td>
+			</tr>
+			<tr>
+				<td><b>Review a course proposal?</b></td>
+				<td>Click <a href="#/HOME">My Action List</a> near the top of
+					the page. At the Action List, view a proposal by clicking the <b>Id
+						number</b>. Once viewing the proposal, use the <b>Proposal Actions</b>
+					menu to approve or reject the proposal.</td>
+			</tr>
+			<tr class='{style.tableSectionHeader}'>
+				<td width='30%'>How do I take these specific course actions...</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><b>Change a Course Prefix and/or Course Number for an Existing Course?</b></td>
+				<td><b>Modify</b> the course by first clicking <b>Find a Course</b> to locate the course
+				you want to modify. Once viewing the course, use the <b>Course Actions</b> menu to select
+				<b>Modify Course</b>. Modify course prefix and/or number. Submit proposal.</td>
+			</tr>
+			<tr>
+				<td><b>Create a Pilot (course for a one-term offering pending approval)?</b></td>
+				<td>Under the <b>Create...</b> heading, select <b>Create a Course</b>. Fill in course
+				information. On <b>Active Dates</b> screen, select term you want to offer the course from
+				<b>Start Term</b> menu. Check the <b>Pilot Course</b> box indicating that the course will
+				be a pilot. Submit proposal. Contact the Registrar's Office at schedule@umd.edu to have 
+				pilot course approved administratively.</td>
+			</tr>
+			<tr>
+				<td><b>Request an additional term for a Pilot course?</b></td>
+				<td><b>Modify</b> the course by first clicking <b>Find a Course</b> to locate the course 
+				you want to modify. Once viewing the course, use the <b>Course Actions</b> menu to select
+				<b>Modify Course</b>. On <b>Active Dates</b> screen, select next term that you want to 
+				offer the Pilot course from <b>Start Term</b> menu. Check the <b>Pilot Course</b> box
+				indicating that the course will continue to be a pilot. Submit the proposal. Contact
+				Mike Colson at mcolson@umd.edu in the Office of Academic Planning and Programs for 
+				administrative approval.</td>
+			</tr>
+			<tr>
+				<td><b>Request that a Pilot course become a permanently approved course?</b></td>
+				<td><b>Modify</b> the course by first clicking <b>Find a Course</b> to locate the course
+				you want to modify. Once viewing the course, use the <b>Course Actions</b> menu to select
+				<b>Modify Course</b>. After entering required course information, select the term that
+				you want to start offering the course from <b>Start Term</b> menu on the <b>Active Dates</b>
+				screen. Make sure that the <b>Pilot Course</b> box is <b>unchecked</b>. Make sure that the 
+				<b>Start Term</b> is after the last Pilot term. Submit Proposal.</td>
+			</tr>
+<!-- 			<tr class='{style.tableSectionHeader}'> -->
+<!-- 				<td>Other Curriculum Tools</td> -->
+<!-- 				<td></td> -->
+<!-- 			</tr> -->
+<!-- 			<tr> -->
+<!-- 				<td><b>View a course set or build a new one?</b></td> -->
+<!-- 				<td>Under the <b>Management Tools</b> heading, click <a -->
+<!-- 					href="#/HOME/CURRICULUM_HOME/CLU_SETS">Course Set Management</a>.</td> -->
+<!-- 			</tr> -->
+<!-- 			<tr> -->
+<!-- 				<td><b>View, build, or delete learning objective categories?</b></td> -->
+<!-- 				<td>Under the <b>Management Tools</b> heading, click <a -->
+<!-- 					href="#/HOME/CURRICULUM_HOME/LO_CATEGORIES">Learning Objective -->
+<!-- 						Categories</a>.</td> -->
+<!-- 			</tr> -->
+<!-- 			<tr> -->
+<!-- 				<td><b>Analyze curriculum dependencies for a course?</b></td> -->
+<!-- 				<td>Under the <b>Management Tools</b> heading, click <a -->
+<!-- 					href="#/HOME/CURRICULUM_HOME/DEPENDENCY_ANALYSIS">Dependency -->
+<!-- 						Analysis</a>.</td> -->
+<!-- 			</tr> -->
+		</table>
+		<p align="center"><b>For additional guidance: 
+			<a href="http://www.testudo.umd.edu/ks" target="_blank">www.testudo.umd.edu/ks</a> </b>
+		</p>
+	</g:HTMLPanel>	
+</ui:UiBinder>

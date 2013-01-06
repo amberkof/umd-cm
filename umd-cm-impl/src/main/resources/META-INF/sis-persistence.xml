@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+	<persistence-unit name="sis" transaction-type="JTA">
+		<mapping-file>META-INF/sis-orm.xml</mapping-file>
+		<class>edu.umd.ks.cm.util.siscm.entity.BatchSisToCmImportJob</class>
+		<class>edu.umd.ks.cm.util.siscm.entity.CmToSisExportCourse</class>
+		<class>edu.umd.ks.cm.util.siscm.entity.SisToCmImportCourse</class>
+		<class>edu.umd.ks.cm.util.siscm.entity.SiscmDiff</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+	</persistence-unit>
+	<persistence-unit name="sisDev" transaction-type="JTA">
+		<mapping-file>META-INF/sis-orm-dev.xml</mapping-file>
+		<class>edu.umd.ks.cm.util.siscm.entity.BatchSisToCmImportJob</class>
+		<class>edu.umd.ks.cm.util.siscm.entity.CmToSisExportCourse</class>
+		<class>edu.umd.ks.cm.util.siscm.entity.SisToCmImportCourse</class>
+		<class>edu.umd.ks.cm.util.siscm.entity.SiscmDiff</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+	</persistence-unit>
+</persistence>

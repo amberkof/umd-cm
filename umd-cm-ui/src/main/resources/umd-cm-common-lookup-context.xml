@@ -1,0 +1,783 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="courseProposalSearch" parent="kuali.common.lookup.course.proposal.advanced">
+		<property name="params">
+			<!-- Merge will merge these properties with those of the parent -->
+			<list merge="true">
+				<bean parent="param" autowire-candidate="default"
+					dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="proposal.queryParam.proposalOptionalType" />
+					<property name="name" value="Type" />
+					<property name="desc" value="Type" />
+					<property name="dataType" value="STRING" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="defaultValueList">
+					<list>
+					    <value>kuali.proposal.type.course.create</value>
+						<value>kuali.proposal.type.course.create.admin</value>
+						<value>kuali.proposal.type.course.modify</value>
+						<value>kuali.proposal.type.course.modify.admin</value>
+						<value>kuali.proposal.type.course.retire</value>
+		 			</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="kuali.common.lookup.course.proposal.advanced" parent="commonLookup-parent">
+		<property name="id" value="kuali.common.lookup.course.proposal.advanced" />
+		<property name="searchTypeId" value="proposal.search.generic" />
+		<property name="name" value="Find Proposal" />
+		<property name="desc" value="Search for proposals" />
+		<property name="params">
+			<list>
+				<bean parent="param" autowire-candidate="default"
+					dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="proposal.queryParam.proposalOptionalCode" />
+					<property name="name" value="Proposed Course Prefix and/or Number" />
+					<property name="desc" value="Course number." />
+					<property name="dataType" value="STRING" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="caseSensitive" value="false" />
+					<property name="usage" value="ADVANCED_CUSTOM" />
+					<property name="widget" value="SUGGEST_BOX" />
+				</bean>
+				<bean parent="param" autowire-candidate="default"
+					dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="proposal.queryParam.proposalOptionalName" />
+					<property name="name" value="Proposal Title" />
+					<property name="desc" value="Name." />
+					<property name="dataType" value="STRING" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="caseSensitive" value="false" />
+					<property name="usage" value="ADVANCED_CUSTOM" />
+					<property name="widget" value="SUGGEST_BOX" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="proposal.resultColumn.proposalId" />
+	</bean>
+	
+	<bean id="kuali.common.lookup.assessmentScale" parent="commonLookup-parent">
+		<property name="id" value="kuali.common.lookup.assessmentScale"/>
+		<property name="searchTypeId" value="lrc.search.resultComponent"/>
+		<property name="name" value="Assessment Scale"/>
+		<property name="desc" value="Search for Grade Assessment Scale"/>
+		<property name="resultReturnKey" value="lrc.resultColumn.resultComponent.id"/>
+		<property name="searchParamIdKey" value="lrc.queryParam.resultComponent.id" />
+		<property name="params">
+			<list>
+				<bean parent="param">
+					<property name="key" value="lrc.queryParam.resultComponent.id"/>
+					<property name="name" value="Result Component"/>
+					<property name="desc" value="Result Component Id"/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="ALWAYS"/>
+				</bean>
+				<bean parent="param">
+					<property name="key" value="lrc.queryParam.resultComponent.type"/>
+					<property name="name" value="Result Component Type"/>
+					<property name="desc" value="Result Component Type"/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="NEVER"/>
+					<property name="defaultValueString" value="kuali.resultComponentType.grade.finalGrade"/>
+				</bean>
+				<bean parent="param">
+					<property name="key" value="lrc.queryParam.resultComponent.idRestrictionList"/>
+					<property name="name" value="Result Component Id Restriction"/>
+					<property name="desc" value="Restrict result components to the specified Ids"/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="NEVER"/>
+					<property name="defaultValueList">
+						<list>
+							<value>kuali.resultComponent.grade.letter</value>
+							<value>kuali.resultComponent.grade.satisfactory</value>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="kuali.common.lookup.gradepointvalue" parent="commonLookup-parent">
+		<property name="searchTypeId" value="enumeration.management.search" />
+		<property name="name" value="Get enumerations" />
+		<property name="desc" value="Get enumerated lists of values given context" />
+		<property name="searchParamIdKey" value="enumeration.queryParam.enumerationCode" />
+		<property name="params">
+			<list>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.enumerationType" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="defaultValueString" value="kuali.enum.rule.gradePointValue" />
+					<property name="name" value="Enumeration Type" />
+					<property name="desc" value="The type of the enumeration to search" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextType" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Type" />
+					<property name="desc" value="The type of context being used" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextValue" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Value" />
+					<property name="desc" value="The value of the supplied context" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextDate" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="DATE" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Date" />
+					<property name="desc" value="A date supplied as context" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.enumerationCode" />
+					<property name="dataType" value="STRING" />
+					<property name="fieldPath" value="campusLocations"/>
+					<property name="optional" value="true" />
+					<property name="name" value="Context Value" />
+					<property name="desc" value="The enumeration code to lookup" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="enumeration.resultColumn.code" />
+		<property name="id" value="kuali.common.lookup.gradepointvalue" />
+	</bean>
+	
+	<bean id="kuali.common.lookup.classStanding" parent="commonLookup-parent">
+		<property name="searchTypeId" value="enumeration.management.search" />
+		<property name="name" value="Get enumerations" />
+		<property name="desc" value="Get enumerated lists of values given context" />
+		<property name="searchParamIdKey" value="enumeration.queryParam.enumerationCode" />
+		<property name="params">
+			<list>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.enumerationType" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="defaultValueString" value="kuali.enum.rule.standing" />
+					<property name="name" value="Enumeration Type" />
+					<property name="desc" value="The type of the enumeration to search" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextType" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Type" />
+					<property name="desc" value="The type of context being used" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextValue" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Value" />
+					<property name="desc" value="The value of the supplied context" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextDate" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="DATE" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Date" />
+					<property name="desc" value="A date supplied as context" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.enumerationCode" />
+					<property name="dataType" value="STRING" />
+					<property name="fieldPath" value="campusLocations"/>
+					<property name="optional" value="true" />
+					<property name="name" value="Context Value" />
+					<property name="desc" value="The enumeration code to lookup" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="enumeration.resultColumn.value" />
+		<property name="id" value="kuali.common.lookup.classStanding" />
+	</bean>
+	
+	<bean id="kuali.common.lookup.operatorOption" parent="commonLookup-parent">
+		<property name="searchTypeId" value="enumeration.management.search" />
+		<property name="name" value="Get enumerations" />
+		<property name="desc" value="Get enumerated lists of values given context" />
+		<property name="searchParamIdKey" value="enumeration.queryParam.enumerationCode" />
+		<property name="params">
+			<list>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.enumerationType" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="defaultValueString" value="kuali.enum.rule.operatorOption" />
+					<property name="name" value="Enumeration Type" />
+					<property name="desc" value="The type of the enumeration to search" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextType" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Type" />
+					<property name="desc" value="The type of context being used" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextValue" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Value" />
+					<property name="desc" value="The value of the supplied context" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextDate" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="DATE" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Date" />
+					<property name="desc" value="A date supplied as context" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.enumerationCode" />
+					<property name="dataType" value="STRING" />
+					<property name="fieldPath" value="campusLocations"/>
+					<property name="optional" value="true" />
+					<property name="name" value="Context Value" />
+					<property name="desc" value="The enumeration code to lookup" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="enumeration.resultColumn.value" />
+		<property name="id" value="kuali.common.lookup.operatorOption" />
+	</bean>
+    
+    <bean id="kuali.common.lookup.mathEligCodes" parent="commonLookup-parent">
+		<property name="searchTypeId" value="enumeration.management.search" />
+		<property name="name" value="Get enumerations" />
+		<property name="desc" value="Get enumerated lists of values given context" />
+		<property name="searchParamIdKey" value="enumeration.queryParam.enumerationCode" />
+		<property name="params">
+			<list>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.enumerationType" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="defaultValueString" value="kuali.enum.type.math.codes" />
+					<property name="name" value="Enumeration Type" />
+					<property name="desc" value="The type of the enumeration to search" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextType" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Type" />
+					<property name="desc" value="The type of context being used" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextValue" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Value" />
+					<property name="desc" value="The value of the supplied context" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextDate" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="DATE" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Date" />
+					<property name="desc" value="A date supplied as context" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.enumerationCode" />
+					<property name="dataType" value="STRING" />
+					<property name="fieldPath" value="campusLocations"/>
+					<property name="optional" value="true" />
+					<property name="name" value="Context Value" />
+					<property name="desc" value="The enumeration code to lookup" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="enumeration.resultColumn.value" />
+		<property name="id" value="kuali.common.lookup.mathEligCodes" />
+	</bean>
+	
+	<bean id="kuali.common.lookup.activity.creditRatio" parent="commonLookup-parent">
+		<property name="searchTypeId" value="enumeration.management.search" />
+		<property name="name" value="Get enumerations" />
+		<property name="desc" value="Get enumerated lists of values given context" />
+		<property name="resultReturnKey" value="enumeration.resultColumn.code" />
+		<property name="id" value="kuali.common.lookup.activity.creditRatio" />
+		<property name="searchParamIdKey" value="enumeration.queryParam.enumerationCode" />
+		<property name="params">
+			<list>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.enumerationType" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="defaultValueString" value="kuali.enum.activity.creditRatio" />
+					<property name="name" value="Enumeration Type" />
+					<property name="desc" value="The type of the enumeration to search" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextType" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Type" />
+					<property name="desc" value="The type of context being used" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextValue" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Value" />
+					<property name="desc" value="The value of the supplied context" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.enumerationCode" />
+					<property name="dataType" value="STRING" />
+					<property name="fieldPath" value="campusLocations"/>
+					<property name="optional" value="true" />
+					<property name="name" value="Context Value" />
+					<property name="desc" value="The enumeration code to lookup" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="kuali.common.lookup.semesterTypes" parent="commonLookup-parent">
+		<property name="searchTypeId" value="enumeration.management.search" />
+		<property name="name" value="Get enumerations" />
+		<property name="desc" value="Get enumerated lists of values given context" />
+		<property name="searchParamIdKey" value="enumeration.queryParam.enumerationCode" />
+		<property name="params">
+			<list>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.enumerationType" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="defaultValueString" value="kuali.enum.semesterType" />
+					<property name="name" value="Enumeration Type" />
+					<property name="desc" value="The type of the enumeration to search" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextType" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Type" />
+					<property name="desc" value="The type of context being used" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextValue" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Value" />
+					<property name="desc" value="The value of the supplied context" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextDate" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="DATE" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Date" />
+					<property name="desc" value="A date supplied as context" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.enumerationCode" />
+					<property name="dataType" value="STRING" />
+					<property name="fieldPath" value="campusLocations"/>
+					<property name="optional" value="true" />
+					<property name="name" value="Context Value" />
+					<property name="desc" value="The enumeration code to lookup" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="enumeration.resultColumn.code" />
+		<property name="id" value="kuali.common.lookup.semesterTypes" />
+	</bean>
+
+	<bean id="umd.cm.common.lookup.coreGeneralEducation" parent="commonLookup-parent">
+		<property name="id" value="umd.cm.common.lookup.coreGeneralEducation" />
+		<property name="searchTypeId" value="enumeration.management.search" />
+		<property name="name" value="Get Core and General Education enumerations" />
+		<property name="desc" value="Get enumerated lists of values given context" />
+		<property name="searchParamIdKey" value="enumeration.queryParam.enumerationCode" />
+		<property name="resultReturnKey" value="enumeration.resultColumn.code" />
+		<property name="params">
+			<list>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.enumerationType" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="defaultValueString" value="umd.cm.enum.coreGeneralEducation" />
+					<property name="name" value="Enumeration Type" />
+					<property name="desc" value="The type of the enumeration to search" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextType" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Type" />
+					<property name="desc" value="The type of context being used" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextValue" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Value" />
+					<property name="desc" value="The value of the supplied context" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextDate" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="DATE" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Date" />
+					<property name="desc" value="A date supplied as context" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.enumerationCode" />
+					<property name="dataType" value="STRING" />
+					<property name="fieldPath" value="coreGeneralEducation"/>
+					<property name="optional" value="true" />
+					<property name="name" value="Context Value" />
+					<property name="desc" value="The enumeration code to lookup" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="umd.cm.common.lookup.PCCInformation" parent="commonLookup-parent">
+		<property name="id" value="umd.cm.common.lookup.PCCInformation" />
+		<property name="searchTypeId" value="enumeration.management.search" />
+		<property name="name" value="Get PCC Information enumerations" />
+		<property name="desc" value="Get enumerated lists of values given context" />
+		<property name="searchParamIdKey" value="enumeration.queryParam.enumerationCode" />
+		<property name="resultReturnKey" value="enumeration.resultColumn.code" />
+		<property name="params">
+			<list>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.enumerationType" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="defaultValueString" value="umd.cm.enum.PCCInformation" />
+					<property name="name" value="Enumeration Type" />
+					<property name="desc" value="The type of the enumeration to search" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextType" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Type" />
+					<property name="desc" value="The type of context being used" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextValue" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Value" />
+					<property name="desc" value="The value of the supplied context" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextDate" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="DATE" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Date" />
+					<property name="desc" value="A date supplied as context" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.enumerationCode" />
+					<property name="dataType" value="STRING" />
+					<property name="fieldPath" value="coreGeneralEducation"/>
+					<property name="optional" value="true" />
+					<property name="name" value="Context Value" />
+					<property name="desc" value="The enumeration code to lookup" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ks.common.lookup.person.suggest" parent="commonLookup-parent">
+		<property name="searchTypeId" value="person.search.personQuickViewByGivenName" />
+		<property name="name" value="Directory ID Search" />
+		<property name="desc" value="Returns name and id from Directory ID" />
+		<property name="searchParamIdKey" value="person.queryParam.personId" />
+		<property name="params">
+			<list>				
+				<bean parent="param">
+					<property name="key" value="person.queryParam.personPrincipalName" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="false" />
+					<property name="name" value="Directory ID" />
+					<property name="desc" value="UMD ldap id" />
+					<property name="usage" value="DEFAULT" />
+					<property name="caseSensitive" value="false" />					
+					<property name="widget" value="TEXT_BOX" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="person.resultColumn.PersonId" />
+		<property name="id" value="ks.common.lookup.person.suggest" />
+	</bean>
+
+	<!-- KSCM-1248 -->
+	<bean id="ks.common.lookup.person.advanced" parent="commonLookup-parent">
+		<property name="searchTypeId" value="person.search.personQuickViewByGivenName" />
+		<property name="name" value="Advanced Person Search" />
+		<property name="desc" value="Returns person directory id" />
+		<property name="searchParamIdKey" value="person.queryParam.personId" />
+		<property name="params">
+			<list>
+				<bean parent="param">
+					<property name="key" value="person.queryParam.personGivenName" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="false" />
+					<property name="name" value="Name" />
+					<property name="desc" value="Name of person" />
+					<property name="caseSensitive" value="false" />
+					<property name="usage" value="ADVANCED" />
+					<property name="widget" value="TEXT_BOX" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="person.queryParam.personPrincipalName" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="false" />
+					<property name="name" value="Directory ID" />
+					<property name="desc" value="UMD ldap id" />
+					<property name="usage" value="ADVANCED" />
+					<property name="caseSensitive" value="false" />
+					<property name="widget" value="TEXT_BOX" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="person.resultColumn.PersonId" />
+		<property name="id" value="ks.common.lookup.person.advanced" />
+	</bean>
+	
+	<!--  KSCM 1312 Overriding Cross Search with a Native search, because it's crashing our system -->
+		<bean id="kuali.common.lookup.advanced.courseRanges.learningObjectives" parent="commonLookup-parent">
+		<property name="id" value="kuali.common.lookup.advanced.courseRanges.learningObjectives" />	
+		<property name="searchTypeId" value="lo.search.loByDesc"/>
+		<property name="name" value="Learning Objective"/>
+		<property name="desc" value="Search for descriptions in existing learning objectives."/>				
+		<property name="resultReturnKey" value="lo.resultColumn.loId"/>									
+		<property name="params">
+			<list>
+				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lo.queryParam.loDescPlain"/>
+					<property name="name" value="Description"/>
+					<property name="desc" value="Description of learning objective."/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="REQUIRED"/>
+					<property name="caseSensitive" value="false"/>
+					<property name="usage" value="ADVANCED"/>
+					<property name="widget" value="TEXT_BOX"/>
+				</bean>
+			</list>
+		</property>
+	</bean>	
+	
+    <!--  KSCM 1315 Change "Subject Code" to "Course Prefix" -->
+	<bean id="kuali.common.lookup.advanced.courseRanges.courseNumber" parent="commonLookup-parent">
+		<property name="id" value="kuali.common.lookup.advanced.courseRanges.courseNumber" />	
+		<property name="searchTypeId" value="lu.search.mostCurrent.union"/>
+		<property name="name" value="Course Number"/>
+		<property name="desc" value="Search used to define course range by Course Number"/>					
+		<property name="resultReturnKey" value="lu.resultColumn.luOptionalVersionIndId"/>									
+		<property name="params">
+			<list>
+				<bean parent="param">
+					<property name="key" value="optional"/>
+					<property name="name" value="Identify below the Course Prefix as well as the minimum and maximum Course Number values which will define this range."/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="WHEN_NULL"/>
+					<property name="caseSensitive" value="false"/>
+					<property name="usage" value="ADVANCED"/>
+				</bean>
+				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lu.queryParam.luOptionalDivision"/>
+					<property name="name" value="Course Prefix"/>
+					<property name="desc" value="Subject Code"/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="ALWAYS"/>
+					<property name="caseSensitive" value="false"/>
+					<property name="usage" value="ADVANCED"/>
+				</bean>
+				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lu.queryParam.luOptionalCrsNoRange"/>
+					<property name="name" value="Course Number Range (ex. 100-299)"/>
+					<property name="desc" value="Course Number Range"/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="ALWAYS"/>
+					<property name="caseSensitive" value="false"/>
+					<property name="usage" value="ADVANCED"/>
+				</bean>
+				<bean parent="param"><!-- limit search to only return approved clus -->
+					<property name="key" value="lu.queryParam.luOptionalState" />
+					<property name="name" value="State" />
+					<property name="desc" value="CLU State" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="defaultValueList">
+						<list>
+							<value>Draft</value><!-- Why is draft here? -->
+							<value>Active</value>
+							<value>Approved</value>
+							<value>Retired</value>
+							<value>Suspended</value>
+							<!-- do not show retired or superseded-->
+						</list>
+					</property>
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
+		</property>	
+	</bean>
+	
+	<!-- KSCM-1837 KSCM-1849 Adding in Summer 1, Summer 2, and winter.   -->	
+	<bean id="kuali.common.lookup.firstexpectedoffering.suggest"
+		parent="commonLookup-parent">
+		<property name="id"	value="kuali.common.lookup.firstexpectedoffering.suggest" />
+		<property name="searchTypeId" value="atp.search.advancedAtpSearch" />
+		<property name="name" value="Advanced ATP match" />
+		<property name="desc" value="Search atp type described by session, duration and year" />
+		<property name="searchParamIdKey" value="atp.advancedAtpSearchParam.atpId" />
+		<property name="params">
+			<list>
+				<bean parent="param">
+					<property name="key" value="atp.advancedAtpSearchParam.atpType" />
+					<property name="name" value="Atp types" />
+					<property name="desc" value="Atp types for courses" />
+					<property name="caseSensitive" value="false" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="defaultValueList">
+						<list> <!-- this list is not complete -->
+							<value>kuali.atp.type.Spring</value>
+							<value>kuali.atp.type.Summer1</value>
+							<value>kuali.atp.type.Summer2</value>
+							<value>kuali.atp.type.Fall</value>
+							<value>kuali.atp.type.Winter</value>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="atp.resultColumn.atpId" />
+	</bean>
+
+<!-- KSCM-2078 KSCM-2079 Short term fix, removing proposals from course suggest lists. -->
+<!-- Only showing active/approved courses -->
+	<bean id="kuali.common.lookup.findCourse.suggest" parent="commonLookup-parent">
+		<property name="id" value="kuali.common.lookup.findCourse.suggest" />
+		<property name="name" value="Course" />
+		<property name="searchTypeId" value="lu.search.mostCurrent.union" />
+		<property name="desc" value="Search for courses" />
+		<property name="searchParamIdKey" value="lu.queryParam.luOptionalId" />
+		<property name="params">
+			<list>
+				<bean parent="param">   <!-- suggest box entry definition -->
+					<property name="key" value="lu.queryParam.luOptionalCode" />
+					<property name="name" value="Code" />
+					<property name="desc" value="Course code." />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="usage" value="DEFAULT" />
+				</bean>
+				<bean parent="param">   <!-- limit search to credit course for this UI context -->
+					<property name="key" value="lu.queryParam.luOptionalType" />
+					<property name="name" value="Lu Type" />
+					<property name="desc" value="Type of a learning unit" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="defaultValueString" value="kuali.lu.type.CreditCourse" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+			    <bean parent="param"><!-- limit search to only return approved clus -->
+					<property name="key" value="lu.queryParam.luOptionalState" />
+					<property name="name" value="State" />
+					<property name="desc" value="CLU State" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="defaultValueList">
+						<list>
+							<value>Active</value>
+							<value>Approved</value>
+						</list>
+					</property>
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="lu.resultColumn.cluId" />
+	</bean>
+
+</beans>

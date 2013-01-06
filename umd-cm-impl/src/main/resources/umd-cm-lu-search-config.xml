@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:search="http://student.kuali.org/xsd/search-extension"
+	xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+	xsi:schemaLocation="
+	http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
+	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	 ">
+	<import resource="classpath:lu-search-config.xml" />
+
+	<!-- KSCM-2056 Remove "Different Org" from results of dependency analysis -->
+	<search:searchResultTypeInfo id="lu.result.dependencyAnalysis" parent="lu.result.dependencyAnalysis-parent"/>
+	<search:searchResultTypeInfo id="lu.result.dependencyAnalysis-parent" abstract="true">
+		<search:name>Dependency Analysis Results</search:name>
+		<search:desc>Full view of clus/clusets that are dependencies of the target Clu</search:desc>
+		<search:resultColumns>
+			<ref bean="lu.resultColumn.cluId" />
+			<ref bean="lu.resultColumn.cluType" />
+			<ref bean="lu.resultColumn.luOptionalShortName"/>
+			<ref bean="lu.resultColumn.luOptionalLongName"/>
+			<ref bean="lu.resultColumn.luOptionalCode"/>
+			<ref bean="lu.resultColumn.luOptionalDependencyType"/>
+			<ref bean="lu.resultColumn.luOptionalDependencyTypeName"/>
+			<ref bean="lu.resultColumn.luOptionalDependencyRootId"/>
+			<ref bean="lu.resultColumn.luOptionalDependencyRequirementComponentIds"/>
+			<ref bean="lu.resultColumn.luOptionalOversightCommitteeIds"/>
+			<ref bean="lu.resultColumn.luOptionalOversightCommitteeNames"/>
+			<!--ref bean="lu.resultColumn.luOptionalDependencyRequirementDifferentAdminOrg"/ -->
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+
+	<search:searchType id="lu.search.mostCurrent.union">
+        <search:name>Search for most recent LUs</search:name>
+        <search:desc>LU Search that finds all current courses or most recent approved courses for non-active LUs</search:desc>
+        <search:searchResultTypeInfo>
+			<ref bean="lu.result.generic"/>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="lu.criteria.luAdvancedCriteria"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
+	<search:searchType id="lu.search.getCluFromCluCode">
+        <search:name>Search for most recent Clu with Code</search:name>
+        <search:desc>Returns latest version independent id for clu with code</search:desc>
+        <search:searchResultTypeInfo>
+			<ref bean="lu.result.getCluFromCluCode"/>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="lu.criteria.getCluFromCluCode"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
+	<search:searchResultTypeInfo id="lu.result.getCluFromCluCode" parent="lu.result.getCluFromCluCode-parent"/>
+	<search:searchResultTypeInfo id="lu.result.getCluFromCluCode-parent" abstract="true">
+		<search:name>Clu from Code Results</search:name>
+		<search:desc>Returns the existing or most recent course for the given term and course code</search:desc>
+		<search:resultColumns>
+			<ref bean="lu.resultColumn.cluId" />
+            <ref bean="lu.resultColumn.luOptionalVersionIndId" />
+            <ref bean="lu.resultColumn.luOptionalStartTermAtpId" />
+			<ref bean="lu.resultColumn.luOptionalEndTermAtpId" />
+			<ref bean="lu.resultColumn.luOptionalState" />
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+	
+	<search:resultColumn id="lu.resultColumn.luOptionalStartTermAtpId" parent="lu.resultColumn.luOptionalStartTermAtpId-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalStartTermAtpId-parent"  abstract="true">
+		<search:name>StartTerm Atp Id</search:name>
+		<search:desc>StartTerm Atp Id</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+
+	<search:resultColumn id="lu.resultColumn.luOptionalEndTermAtpId" parent="lu.resultColumn.luOptionalEndTermAtpId-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalEndTermAtpId-parent"  abstract="true">
+		<search:name>EndTerm Atp Id</search:name>
+		<search:desc>EndTerm Atp Id</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+	
+	<search:searchCriteriaTypeInfo id="lu.criteria.getCluFromCluCode" parent="lu.criteria.getCluFromCluCode-parent"/>
+	<search:searchCriteriaTypeInfo id="lu.criteria.getCluFromCluCode-parent" abstract="true">
+        <search:name>Clu Code</search:name>
+        <search:desc>Returns latest version independent id for clu with code</search:desc>
+		<search:queryParams>
+			<ref bean="lu.queryParam.cluCode"/>
+			<ref bean="lu.queryParam.luAtpStartTerm"/>
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+	<search:queryParam id="lu.queryParam.luAtpStartTerm" parent="lu.queryParam.luAtpStartTerm-parent"/>
+	<search:queryParam id="lu.queryParam.luAtpStartTerm-parent" abstract="true">
+		<dict:fieldDescriptor>
+			<dict:name>AtpStartTerm</dict:name>
+			<dict:desc>AtpStartTerm</dict:desc>
+			<dict:dataType>string</dict:dataType>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+	
+	<!-- "lu.search.cluSetByCluId" -->
+	<search:searchType id="lu.search.cluSetByCluId" parent="lu.search.cluSetByCluId-parent"/>
+	<search:searchType id="lu.search.cluSetByCluId-parent"  abstract="true">
+		<search:name>Find all CluSets for a Clu</search:name>
+		<search:desc>Query to find all CluSets of a Clu</search:desc>
+		<search:searchResultTypeInfo> 
+			<ref bean="lu.result.clu.cluSetByCluId"/>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="lu.criteria.cluSetByCluIdCriteria"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
+	<search:searchCriteriaTypeInfo id="lu.criteria.cluSetByCluIdCriteria" parent="lu.criteria.cluSetByCluIdCriteria-parent"/>
+	<search:searchCriteriaTypeInfo id="lu.criteria.cluSetByCluIdCriteria-parent"  abstract="true">
+		<search:name>Version Independent Id</search:name>
+		<search:desc>Version Independent Id</search:desc>
+		<search:queryParams>
+			<ref bean="lu.queryParam.cluVersionIndId" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+	<search:queryParam id="lu.queryParam.cluVersionIndId" parent="lu.queryParam.cluVersionIndId-parent"/>
+    <search:queryParam id="lu.queryParam.cluVersionIndId-parent" optional="false" abstract="true">
+        <dict:fieldDescriptor>
+            <dict:name>Version Independent Id</dict:name>
+            <dict:desc>>Version Independent Id</dict:desc>
+            <dict:dataType>string</dict:dataType>
+            <dict:readOnly>true</dict:readOnly>
+        </dict:fieldDescriptor>
+    </search:queryParam>
+	
+	<search:searchResultTypeInfo id="lu.result.clu.cluSetByCluId" parent="lu.result.clu.cluSetByCluId-parent"/>
+	<search:searchResultTypeInfo id="lu.result.clu.cluSetByCluId-parent"  abstract="true">
+		<search:name>CluSets</search:name>
+		<search:desc>CluSets</search:desc>
+     	<search:resultColumns>
+			<ref bean="lu.resultColumn.cluSetId" />
+			<ref bean="lu.resultColumn.cluSetName"/>
+     	</search:resultColumns>
+	</search:searchResultTypeInfo>
+	
+	<search:resultColumn id="lu.resultColumn.cluSetId" parent="lu.resultColumn.cluSetId-parent"/>
+	<search:resultColumn id="lu.resultColumn.cluSetId-parent"  abstract="true">
+        <search:name>CluSet Id</search:name>
+        <search:desc>Identifier of a CluSet</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+
+	<search:resultColumn id="lu.resultColumn.cluSetName" parent="lu.resultColumn.cluSetName-parent"/>
+	<search:resultColumn id="lu.resultColumn.cluSetName-parent"  abstract="true">
+        <search:name>CluSet Name</search:name>
+        <search:desc>Name of a CluSet</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+	<!-- end "lu.search.cluSetByCluId" -->
+	
+	<search:searchCriteriaTypeInfo id="lu.criteria.luType-parent"  abstract="true">
+		<search:name>Lu Type </search:name>
+		<search:desc>Lu Type</search:desc>
+		<search:queryParams>
+			<ref bean="lu.queryParam.luOptionalLuType" />
+			<ref bean="lu.queryParam.luOptionalLuTypeStartsWith" />
+			<ref bean="lu.queryParam.luOptionalLuTypeList" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+	<search:queryParam id="lu.queryParam.luOptionalLuTypeList" parent="lu.queryParam.luOptionalLuType-parent"/>
+	
+	<search:searchCriteriaTypeInfo id="cluset.criteria.cluAdvancedCriteria-parent"  abstract="true">
+		<search:name>Clu Set Advanced Criteria</search:name>
+		<search:desc>Advanced criteria for searching for clu sets</search:desc>
+		<search:queryParams>
+			<ref bean="cluset.queryParam.optionalId"/>
+			<ref bean="cluset.queryParam.optionalName"/>
+			<ref bean="cluset.queryParam.optionalDescription"/>
+			<ref bean="cluset.queryParam.luOptionalLongName"/>
+			<ref bean="cluset.queryParam.luOptionalId"/>
+			<ref bean="cluset.queryParam.luOptionalCode"/>
+			<ref bean="cluset.queryParam.optionalSubCluSetName"/>
+			<ref bean="cluset.queryParam.optionalReusable"/>
+			<ref bean="cluset.queryParam.optionalReferenceable"/>
+			<ref bean="cluset.queryParam.optionalType"/>
+			<ref bean="lu.queryParam.luOptionalId"/>
+			<ref bean="cluset.queryParam.optionalVerIndId"/>
+			<ref bean="cluset.queryParam.optionalIds"/>
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+	<search:queryParam id="cluset.queryParam.optionalVerIndId" optional="true" >
+		<ref bean="field.cluInfo.id.fd"/>
+	</search:queryParam>
+
+	<search:queryParam id="cluset.queryParam.optionalIds" optional="true" >
+		<ref bean="field.cluInfo.id.fd"/>
+	</search:queryParam>
+
+	<search:searchType id="lu.search.cluSetsWithSisCodes">
+		<search:name>Search for Core/Gened Clusets with SisCodes</search:name>
+		<search:desc>Returns all the clusets that have siscodes used for
+			mapping courses to gened/core sets</search:desc>
+		<search:searchResultTypeInfo>
+			<search:name>cluSetsWithSisCodes search</search:name>
+			<search:desc>Returns all the clusets that have siscodes used for
+			mapping courses to gened/core sets</search:desc>
+			<search:resultColumns>
+				<ref bean="lu.resultColumn.cluSetId" />
+				<ref bean="lu.resultColumn.cluSetName" />
+				<ref bean="lu.resultColumn.cluSetAttributeValue" />
+			</search:resultColumns>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="cluset.criteria.cluSetsWithSisCodes"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
+	<search:searchCriteriaTypeInfo id="cluset.criteria.cluSetsWithSisCodes">
+		<search:name>Clu Set Advanced Criteria</search:name>
+		<search:desc>Advanced criteria for searching for clu sets</search:desc>
+		<search:queryParams></search:queryParams>
+	</search:searchCriteriaTypeInfo>
+		
+	<search:resultColumn id="lu.resultColumn.cluSetAttributeValue">
+        <search:name>Cluset Attribute value</search:name>
+        <search:desc>Value of a cluset attribute</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+    
+  <!-- KSCM-1799 Prevent Course Code Reuse -->  
+  <!-- One search for all three criteria, code VindId and Start Term -->
+  <search:searchType id="lu.search.countNumberOfConflictingClusBasedOnCourseCodeVindIdStartTerm">
+        <search:name>Search for conflicting Clu with code</search:name>
+        <search:desc>Returns amount of any prexisting Clu codes</search:desc>
+        <search:searchResultTypeInfo>
+			<ref bean="lu.result.countNumberOfConflictingClusBasedOnCourseCodeVindIdStartTerm"/>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="lu.criteria.countNumberOfConflictingClusBasedOnCourseCodeVindIdStartTerm"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
+	<search:searchResultTypeInfo id="lu.result.countNumberOfConflictingClusBasedOnCourseCodeVindIdStartTerm" parent="lu.result.countNumberOfConflictingClusBasedOnCourseCodeVindIdStartTerm-parent"/>
+	<search:searchResultTypeInfo id="lu.result.countNumberOfConflictingClusBasedOnCourseCodeVindIdStartTerm-parent" abstract="true">
+		<search:name>Conflicting Clu Results three Params </search:name>
+		<search:desc>Returns the state, VindId and expiration Date of the clus which conflicts with the CourseCode</search:desc>
+		<search:resultColumns>
+    		<ref bean="lu.resultColumn.luVersionIndId"/>
+			<ref bean="lu.resultColumn.cluState"/> <!-- inherited from lu-search-config.xml -->
+			<ref bean="lu.resultColumn.luVersionEndTerm"/>			
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+	
+	<search:searchCriteriaTypeInfo id="lu.criteria.countNumberOfConflictingClusBasedOnCourseCodeVindIdStartTerm" parent="lu.criteria.countNumberOfConflictingClusBasedOnCourseCodeVindIdStartTerm-parent"/>
+	<search:searchCriteriaTypeInfo id="lu.criteria.countNumberOfConflictingClusBasedOnCourseCodeVindIdStartTerm-parent" abstract="true">
+        <search:name>Conflicting Clu Criteria three Params</search:name>
+        <search:desc>Searches on code, startTerm and cluVersionIndId</search:desc>
+		<search:queryParams>
+			<ref bean="lu.queryParam.cluCode"/>
+			<ref bean="lu.queryParam.luAtpStartTerm"/>		
+			<ref bean="lu.queryParam.cluVersionIndId"/>
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	<!-- End 1799 Search #1 -->
+	
+	<!--  1799 Result Column Configs -->
+	<!--  lu.resultColumn.cluState taken from lu-search-config.xml -->
+    
+    <!--  Clu Version Independant Id -->
+   	<search:resultColumn id="lu.resultColumn.luVersionIndId" parent="lu.resultColumn.luVersionIndId-parent"/>
+	<search:resultColumn id="lu.resultColumn.luVersionIndId-parent"  abstract="true">
+		<search:name>VersionIndId</search:name>
+		<search:desc>Version Independent Id</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+
+    <!-- Clu Version End Date -->	
+	<search:resultColumn id="lu.resultColumn.luVersionEndTerm" parent="lu.resultColumn.luVersionEndTerm-parent"/>
+	<search:resultColumn id="lu.resultColumn.luVersionEndTerm-parent"  abstract="true">
+		<search:name>VersionEndDate</search:name>
+		<search:desc>Version End Date</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+	<!--  End 1799 result columns -->
+	
+	
+  <!-- KSCM-1799 Prevent Course Code Reuse -->  
+  <!-- Search #2 - for just two criteria, code VindId for when Start Term isn't filled out yet -->
+  <search:searchType id="lu.search.countNumberOfConflictingClusBasedOnCourseCodeVindId">
+        <search:name>Search for conflicting Clu with code</search:name>
+        <search:desc>Returns amount of any prexisting Clu codes</search:desc>
+        <search:searchResultTypeInfo>
+			<ref bean="lu.result.countNumberOfConflictingClusBasedOnCourseCodeVindId"/>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="lu.criteria.countNumberOfConflictingClusBasedOnCourseCodeVindId"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
+	<search:searchResultTypeInfo id="lu.result.countNumberOfConflictingClusBasedOnCourseCodeVindId" parent="lu.result.countNumberOfConflictingClusBasedOnCourseCodeVindId-parent"/>
+	<search:searchResultTypeInfo id="lu.result.countNumberOfConflictingClusBasedOnCourseCodeVindId-parent" abstract="true">
+		<search:name>Conflicting Clu Results three Params </search:name>
+		<search:desc>Returns the state, VindId and expiration Date of the clus which conflicts with the CourseCode</search:desc>
+		<search:resultColumns>
+			<ref bean="lu.resultColumn.luVersionIndId"/>
+			<ref bean="lu.resultColumn.cluState"/> <!-- inherited from lu-search-config.xml -->			
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+	
+	<search:searchCriteriaTypeInfo id="lu.criteria.countNumberOfConflictingClusBasedOnCourseCodeVindId" parent="lu.criteria.countNumberOfConflictingClusBasedOnCourseCodeVindId-parent"/>
+	<search:searchCriteriaTypeInfo id="lu.criteria.countNumberOfConflictingClusBasedOnCourseCodeVindId-parent" abstract="true">
+        <search:name>Conflicting Clu Criteria two Params</search:name>
+        <search:desc>Searches on code, and cluVersionIndId</search:desc>
+		<search:queryParams>
+			<ref bean="lu.queryParam.cluCode"/>	
+			<ref bean="lu.queryParam.cluVersionIndId"/>
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	<!-- Emd 1799 search #2  -->
+	<!-- End both 1799 Search Configs -->
+	
+	<!-- KSCM-1889 VPAC search-->
+	<search:searchType id="lu.search.VPACProposals">
+        <search:name>Search for proposals at node</search:name>
+        <search:desc>Returns proposals that are at VPAC Academic Affairs Review Node</search:desc>
+        <search:searchResultTypeInfo>
+			<ref bean="lu.result.VPACProposals"/>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="lu.criteria.VPACProposals"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
+	<search:searchResultTypeInfo id="lu.result.VPACProposals" parent="lu.result.VPACProposals-parent"/>
+	<search:searchResultTypeInfo id="lu.result.VPACProposals-parent" abstract="true">
+		<search:name> Returns information for all courses currently in the VPAC node </search:name>
+		<search:desc>Returns the Curriculum Oversight Unit,Course Code,Course Title,Proposal Type of each course</search:desc>
+		<search:resultColumns>
+     		<ref bean="lu.resultColumn.proposalId" />
+     		<ref bean="lu.resultColumn.docType"/>
+			<ref bean="lu.resultColumn.luOptionalAdminOrg"/> <!-- inherited from lu-search-config.xml -->
+			<ref bean="lu.resultColumn.cluOfficialIdentifier.cluCode"/> <!-- inherited from lu-search-config.xml -->			
+			<ref bean="lu.resultColumn.luOptionalShortName"/> <!-- inherited from lu-search-config.xml -->
+			<ref bean="lu.resultColumn.proposalType"/>
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+	
+	<search:searchCriteriaTypeInfo id="lu.criteria.VPACProposals" parent="lu.criteria.VPACProposals-parent"/>
+	<search:searchCriteriaTypeInfo id="lu.criteria.VPACProposals-parent" abstract="true">
+        <search:name>Proposals at VPAC node</search:name>
+        <search:desc>Searches on a course's node in the workflow</search:desc>
+		<search:queryParams></search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+	
+	<search:resultColumn id="lu.resultColumn.proposalType" parent="lu.resultColumn.proposalType-parent"/>
+	<search:resultColumn id="lu.resultColumn.proposalType-parent" abstract="true" >
+        <search:name>Proposal Type</search:name>
+        <search:desc>Type of the proposal</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+      
+    <search:resultColumn id="lu.resultColumn.docType" parent="lu.resultColumn.docType-parent"/>
+	<search:resultColumn id="lu.resultColumn.docType-parent"  abstract="true">
+		<search:name>Document Type</search:name>
+		<search:desc>Workflow Doc Type</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+ 
+    
+  	<!-- End KSCM-1889-->
+
+	<!-- KSCM-1852 -->	
+	<!-- Clu Version search -->	
+	<search:searchType id="lu.search.clu.versions" parent="lu.search.clu.versions-parent">
+		<search:name>Find all versions of a clu</search:name>
+		<search:desc>Query to find all versions of a Clu</search:desc>
+		<search:searchResultTypeInfo> 
+			<ref bean="lu.result.clu.versions"/>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="lu.criteria.cluVersionCriteria"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+
+	<search:searchCriteriaTypeInfo id="lu.criteria.cluVersionCriteria" parent="lu.criteria.cluVersionCriteria-parent"/>
+	<search:searchCriteriaTypeInfo id="lu.criteria.cluVersionCriteria-parent"  abstract="true">
+		<search:name>Version Independent Id</search:name>
+		<search:desc>Version Independent Id</search:desc>
+		<search:queryParams>
+			<ref bean="lu.queryParam.cluVersionIndId" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+	<search:searchResultTypeInfo id="lu.result.clu.versions" parent="lu.result.clu.versions-parent">
+		<search:name>Clu Versions</search:name>
+		<search:desc>Clu Versions</search:desc>
+     	<search:resultColumns>
+			<ref bean="lu.resultColumn.cluId" />
+			<ref bean="lu.resultColumn.luOptionalShortName"/>
+			<ref bean="lu.resultColumn.luOptionalLongName"/>
+			<ref bean="lu.resultColumn.luOptionalCode"/>
+			<ref bean="lu.resultColumn.luOptionalLevel"/>
+			<ref bean="lu.resultColumn.luCodeValuePilot"/>
+			<ref bean="lu.resultColumn.luOptionalDescr"/>
+			<ref bean="lu.resultColumn.luOptionalStudySubjectArea"/>
+			<ref bean="lu.resultColumn.luOptionalState"/>
+			<ref bean="lu.resultColumn.luOptionalExpFirstAtp"/>
+			<ref bean="lu.resultColumn.luOptionalLastAtp"/>
+			<ref bean="lu.resultColumn.luOptionalVersionedFromId"/>
+			<ref bean="lu.resultColumn.luOptionalVersionStartDate"/>
+			<ref bean="lu.resultColumn.luOptionalVersionEndDate"/>
+			<ref bean="lu.resultColumn.luOptionalVersionSeqNum"/>
+			<ref bean="lu.resultColumn.luOptionalExpFirstAtpDisplay"/>
+			<ref bean="lu.resultColumn.luOptionalLastAtpDisplay"/>
+     	</search:resultColumns>
+	</search:searchResultTypeInfo>
+
+	<bean id="queryMap" parent="queryMap-parent">
+		<property name="sourceMap">
+			<map merge="true">
+				<entry key="lu.search.clu.versions">
+					<value>SELECT clu.id, officialIdentifier.shortName, officialIdentifier.longName,
+                    officialIdentifier.code, officialIdentifier.level, REPLACE(lucodes.value,'true','Yes'), 
+                    cludesc.plain, clu.studySubjectArea, clu.state, clu.expectedFirstAtp, clu.lastAtp,
+                    clu.version.versionedFromId, clu.version.currentVersionStart, clu.version.currentVersionEnd, clu.version.sequenceNumber, clu.expectedFirstAtp, clu.lastAtp
+                    FROM Clu clu
+                    LEFT JOIN clu.officialIdentifier officialIdentifier
+                    LEFT JOIN clu.descr cludesc
+                    LEFT JOIN clu.luCodes lucodes
+                    WHERE clu.version.versionIndId = :lu_queryParam_cluVersionIndId</value>
+				</entry>
+				<entry key="lu.queryParam.luOptionalLuTypeList">
+					<value>lut.id IN (:lu_queryParam_luOptionalLuTypeList)</value>
+				</entry>
+                <entry key="lu.search.mostCurrent.union">
+		       		<value>
+		       		SELECT clu.id, officialIdentifier.shortName, officialIdentifier.longName,
+                    officialIdentifier.code, officialIdentifier.level,
+                    cludesc.plain, clu.studySubjectArea, clu.state,
+                    clu.version.versionIndId, clu.version.versionedFromId, clu.version.currentVersionStart, clu.version.currentVersionEnd
+                    FROM Clu clu
+                    LEFT JOIN clu.officialIdentifier officialIdentifier
+                    LEFT JOIN clu.descr cludesc
+                    WHERE (clu.version.currentVersionStart &lt;= CURRENT_DATE AND (clu.version.currentVersionEnd &gt; CURRENT_DATE OR clu.version.currentVersionEnd IS NULL) )
+                    </value>
+                </entry>
+                <entry key="lu.search.getCluFromCluCode">
+                	<value>NATIVE:SELECT * FROM ( SELECT clu.id, clu.VER_IND_ID, clu.EXP_FIRST_ATP, clu.LAST_ATP, clu.ST FROM KSLU_CLU clu, KSLU_CLU_IDENT ident, KSAP_ATP cluAtp, KSAP_ATP inAtp WHERE clu.OFFIC_CLU_ID = ident.id AND clu.EXP_FIRST_ATP = cluAtp.ID AND ident.CD= :lu_queryParam_cluCode AND inAtp.ID= :lu_queryParam_luAtpStartTerm AND clu.ST IN ('Active','Retired','Suspended','Superseded') AND inAtp.START_DT>=cluAtp.START_DT ORDER BY cluAtp.START_DT DESC ) WHERE rownum = 1</value>
+                </entry>
+                <entry key="lu.search.cluSetByCluId">
+		       		<value>
+			       		SELECT cs.cluSet.id, cs.cluSet.name 
+			       		FROM CluSetJoinVersionIndClu cs 
+			       		WHERE cs.cluVersionIndId = :lu_queryParam_cluVersionIndId)
+                    </value>
+                </entry>
+                <entry key="cluset.queryParam.optionalVerIndId">
+					<value>cluVerIndId.cluVersionIndId IN (:cluset_queryParam_optionalVerIndId)</value>
+                </entry>
+                <entry key="cluset.queryParam.optionalIds">
+					<value>cluset.id IN (:cluset_queryParam_optionalIds)</value>
+				</entry>
+				<entry key="lu.search.cluSetsWithSisCodes">
+		       		<value>SELECT cs.id, cs.name, attribute.value FROM CluSet cs, IN(cs.attributes) attribute WHERE attribute.name='sisCode' AND attribute.value IS NOT NULL</value>
+		       	</entry>
+		       	<!--  KSCM-1799 Search looks for retired courses where the end term is AFTER
+		       	      a newly proposed courses start term, and the course code is the same. -->
+		  		<entry key="lu.search.countNumberOfConflictingClusBasedOnCourseCodeVindIdStartTerm">
+		       		<value>
+		       		SELECT c.version.versionIndId, c.state, c.lastAtp FROM Clu c
+		       		WHERE c.officialIdentifier.code = :lu_queryParam_cluCode 
+					AND (c.version.versionIndId != :lu_queryParam_cluVersionIndId) 
+					AND (c.state = 'Retired') 
+					AND (c.lastAtp &gt;= :lu_queryParam_luAtpStartTerm)</value>
+                </entry>
+                <!--  KSCM-1799 Search looks for active, draft or suspended courses 
+                      which use the same course code as a newly proposed course.  -->                
+          		<entry key="lu.search.countNumberOfConflictingClusBasedOnCourseCodeVindId">
+		       		<value>
+		       		SELECT c.version.versionIndId, c.state FROM Clu c
+		       		WHERE c.officialIdentifier.code = :lu_queryParam_cluCode 
+					AND (((c.version.versionIndId != :lu_queryParam_cluVersionIndId) 
+					AND (c.state IN ('Active','Suspended','Draft'))))</value>
+                </entry>
+              <entry key="lu.search.VPACProposals">
+				<value>NATIVE:SELECT
+				KSP.PROPOSAL_ID, KSP.TYPE, UN.LONG_NM,KSCI.CD,KSCI.SHRT_NAME,KSPT.NAME, CLU.ST
+				FROM
+				KSLU_CLU_IDENT KSCI
+				INNER JOIN
+				KSLU_CLU CLU
+				ON
+				KSCI.ID=CLU.OFFIC_CLU_ID
+				INNER JOIN
+				KSPR_PROPOSAL_REFERENCE KPR
+				ON
+				CLU.ID=KPR.OBJECT_REFERENCE_ID
+				INNER JOIN
+				CM.KSPR_PROPOSAL_JN_REFERENCE KPJN
+				ON
+				KPJN.REFERENCE_ID=KPR.REFERENCE_ID
+				INNER JOIN
+				KSPR_PROPOSAL KSP
+				ON
+				KSP.PROPOSAL_ID=KPJN.PROPOSAL_ID
+				INNER JOIN
+				KSPR_PROPOSAL_ATTR KPA
+				ON
+				KPA.OWNER=KSP.PROPOSAL_ID
+				INNER JOIN
+				KSPR_PROPOSAL_TYPE KSPT
+				ON
+				KSPT.TYPE_KEY=KSP.TYPE
+				INNER JOIN
+				KSLU_CLU_ADMIN_ORG KCAO
+				ON
+				KCAO.CLU_ID=CLU.ID
+				INNER JOIN
+				WHADMIN.UNIT UN
+				ON
+				UN.UNIT_ID=KCAO.ORG_ID
+				WHERE
+				KPA.ATTR_VALUE = 'VPAC Academic Affairs Review'
+				AND
+				CLU.ST != 'NotApproved'
+				ORDER BY UN.LONG_NM ASC, KSCI.CD ASC
+			   	</value>
+                </entry>
+            </map>
+		</property>
+	</bean>
+
+	<search:resultColumn id="lu.resultColumn.luOptionalCode" parent="lu.resultColumn.luOptionalCode-parent">
+		<search:name>Code</search:name>
+		<search:desc>Course code</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+	
+	<search:resultColumn id="lu.resultColumn.luCodeValuePilot">
+		<search:name>Pilot</search:name>
+		<search:desc>Pilot indicator</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+</beans>

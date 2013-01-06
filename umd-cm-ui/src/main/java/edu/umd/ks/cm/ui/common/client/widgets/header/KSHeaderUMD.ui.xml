@@ -1,0 +1,125 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:ks="urn:import:org.kuali.student.common.ui.client.widgets">
+	<ui:style>
+		.leftRightContainer {
+			height:90px;
+			background: #840000 url(images/umd_cm_banner.png) no-repeat 50% 0%;
+		}
+		
+		.leftPart {
+			float: right;
+			position: relative;
+			bottom: 45px;
+			width: 225px;
+			right: 8px;
+		}
+		
+		.rightPart {
+			color: #FFFFFF;
+    		font-family: Helvetica;
+    		font-size: 12px;
+			float: right;
+			position: relative;
+			bottom: 70px;
+			width: 225px;
+			left: 217px;
+		}
+		
+		.rightPart a  {
+			color: #FFFFFF;
+    		font-family: Helvetica;
+    		font-size: 12px;
+			text-decoration: underline;
+		}
+		
+		.logoImage {
+			height: 90px;
+			width: 960px;
+		}
+		
+		.course {
+			float: right;
+			padding: 2px;
+		}
+		
+		.searchControl {
+			float: right;
+			padding: 2px;
+		}
+		
+		.searchButton {
+			float: right;
+			padding: 2px;
+		}
+		
+		.logoutButton {
+			float: right;
+			padding: 2px;
+		}
+		
+		.separator {
+			float: right;
+			padding: 2px 10px 2px 10px;
+			color: #FFFFFF;
+    		font-family: Helvetica;
+    		font-size: 12px;
+		}
+		
+		.userName {
+			float: right;
+			padding: 2px;
+		}
+		
+		.hiPanel {
+			float: right;
+			padding: 2px;
+		}
+		
+		.clearBothDiv {
+			clear: both;
+		}
+		
+		.bottomLine {
+			color: #404039;
+			font-family: Helvetica;
+			font-size: 13px;
+			letter-spacing: 0.04em;
+			padding-left: 10px;
+			padding-top: 3px;
+		}
+		
+		.bottomLine a {
+			color: #404039;
+			letter-spacing: .02em;
+		}
+		
+		.bottomLine a:hover {
+			color: #2C61E6;
+		}
+	</ui:style>
+	
+	<g:HTMLPanel>
+		<div class='{style.leftRightContainer}'>
+			<g:Image url="images/umd_cm_logo.png" styleName="{style.logoImage}" />
+			<g:Label ui:field='applicationTitleLabel' visible="false" />
+			
+			<div class='header-innerDiv'>
+				<g:FlowPanel ui:field="leftPartPanel" styleName='{style.leftPart}' />
+				<div class='{style.rightPart}'>
+					<g:Label styleName='{style.searchButton}' /><!-- place holder -->
+					<g:Label styleName='{style.searchControl}' /><!-- place holder -->
+					<g:Label ui:field="searchLabel" styleName='{style.course}' />
+
+					<div class='{style.clearBothDiv}' />
+
+					<g:FlowPanel ui:field="logoutPanel" styleName='{style.logoutButton}' />
+					<div class='{style.separator}'>|</div>
+					<g:FlowPanel ui:field="userNamePanel" styleName='{style.userName}' />
+					<g:FlowPanel ui:field="hiPanel" styleName='{style.hiPanel}' />
+				</div>
+			</div>
+		</div>
+		<g:FlowPanel ui:field="bottomContainer" styleName="{style.bottomLine}" />
+	</g:HTMLPanel>
+</ui:UiBinder> 

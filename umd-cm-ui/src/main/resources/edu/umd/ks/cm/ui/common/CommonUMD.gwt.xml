@@ -1,0 +1,48 @@
+<module>
+	<inherits name="edu.umd.ks.cm.ui.theme.ThemeUMD"/>
+	
+    <replace-with class="edu.umd.ks.cm.ui.common.client.configurable.mvc.binding.DefaultWidgetFactoryImplUMD">
+        <when-type-is class="org.kuali.student.common.ui.client.configurable.mvc.impl.DefaultWidgetFactoryImpl" />
+    </replace-with>
+    
+    <replace-with class="edu.umd.ks.cm.ui.common.client.lo.LearningObjectiveListUMD">
+    	<when-type-is class="org.kuali.student.lum.common.client.lo.LOBuilder.LearningObjectiveList" />
+    </replace-with>
+
+    <replace-with class="edu.umd.ks.cm.ui.common.client.widgets.search.SearchResultsTableUMD">
+        <when-type-is class="org.kuali.student.common.ui.client.widgets.search.SearchResultsTable" />
+    </replace-with>
+
+    <replace-with class="edu.umd.ks.cm.ui.common.client.widgets.header.KSHeaderUMD">
+        <when-type-is class="org.kuali.student.common.ui.client.widgets.headers.KSHeader" />
+    </replace-with>
+    
+    <replace-with class="edu.umd.ks.cm.ui.common.client.widgets.CourseWidgetUMD">
+        <when-type-is class="org.kuali.student.lum.common.client.widgets.CourseWidget" />
+    </replace-with>
+    
+    <replace-with class="edu.umd.ks.cm.ui.common.client.widgets.CluSetEditorWidgetUMD.CluSetEditOptionDropdownUMD">
+        <when-type-is class="org.kuali.student.lum.common.client.widgets.CluSetEditorWidget.CluSetEditOptionDropdown" />
+    </replace-with>
+    
+    <replace-with class="edu.umd.ks.cm.ui.common.client.widgets.StylishDropDownUMD">
+        <when-type-is class="org.kuali.student.common.ui.client.widgets.StylishDropDown" />
+    </replace-with>
+    
+    <replace-with class="edu.umd.ks.cm.ui.common.client.widgets.panels.collapsable.VerticalCollapsableDrawerUMD">
+        <when-type-is class="org.kuali.student.common.ui.client.widgets.panels.collapsable.VerticalCollapsableDrawer" />
+    </replace-with>
+    
+    <replace-with class="edu.umd.ks.cm.ui.common.client.widgets.search.CollapsablePanelUMD">
+        <when-type-is class="org.kuali.student.common.ui.client.widgets.search.CollapsablePanel" />
+    </replace-with>    
+    
+    <replace-with class="edu.umd.ks.cm.ui.common.client.widgets.AppLocationsUMD">
+        <when-type-is class="org.kuali.student.lum.common.client.widgets.Applocations" />
+    </replace-with>
+
+	<replace-with class="edu.umd.ks.cm.ui.common.client.util.ExportElementUMD">
+        <when-type-is class="org.kuali.student.common.ui.client.util.ExportElement" />
+    </replace-with>
+
+</module>

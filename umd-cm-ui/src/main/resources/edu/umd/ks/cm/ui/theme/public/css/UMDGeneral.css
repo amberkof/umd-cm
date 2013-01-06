@@ -1,0 +1,655 @@
+.header-appTitle {
+	color: #FFFFFF;
+	font-size: 40px;
+	font-weight: bold;
+	padding: 15px 0 0px 14px;
+}
+
+.ks-four-width {
+	width: 4.35em;
+}
+
+.ks-medium-width {
+	width: 23.25em;
+}
+
+/*changes the background color of the page footer to red*/
+.KS-Footer {
+	height: 90px;
+	background: #840000 url(images/umd_cm_banner.png) no-repeat 50% 0%;
+}
+
+/*changes the font color of the page footer to white*/
+.KS-Footer-Line1 {
+	color: #FFFFFF;
+	padding-top: 30px;
+}
+
+/*changes the font color of the page footer to white*/
+.KS-Footer-Line {
+	color: #FFFFFF;
+}
+
+.KS-Footer-Line a,.KS-Footer-Line a:visited {
+	text-decoration: underline;
+	color: #FFFFFF;
+}
+
+.KS-Navigation-DropDown .KS-CustomDropDown-TitlePanel {
+	cursor: pointer;
+	width: 230px;
+	background-color: #F7F7EF;
+	padding: 3px 8px;
+	border: 1px solid #CCCCCC;
+}
+
+.KS-Navigation-DropDown .KS-CutomDropDown-TitleLabel {
+	color: #990000;
+}
+
+.KS-Navigation-DropDown .KS-Basic-Menu-Item-Label {
+	color: black;
+}
+
+.KS-CustomDropDown-Arrow {
+	margin-top: 4px;
+	float: left;
+}
+
+.blockLayout {
+	padding-left: 10px;
+	padding-top: 10px;
+}
+
+.blockLayout-titlePanel {
+	width: 950px;
+}
+
+.blockLayout-title {
+	display: inline;
+	color: #333333;
+	font-family: Georgia;
+	font-size: 21px;
+	font-style: normal;
+	text-decoration: none;
+}
+
+/*--------------Dependency Analysis Page----------*/
+.ks-dependency-search-label {
+	padding-left: 15px;
+	font-size: normal;
+}
+
+/*--------------Curriculum Home Page--------------*/
+.contentBlock-titlePanel {
+	border-bottom: 0;
+}
+
+.contentBlock-title {
+	margin-bottom: 5px;
+	color: #333333;
+	font-family: Arial;
+	font-size: 18px;
+	font-style: normal;
+	font-weight: normal;
+	text-decoration: none;
+	border-bottom: 1px solid #000000;
+}
+
+.contentBlock-desc {
+	color: #333333;
+	font-family: Arial;
+	font-size: 13px;
+	font-style: normal;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+.contentBlock-navLink {
+	font-family: Arial;
+	font-size: 13px;
+}
+
+.contentBlock-list li {
+	margin-top: 5px;
+}
+
+.recentlyViewed-block {
+	background-color: #FFFFFF;
+}
+
+.recentlyViewed-block .contentBlock-list {
+	padding-left: 0px;
+	margin-right: 0px;
+	padding-bottom: 20px;
+}
+
+.recentlyViewed-block .contentBlock-titlePanel {
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.contentBlock-size1 .management-tools {
+	padding-top: 25px;
+}
+
+/*--------------Course Information Page--------------*/
+
+/*changes link colors on the page to red and adjusts positioning*/
+.ks-link {
+	color: #990000;
+}
+
+.ks-link-disabled {
+	color: #999999;
+}
+
+.ks-link-large-disabled {
+	color: #999999;
+}
+
+/*changes the style of the text on the side menu for non-selected items*/
+.ks-menu-layout-menu .KS-Basic-Menu-Item-Label {
+	color: #990000;
+	font-size: 1em;
+	padding-left: 5px;
+	letter-spacing: 0.02em;
+	line-height: 1.4em;
+	white-space: nowrap;
+}
+
+/*changes the style of the text on the side menu for the currently selected item*/
+.ks-menu-layout-menu .KS-Basic-Menu-Item-Label-Selected {
+	color: #FFFFFF;
+}
+
+/* changes the background color of the floating side menu for non selected items
+    when they are hovered over*/
+.ks-menu-layout-menu .KS-Basic-Menu-Item-Panel-Hover {
+	background-color: #FF0000;
+}
+
+/* changes the text color of menu items that are hovered over*/
+.ks-menu-layout-menu .KS-Basic-Menu-Item-Label-Hover {
+	color: #FFFFFF;
+}
+
+/* changes the background color of the floating side menu for the selected item*/
+.ks-menu-layout-menu .KS-Basic-Menu-Item-Panel-Selected {
+	background-color: #AB1500;
+}
+
+a,a:visited {
+	color: #990000;
+	text-decoration: none;
+}
+
+.cluProposalTitleSection {
+	border-bottom: 1px dashed #D8D8D8;
+	color: #404039;
+	font-family: Georgia;
+	font-size: 16px;
+	font-weight: bold;
+	text-align: left;
+}
+/*Fix page and proposal section menu overlap on course Admin*/
+.ks-course-admin .ks-menu-layout-leftColumn {
+	margin-top: 5.2em;
+}
+
+/*Fixes the font size and padding for Cross List...link*/
+.collapsible-link {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	font-weight: bold;
+}
+
+/*------ Course Versions ------------------------------------------------ */
+.selectVersions {
+	width: 750px;
+}
+
+/* Buttons -------------------------------------------------------------- */
+
+/* Adding some space around image for collapsable panels */
+.ks-image-middle-alignment {
+	vertical-align: middle;
+	margin-left: 10px;
+	padding-left: 10px;
+	margin-top: 2px;
+}
+
+/* ---- Primary ------------------------- */
+a.ks-button-primary {
+	border: 1px solid #000000;
+	color: #000000;
+	font: bold 14px arial;
+	padding: 6px 15px;
+	line-height: 1.93em;
+	text-decoration: none;
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	background-color: #FFCC00;
+	/* Gradient fill */
+	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFCC00),
+		to(#FFC240) ); /* for webkit browsers */
+	background-image: \-moz-linear-gradient(top, #FFCC00, #FFC240);
+	/* for firefox 3.6+ */
+}
+
+a.ks-button-primary:focus {
+	color: #000000;
+	border: 1px solid #000000;
+	background-color: #FFCC00;
+	/* Gradient fill */
+	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFCC00),
+		to(#FFC240) ); /* for webkit browsers */
+	background-image: \-moz-linear-gradient(top, #FFCC00, #FFC240);
+	/* for firefox 3.6+ */
+}
+
+a.ks-button-primary:hover {
+	border: 1px solid #000000;
+	background-color: #FFE680;
+	/* Gradient fill */
+	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFE680),
+		to(#FFD942) ); /* for webkit browsers */
+	background-image: \-moz-linear-gradient(top, #FFE680, #FFD942);
+	/* for firefox 3.6+ */
+}
+
+.ks-button-primary-disabled {
+	border: #C2C1B1 1px solid;
+	color: #999999;
+	font: normal 14px arial;
+	padding: 6px 15px;
+	line-height: 1.93em;
+	text-decoration: none;
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	background-color: #E7E8E0;
+}
+
+/* ---- Primary Small ------------------- */
+a.ks-button-primary-small {
+	line-height: 1.93em;
+	text-decoration: none;
+	background-color: #FFCC00;
+	/* Gradient fill */
+	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFCC00),
+		to(#FFC240) ); /* for webkit browsers */
+	background-image: \-moz-linear-gradient(top, #FFCC00, #FFC240);
+	/* for firefox 3.6+ */
+	\-moz-border-radius: 0px;
+	\-webkit-border-radius: 0px;
+	border: 1px solid #000000;
+	padding: 3px 8px 2px 8px;
+	color: #000000;
+	font-size: 1em;
+	font-weight: bold;
+}
+
+a.ks-button-primary-small:focus {
+	background-color: #FFCC00;
+	/* Gradient fill */
+	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFCC00),
+		to(#FFC240) ); /* for webkit browsers */
+	background-image: \-moz-linear-gradient(top, #FFCC00, #FFC240);
+	/* for firefox 3.6+ */
+	border: 1px solid #000000;
+}
+
+a.ks-button-primary-small:hover {
+	background-color: #FFE680;
+	/* Gradient fill */
+	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFE680),
+		to(#FFD942) ); /* for webkit browsers */
+	background-image: \-moz-linear-gradient(top, #FFE680, #FFD942);
+	/* for firefox 3.6+ */
+	border: 1px solid #000000;
+}
+
+.ks-button-primary-small-disabled {
+	-moz-border-radius: 0px;
+	background-color: #E7E8E0;
+	border: 1px solid #C2C1B1;
+	color: #999999;
+	font-size: 1em;
+	font-weight: bold;
+	line-height: 1.93em;
+	padding: 3px 8px 2px;
+	text-decoration: none;
+}
+
+/* ---- Secondary + Secondary Small------------------------- */
+a.ks-button-secondary,a.ks-button-secondary-small {
+	border: 1px solid #C2C1B1;
+	color: #990000;
+	font: normal 12px arial;
+	padding: 3px 10px 2px;
+	line-height: 1.93em;
+	text-decoration: none;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	background: #F5F5EB;
+}
+
+a.ks-button-secondary:focus,a.ks-button-secondary-small:focus {
+	border: 1px solid #C2C1B1;
+	background: #F5F5EB;
+}
+
+a.ks-button-secondary:hover,a.ks-button-secondary-small:hover {
+	border: 1px solid #C2C1B1;
+	background: #F5F5EB;
+	text-decoration: underline;
+}
+
+.ks-button-secondary-disabled,.ks-button-secondary-small-disabled {
+	border: #C2C1B1 1px solid;
+	color: #999999;
+	font: normal 12px arial;
+	padding: 3px 10px 2px;
+	line-height: 1.93em;
+	text-decoration: none;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	background: #E7E8E0;
+}
+
+/*** Forms: Button Styling ***/
+a.ks-form-button-large,span.ks-form-button-large,a.ks-form-button-small,span.ks-form-button-small
+	{
+	text-decoration: none;
+	background: #F5F5EB url('images/umd_cm_plus.png') no-repeat 6px center;
+	padding: 3px 12px 2px 26px;
+	border: solid 1px #C2C1B1;
+	line-height: 23px;
+	color: #990000;
+	font-size: normal 12px arial;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+}
+
+/*--------------Learning Outcomes Page--------------*/
+.KSLOCategoryManagementMainPanel {
+	margin-top: 5px;
+	margin-left: 0px;
+	width: 15em;
+}
+
+/*---Special styling for the search results table---*/
+.KS-Advanced-Search-Results-Table table {
+	border-collapse: collapse;
+}
+
+/*---Special styling for ul error lists in course proposal---*/
+.ks-form-module-validation-errors ul {
+	list-style-type: none;
+}
+
+.activity-table-cell-header {
+	text-align: center;
+	font-weight: bold;
+	width: 900px;
+	height: 25px;
+}
+
+.activity-table-cell-header-underline {
+	border-top: thin solid #111111;
+	font-weight: bold;
+	text-align: center;
+	empty-cells: show;
+}
+
+.activity-table-cell-center {
+	text-align: center;
+	font-weight: bold;
+}
+
+.activity-table-cell-header-hidden {
+	visibility: hidden;
+}
+
+.activity-table-cell-footer {
+	border-bottom: thin solid #111111;
+	font-weight: bold;
+	empty-cells: show;
+}
+
+.activity-table-cell-first-header {
+	text-align: left;
+	font-weight: bold;
+	width: 700px;
+	height: 25px;
+}
+
+.activity-table-cell-nonStandard-header {
+	border-bottom: thin solid #111111;
+	color: #E8E8E8;
+	font-weight: bold;
+	width: 390px;
+	height: 25px;
+}
+
+.activity-table-cell-total {
+	text-align: right;
+	font-weight: bold;
+}
+
+.activity-table-cell-help {
+	width: auto;
+}
+
+.activity-table-cell-calculated {
+	text-align: center;
+	font-weight: bold;
+}
+
+.activity-section {
+	background-color: #E8E8E8;
+	padding-left: 4px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	padding-right: 4px;
+}
+
+.activity-section-title {
+	margin-bottom: 12px;
+}
+
+.activity-table-cell-total-background {
+	background-color: #F5F5F5;
+}
+
+.activity-textBox {
+	text-align: center;
+	width: 3.438em;
+}
+
+.activity-validation-layout {
+	padding-left: 4px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	padding-right: 4px;
+}
+
+/*-------------- Summary Table --------------*/
+.rowTitle {
+	padding: 3px 0;
+}
+
+/*-------------- Text Input --------------*/
+.watermark-text {
+	color: #F5F5EB;
+	font-style: italic;
+}
+
+.KS-Textbox {
+	border: 1px solid #000000;
+}
+
+.KS-Textbox-Focus {
+	background-color: #F5F5EB;
+	color: #000000;
+}
+
+.KS-Textarea-Focus {
+	background-color: #F5F5EB;
+	color: #000000;
+}
+
+/*-------------- Typeaheads --------------*/
+.gwt-SuggestBoxPopup .suggestPopupTopCenter {
+	background-color: #F5F5EB;
+	border-top: 1px solid #000000;
+}
+
+.gwt-SuggestBoxPopup .suggestPopupBottomCenter {
+	background-color: #F5F5EB;
+	border-bottom: 1px solid #000000;
+}
+
+.gwt-SuggestBoxPopup .suggestPopupMiddleLeft {
+	background-color: #F5F5EB;
+	border-left: 1px solid #000000;
+}
+
+.gwt-SuggestBoxPopup .suggestPopupMiddleRight {
+	background-color: #F5F5EB;
+	border-right: 1px solid #000000;
+}
+
+.gwt-SuggestBoxPopup .suggestPopupTopLeftInner {
+	background-color: #F5F5EB;
+	border-top: 1px solid #000000;
+	border-left: 1px solid #000000;
+	height: 5px;
+	width: 5px;
+}
+
+.gwt-SuggestBoxPopup .suggestPopupTopRightInner {
+	background-color: #F5F5EB;
+	border-top: 1px solid #000000;
+	border-right: 1px solid #000000;
+	height: 5px;
+	width: 8px;
+}
+
+.gwt-SuggestBoxPopup .suggestPopupBottomLeftInner {
+	background-color: #F5F5EB;
+	border-bottom: 1px solid #000000;
+	border-left: 1px solid #000000;
+	height: 8px;
+	width: 5px;
+}
+
+.gwt-SuggestBoxPopup .suggestPopupBottomRightInner {
+	background-color: #F5F5EB;
+	border-bottom: 1px solid #000000;
+	border-right: 1px solid #000000;
+	height: 8px;
+	width: 8px;
+}
+
+.gwt-SuggestBoxPopup .item-selected {
+	background: #FFCC00;
+}
+
+.gwt-SuggestBoxPopup .item {
+	color: #000000;
+	cursor: default;
+	line-height: 1.5em;
+	padding: 2px 6px;
+}
+
+.gwt-SuggestBoxPopup .suggestPopupContent {
+	background: none repeat scroll 0 0 #F5F5EB;
+	border: none;
+	padding: 0px;
+}
+
+/*-------------- Lightboxes --------------*/
+.ks-lightbox .Caption {
+	background-color: #AB1500;
+	color: #FFFFFF;
+	cursor: move;
+	font-size: 1.2em;
+	font-weight: bold;
+	padding: 10px 0 10px 16px;
+	position: relative;
+	text-align: left;
+	-moz-border-radius: 8px 8px 0px 0px;
+	text-shadow: none;
+}
+
+.ks-lightbox-closeLink {
+	background: url('images/lightbox_close_umd.png') no-repeat;
+	width: 40px;
+	height: 40px;
+	display: block;
+	z-index: 9999;
+	position: absolute;
+	right: -18px;
+	top: 12px;
+	cursor: pointer;
+	float: right;
+}
+
+.ks-lightbox-closeLink-with-Caption {
+	top: -28px;
+}
+
+.ks-lightbox-buttonPanel {
+	padding-top: 5px;
+	border-top: 3px solid black;
+	margin-right: 15px;
+}
+
+.ks-lightbox-titlePanel {
+	background-color: #AB1500;
+	color: #FFFFFF;
+	border-radius: 8px 8px 0 0;
+	margin-left: -15px;
+	margin-top: -1px;
+	padding-left: 15px;
+	padding-top: 5px;
+}
+
+.stylish-Arrow-Closed {
+	padding-left: 3px;
+	margin-top: 3px;
+	float: left;
+}
+
+.stylish-Arrow-Opened {
+	margin-top: 3px;
+	float: left;
+}
+
+.drawerHandle-open {
+	background: url(images/umd_vertical_collapsable_drawer_open.png)
+		no-repeat center;
+}
+
+.drawerHandle-close {
+	background: url(images/umd_vertical_collapsable_drawer_close.png)
+		no-repeat center;
+}
+
+.expandable-Arrow-Closed {
+	padding-right: 3px;
+	margin-top: 3px;
+	float: left;
+}
+
+.expandable-Arrow-Opened {
+	margin-top: 3px;
+	float: left;
+}
+
+.vpacAgendaCount {
+	font-style: italic;;
+}
+
+}
