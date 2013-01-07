@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.jws.WebParam;
 
 import org.apache.log4j.Logger;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r1.common.dictionary.old.dto.ObjectStructure;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -21,8 +22,10 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.dto.OrgOrgRelationInfo;
@@ -31,12 +34,13 @@ import org.kuali.student.r2.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.r2.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.r2.core.search.dto.SortDirection;
-import org.kuali.student.r2.core.search.infc.SearchParam;
+import org.kuali.student.r2.core.search.infc.SearchParam; 
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
 import org.kuali.student.r2.core.search.service.SearchManager;
@@ -45,6 +49,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.umd.ks.cm.core.organization.dao.OrganizationAndPrefixDaoUMD;
 import edu.umd.ks.cm.core.organization.entity.Unit;
+import edu.umd.ks.cm.course.service.utils.CM20;
 
 public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, OrganizationService{
 
@@ -52,6 +57,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 
 	private OrganizationAndPrefixDaoUMD dao;
 	SearchService searchDispatcher;
+	TypeService typeService;
 	
 	////@Override
 	public List<TypeInfo> getSearchTypes(ContextInfo contextInfo)
@@ -66,50 +72,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		return searchDispatcher.getSearchType(searchTypeKey, contextInfo);
 	}
  
-
-	//@Override
-	public List<TypeInfo> getSearchTypesByResult(
-			String searchResultTypeKey,ContextInfo contextInfo) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		return searchDispatcher.getSearchTypesByResult(searchResultTypeKey,contextInfo);
-	}
-
-	//@Override
-	public List<TypeInfo> getSearchTypesByCriteria(
-			String searchCriteriaTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		return searchDispatcher.getSearchTypesByCriteria(searchCriteriaTypeKey);
-	}
-
-	//@Override
-	public List<SearchResultTypeInfo> getSearchResultTypes()
-			throws OperationFailedException {
-		return searchDispatcher.getSearchResultTypes();
-	}
-
-	//@Override
-	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		return searchDispatcher.getSearchResultType(searchResultTypeKey);
-	}
-
-	//@Override
-	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
-			throws OperationFailedException {
-		return searchDispatcher.getSearchCriteriaTypes();
-	}
-
-	//@Override
-	public SearchCriteriaTypeInfo getSearchCriteriaType(
-			String searchCriteriaTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		return searchDispatcher.getSearchCriteriaType(searchCriteriaTypeKey);
-	}
-	
+ 
 	/**
 	 * This method creates a search Result object from a searchRequest object, 
 	 * a unit's Id and a unit's Short name
@@ -161,12 +124,12 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		String orgId = "";
 		
 		// Pull out Org ID param
-        List<SearchParam> queryParamValues = new ArrayList<SearchParam>(3);            		
+        List<SearchParamInfo> queryParamValues = new ArrayList<SearchParamInfo>(3);            		
         queryParamValues =	searchRequest.getParams();
                
         for (SearchParam searchParam : queryParamValues){
         	if (searchParam.getKey().equals("org.queryParam.orgId")){
-        		orgId = (String)searchParam.getValue();
+        		orgId = (String)CM20.getFirstValueFromSearchParam(searchParam);
         		continue;
         	}
         }
@@ -174,7 +137,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
         // Grab child Unit via dao fetch
 		Unit childUnit = new Unit();
 		try {
-			childUnit = dao.fetch(Unit.class, Long.parseLong(orgId));
+			childUnit =  (Unit) dao.fetch(Unit.class, Long.parseLong(orgId));
 
 		} catch (DoesNotExistException e) {
 			throw new RuntimeException("Error performing search");
@@ -193,7 +156,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 
 	//@Override
 	@Transactional(readOnly=true)
-	public SearchResult search(SearchRequestInfo searchRequest, ContextInfo contextInfo)
+	public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo)
 			throws MissingParameterException {
 		
 		SearchResult searchResults = null;
@@ -214,7 +177,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 			
 			//Strip out relation type since there is none in UMD
 			//Translate org types 
-			for (Iterator<SearchParam> iter=searchRequest.getParams().iterator();iter.hasNext();) {
+			for (Iterator<SearchParamInfo> iter=searchRequest.getParams().iterator();iter.hasNext();) {
 				SearchParam param = iter.next();
 				if("org.queryParam.relationType".equals(param.getKey())){
 					iter.remove();
@@ -313,132 +276,13 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 
 	}
 
-	//@Override
-	public List<String> getObjectTypes() {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
-
-	//@Override
-	public ObjectStructure getObjectStructure(String objectTypeKey) {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
-
-	//@Override
-	public List<OrgHierarchyInfo> getOrgHierarchies()
-			throws OperationFailedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
-
-	//@Override
-	public OrgHierarchyInfo getOrgHierarchy(String orgHierarchyKey)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
-
-	//@Override
-	public List<TypeInfo> getOrgTypes() throws OperationFailedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
-
-	//@Override
-	public TypeInfo getOrgType(String orgTypeKey)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
-
-	//@Override
-	public List<OrgOrgRelationTypeInfo> getOrgOrgRelationTypes()
-			throws OperationFailedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
-
-	//@Override
-	public OrgOrgRelationTypeInfo getOrgOrgRelationType(
-			String orgOrgRelationTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
-
-	//@Override
-	public List<OrgOrgRelationTypeInfo> getOrgOrgRelationTypesForOrgType(
-			String orgTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
-
-	//@Override
-	public List<OrgOrgRelationTypeInfo> getOrgOrgRelationTypesForOrgHierarchy(
-			String orgHierarchyKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
-
-	//@Override
-	public List<OrgPersonRelationTypeInfo> getOrgPersonRelationTypes()
-			throws OperationFailedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
-
-	//@Override
-	public OrgPersonRelationTypeInfo getOrgPersonRelationType(
-			String orgPersonRelationTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
-
-	//@Override
-	public List<OrgPersonRelationTypeInfo> getOrgPersonRelationTypesForOrgType(
-			String orgTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
-
-	//@Override
-	public List<ValidationResultInfo> validateOrg(String validationType,
-			OrgInfo orgInfo) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
-
-	//@Override
-	public List<ValidationResultInfo> validateOrgOrgRelation(
-			String validationType, OrgOrgRelationInfo orgOrgRelationInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
-
-	//@Override
-	public List<ValidationResultInfo> validateOrgPersonRelation(
-			String validationType, OrgPersonRelationInfo orgPersonRelationInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
-
-	//@Override
-	public List<ValidationResultInfo> validateOrgPositionRestriction(
-			String validationType,
-			OrgPositionRestrictionInfo orgPositionRestrictionInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
 
 	//@Override
 	@Transactional(readOnly=true)
 	public OrgInfo getOrganization(String orgId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		Unit unit = dao.fetch(Unit.class,Long.parseLong(orgId));
+		Unit unit = (Unit)dao.fetch(Unit.class,Long.parseLong(orgId));
 		return toOrgInfo(unit);
 	}
 
@@ -478,65 +322,12 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 		
 		Map<String, String> attributes = new HashMap<String, String>();
 		attributes.put("umType", unit.getUmType());
-		orgInfo.setAttributes(attributes);
+		orgInfo.setAttributes(CM20.mapToAttributeInfo(attributes));
 		
 		return orgInfo;
 	}
-
-	//@Override
-	public OrgOrgRelationInfo getOrgOrgRelation(String orgOrgRelationId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
-
-	//@Override
-	public List<OrgOrgRelationInfo> getOrgOrgRelationsByIdList(
-			List<String> orgOrgRelationIdList) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
-
-	//@Override
-	public List<OrgOrgRelationInfo> getOrgOrgRelationsByOrg(String orgId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
-
-	//@Override
-	public List<OrgOrgRelationInfo> getOrgOrgRelationsByRelatedOrg(
-			String relatedOrgId) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
-
-	//@Override
-	public Boolean hasOrgOrgRelation(String orgId, String comparisonOrgId,
-			String orgOrgRelationTypeKey) throws InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
-
-	//@Override
-	public Boolean isDescendant(String orgId, String descendantOrgId,
-			String orgHierarchy) throws InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
-
-	//@Override
-	public List<String> getAllDescendants(String orgId, String orgHierarchy)
-			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
+ 
+ 
 
 	//@Override
 	@Transactional(readOnly=true)
@@ -553,203 +344,538 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
 				
 		return ancestors;
 	}
+ 
 
-	//@Override
-	public OrgPersonRelationInfo getOrgPersonRelation(String orgPersonRelationId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
+	public OrgHierarchyInfo getOrgHierarchy(@WebParam(name = "orgHierarchyId") String orgHierarchyId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
 
-	//@Override
-	public List<OrgPersonRelationInfo> getOrgPersonRelationsByIdList(
-			List<String> orgPersonRelationIdList) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
+    public List<OrgHierarchyInfo> getOrgHierarchiesByIds(
+            @WebParam(name = "orgHierarchyIds") List<String> orgHierarchyIds,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
 
-	//@Override
-	public List<String> getPersonIdsForOrgByRelationType(String orgId,
-			String orgPersonRelationTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
+    public List<String> getOrgHierarchyIdsByType(@WebParam(name = "orgHierarchyTypeKey") String orgHierarchyTypeKey,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
 
-	//@Override
-	public List<OrgPersonRelationInfo> getOrgPersonRelationsByOrg(String orgId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
+    public List<OrgHierarchyInfo> getOrgHierarchies(@WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
 
-	//@Override
-	public List<OrgPersonRelationInfo> getOrgPersonRelationsByPerson(
-			String personId, String orgId) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
+    public List<String> searchForOrgHierarchyIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
 
-	//@Override
-	public List<OrgPersonRelationInfo> getAllOrgPersonRelationsByPerson(
-			String personId) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
+    public List<OrgHierarchyInfo> searchForOrgHierarchies(@WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
 
-	//@Override
-	public List<OrgPersonRelationInfo> getAllOrgPersonRelationsByOrg(
-			String orgId) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
+    public List<TypeInfo> getOrgTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
 
-	//@Override
-	public Boolean hasOrgPersonRelation(String orgId, String personId,
-			String orgPersonRelationTypeKey) throws InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
+    public OrgInfo getOrg(@WebParam(name = "orgId") String orgId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
 
-	//@Override
-	public List<OrgPositionRestrictionInfo> getPositionRestrictionsByOrg(
-			String orgId) throws DataValidationErrorException,
-			DoesNotExistException, InvalidParameterException,
-			MissingParameterException, PermissionDeniedException,
-			OperationFailedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
+    public List<OrgInfo> getOrgsByIds(@WebParam(name = "orgIds") List<String> orgIds,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
 
-	//@Override
-	public OrgInfo createOrganization(String orgTypeKey, OrgInfo orgInfo)
-			throws AlreadyExistsException, DataValidationErrorException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
+    public List<String> getOrgIdsByType(@WebParam(name = "orgTypeKey") String orgTypeKey,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
 
-	//@Override
-	public OrgInfo updateOrganization(String orgId, OrgInfo orgInfo)
-			throws DataValidationErrorException, DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			VersionMismatchException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
+    public List<String> searchForOrgIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
 
-	//@Override
-	public StatusInfo deleteOrganization(String orgId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
+    public List<OrgInfo> searchForOrgs(@WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
 
-	//@Override
-	public OrgOrgRelationInfo createOrgOrgRelation(String orgId,
-			String relatedOrgId, String orgOrgRelationTypeKey,
-			OrgOrgRelationInfo orgOrgRelationInfo)
-			throws AlreadyExistsException, DataValidationErrorException,
-			DoesNotExistException, InvalidParameterException,
-			MissingParameterException, PermissionDeniedException,
-			OperationFailedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
+    public List<ValidationResultInfo> validateOrg(@WebParam(name = "validationTypeKey") String validationTypeKey,
+            @WebParam(name = "orgTypeKey") String orgTypeKey, @WebParam(name = "orgInfo") OrgInfo orgInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
 
-	//@Override
-	public OrgOrgRelationInfo updateOrgOrgRelation(String orgOrgRelationId,
-			OrgOrgRelationInfo orgOrgRelationInfo)
-			throws DataValidationErrorException, DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			VersionMismatchException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
+    public OrgInfo createOrg(@WebParam(name = "orgTypeKey") String orgTypeKey,
+            @WebParam(name = "orgInfo") OrgInfo orgInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
 
-	//@Override
-	public StatusInfo removeOrgOrgRelation(String orgOrgRelationId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
+    public OrgInfo updateOrg(@WebParam(name = "orgId") String orgId, @WebParam(name = "orgInfo") OrgInfo orgInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException,
+            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
 
-	//@Override
-	public OrgPersonRelationInfo createOrgPersonRelation(String orgId,
-			String personId, String orgPersonRelationTypeKey,
-			OrgPersonRelationInfo orgPersonRelationInfo)
-			throws AlreadyExistsException, DataValidationErrorException,
-			DoesNotExistException, InvalidParameterException,
-			MissingParameterException, PermissionDeniedException,
-			OperationFailedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
+    public StatusInfo deleteOrg(@WebParam(name = "orgId") String orgId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
 
-	//@Override
-	public OrgPersonRelationInfo updateOrgPersonRelation(
-			String orgPersonRelationId,
-			OrgPersonRelationInfo orgPersonRelationInfo)
-			throws DataValidationErrorException, DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			VersionMismatchException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
+    public List<TypeInfo> getOrgOrgRelationTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
 
-	//@Override
-	public StatusInfo removeOrgPersonRelation(String orgPersonRelationId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
+    public List<TypeInfo> getOrgOrgRelationTypesForOrgType(@WebParam(name = "orgTypeKey") String orgTypeKey,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
 
-	//@Override
-	public OrgPositionRestrictionInfo addPositionRestrictionToOrg(String orgId,
-			String orgPersonRelationTypeKey,
-			OrgPositionRestrictionInfo orgPositionRestrictionInfo)
-			throws AlreadyExistsException, DataValidationErrorException,
-			DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
+    @Deprecated
+    public TypeInfo getOrgOrgRelationTypeForOrgType(@WebParam(name = "orgTypeKey") String orgTypeKey,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
 
-	//@Override
-	public OrgPositionRestrictionInfo updatePositionRestrictionForOrg(
-			String orgId, String orgPersonRelationTypeKey,
-			OrgPositionRestrictionInfo orgPositionRestrictionInfo)
-			throws DataValidationErrorException, DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			VersionMismatchException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
+    public List<TypeInfo> getOrgOrgRelationTypesForOrgHierarchy(
+            @WebParam(name = "orgHierarchyId") String orgHierarchyId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
 
-	//@Override
-	public StatusInfo removePositionRestrictionFromOrg(String orgId,
-			String orgPersonRelationTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
+    public Boolean hasOrgOrgRelation(@WebParam(name = "orgId") String orgId,
+            @WebParam(name = "comparisonOrgId") String comparisonOrgId,
+            @WebParam(name = "orgOrgRelationTypeKey") String orgOrgRelationTypeKey,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
 
-	//@Override
-	public List<OrgTreeInfo> getOrgTree(String rootOrgId,
-			String orgHierarchyId, int maxLevels) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		throw new UnsupportedOperationException("This implementation does not support this operation");
-	}
+    public OrgOrgRelationInfo getOrgOrgRelation(@WebParam(name = "orgOrgRelationId") String orgOrgRelationId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
 
-	public void setDao(OrganizationAndPrefixDaoUMD dao) {
+    public List<OrgOrgRelationInfo> getOrgOrgRelationsByIds(
+            @WebParam(name = "orgOrgRelationIds") List<String> orgOrgRelationIds,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public List<String> getOrgOrgRelationIdsByType(
+            @WebParam(name = "orgOrgRelationTypeKey") String orgOrgRelationTypeKey,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public List<OrgOrgRelationInfo> getOrgOrgRelationsByOrg(@WebParam(name = "orgId") String orgId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public List<OrgOrgRelationInfo> getOrgOrgRelationsByOrgs(@WebParam(name = "orgId") String orgId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public List<OrgOrgRelationInfo> getOrgOrgRelationsByTypeAndOrg(@WebParam(name = "orgId") String orgId,
+            @WebParam(name = "orgOrgRelationTypeKey") String orgOrgRelationTypeKey,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public List<String> searchForOrgOrgRelationIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public List<OrgOrgRelationInfo> searchForOrgOrgRelations(@WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public List<ValidationResultInfo> validateOrgOrgRelation(
+            @WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "orgId") String orgId,
+            @WebParam(name = "orgPeerId") String orgPeerId,
+            @WebParam(name = "orgOrgrelationTypeKey") String orgOrgRelationTypeKey,
+            @WebParam(name = "orgOrgRelationInfo") OrgOrgRelationInfo orgOrgRelationInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public OrgOrgRelationInfo createOrgOrgRelation(@WebParam(name = "orgId") String orgId,
+            @WebParam(name = "orgPeerId") String orgPeerId,
+            @WebParam(name = "orgOrgRelationTypeKey") String orgOrgRelationTypeKey,
+            @WebParam(name = "orgOrgRelationInfo") OrgOrgRelationInfo orgOrgRelationInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            DataValidationErrorException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public OrgOrgRelationInfo updateOrgOrgRelation(@WebParam(name = "orgOrgRelationId") String orgOrgRelationId,
+            @WebParam(name = "orgOrgRelationInfo") OrgOrgRelationInfo orgOrgRelationInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException,
+            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public StatusInfo deleteOrgOrgRelation(@WebParam(name = "orgOrgRelationId") String orgOrgRelationId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public List<TypeInfo> getOrgPersonRelationTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public List<TypeInfo> getOrgPersonRelationTypesForOrgType(@WebParam(name = "orgTypeKey") String orgTypeKey,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public Boolean hasOrgPersonRelation(@WebParam(name = "orgId") String orgId,
+            @WebParam(name = "personId") String personId,
+            @WebParam(name = "orgPersonRelationTypeKey") String orgPersonRelationTypeKey,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public OrgPersonRelationInfo getOrgPersonRelation(
+            @WebParam(name = "orgPersonRelationId") String orgPersonRelationId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public List<OrgPersonRelationInfo> getOrgPersonRelationsByIds(
+            @WebParam(name = "orgPersonRelationIds") List<String> orgPersonRelationIds,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public List<String> getOrgPersonRelationIdsByType(
+            @WebParam(name = "orgPersonRelationTypeKey") String orgPersonRelationTypeKey,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public List<OrgPersonRelationInfo> getOrgPersonRelationsByOrg(@WebParam(name = "orgId") String orgId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public List<OrgPersonRelationInfo> getOrgPersonRelationsByTypeAndOrg(
+            @WebParam(name = "orgPersonRelationTypeKey") String orgPersonRelationTypeKey,
+            @WebParam(name = "orgId") String orgId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    @Deprecated
+    public OrgPersonRelationInfo getOrgPersonRelationByTypeAndOrg(
+            @WebParam(name = "orgPersonRelationTypeKey") String orgPersonRelationTypeKey,
+            @WebParam(name = "orgId") String orgId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public List<OrgPersonRelationInfo> getOrgPersonRelationsByPerson(@WebParam(name = "personId") String personId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public List<OrgPersonRelationInfo> getOrgPersonRelationsByTypeAndPerson(
+            @WebParam(name = "orgPersonRelationTypeKey") String orgPersonRelationTypeKey,
+            @WebParam(name = "personId") String personId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public List<OrgPersonRelationInfo> getOrgPersonRelationsByOrgAndPerson(@WebParam(name = "orgId") String orgId,
+            @WebParam(name = "personId") String personId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public List<OrgPersonRelationInfo> getOrgPersonRelationsByTypeAndOrgAndPerson(
+            @WebParam(name = "orgPersonRelationTypeKey") String orgPersonRelationTypeKey,
+            @WebParam(name = "orgId") String orgId, @WebParam(name = "personId") String personId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public List<String> searchForOrgPersonRelationIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public List<OrgPersonRelationInfo> searchForOrgPersonRelations(
+            @WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public List<ValidationResultInfo> validateOrgPersonRelation(
+            @WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "orgId") String orgId,
+            @WebParam(name = "personId") String personId,
+            @WebParam(name = "orgPersonrelationTypeKey") String orgPersonRelationTypeKey,
+            @WebParam(name = "orgPersonRelationInfo") OrgPersonRelationInfo orgPersonRelationInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public OrgPersonRelationInfo createOrgPersonRelation(@WebParam(name = "orgId") String orgId,
+            @WebParam(name = "personId") String personId,
+            @WebParam(name = "orgPersonRelationTypeKey") String orgPersonRelationTypeKey,
+            @WebParam(name = "orgPersonRelationInfo") OrgPersonRelationInfo orgPersonRelationInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            DataValidationErrorException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public OrgPersonRelationInfo updateOrgPersonRelation(
+            @WebParam(name = "orgPersonRelationId") String orgPersonRelationId,
+            @WebParam(name = "orgPersonRelationInfo") OrgPersonRelationInfo orgPersonRelationInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException,
+            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public StatusInfo deleteOrgPersonRelation(@WebParam(name = "orgPersonRelationId") String orgPersonRelationId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public OrgPositionRestrictionInfo getOrgPositionRestriction(
+            @WebParam(name = "orgPositionRestrictionId") String orgPositionRestrictionId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public List<OrgPositionRestrictionInfo> getOrgPositionRestrictionsByIds(
+            @WebParam(name = "orgPositionRestrictionIds") List<String> orgPositionRestrictionIds,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public List<String> getOrgPositionRestrictionIdsByType(
+            @WebParam(name = "orgPersonRelationTypeKey") String orgPersonRelationTypeKey,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public List<String> getOrgPositionRestrictionIdsByOrg(@WebParam(name = "orgId") String orgId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public List<String> searchForOrgPositionRestrictionIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public List<OrgPositionRestrictionInfo> searchForOrgPositionRestrictions(
+            @WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public List<ValidationResultInfo> validateOrgPositionRestriction(
+            @WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "orgId") String orgId,
+            @WebParam(name = "orgPersonRelationTypeKey") String orgPersonRelationTypeKey,
+            @WebParam(name = "orgPositionRestrictionInfo") OrgPositionRestrictionInfo orgPositionRestrictionInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public OrgPositionRestrictionInfo createOrgPositionRestriction(@WebParam(name = "orgId") String orgId,
+            @WebParam(name = "orgPersonRelationTypeKey") String orgPersonRelationTypeKey,
+            @WebParam(name = "orgPositionRestrictionInfo") OrgPositionRestrictionInfo orgPositionRestrictionInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException,
+            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, ReadOnlyException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public OrgPositionRestrictionInfo updateOrgPositionRestriction(
+            @WebParam(name = "orgPositionRestrictionId") String orgPositionRestrictionId,
+            @WebParam(name = "orgPositionRestrictionInfo") OrgPositionRestrictionInfo orgPositionRestrictionInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException,
+            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public StatusInfo deleteOrgPositionRestriction(
+            @WebParam(name = "orgPositionRestrictionId") String orgPositionRestrictionId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public Boolean isDescendant(@WebParam(name = "orgId") String orgId,
+            @WebParam(name = "descendantOrgId") String descendantOrgId,
+            @WebParam(name = "orgHierarchyId") String orgHierarchyId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public List<String> getAllDescendants(@WebParam(name = "orgId") String orgId,
+            @WebParam(name = "orgHierarchyId") String orgHierarchyId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        	throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public List<String> getAllAncestors(@WebParam(name = "orgId") String orgId,
+            @WebParam(name = "orgHierarchyId") String orgHierarchyId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public List<OrgTreeInfo> getOrgTree(@WebParam(name = "rootOrgId") String rootOrgId,
+            @WebParam(name = "orgHierarchyId") String orgHierarchyId, @WebParam(name = "maxLevels") int maxLevels,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO cmann - THIS METHOD NEEDS JAVADOCS
+        throw new UnsupportedOperationException("This implementation does not support this operation");
+    }
+
+    public void setDao(OrganizationAndPrefixDaoUMD dao) {
 		this.dao = dao;
 	}
 

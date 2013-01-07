@@ -9,11 +9,12 @@ import java.util.Set;
 
 import javax.persistence.Query;
 
+import org.kuali.student.r1.common.dao.impl.AbstractCrudDaoImpl;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 
 import edu.umd.ks.cm.core.organization.entity.Unit;
 
-public class OrganizationAndPrefixDaoImplUMD extends AbstractSearchableCrudDaoImpl implements OrganizationAndPrefixDaoUMD{
+public class OrganizationAndPrefixDaoImplUMD extends AbstractCrudDaoImpl implements OrganizationAndPrefixDaoUMD{
 	@Override
 	public List<Long> getAllAncestors(Long unitId, String orgHierarchy) {
 		Query query = em.createNamedQuery("UnitRelation.getAncestors");
@@ -42,6 +43,7 @@ public class OrganizationAndPrefixDaoImplUMD extends AbstractSearchableCrudDaoIm
         return units;
 	}
 	
+	 
 	@Override
 	public List<Unit> getAllAncestorsOfType(List<Long> unitIdList,
 			List<String> typeList) {
@@ -82,8 +84,9 @@ public class OrganizationAndPrefixDaoImplUMD extends AbstractSearchableCrudDaoIm
 		return new ArrayList<Unit>(nextLevelUnits.values());
 	}
 
+ 
 	@Override
-	public <T> T fetch(Class<T> clazz, Long key) throws DoesNotExistException {
+	public <T> T fetch(Class<T> clazz, String key) throws DoesNotExistException {
 		T entity = em.find(clazz, key);
 		if (entity == null) {
 			throw new DoesNotExistException("No entity for key '" + key + "' found for " + clazz);

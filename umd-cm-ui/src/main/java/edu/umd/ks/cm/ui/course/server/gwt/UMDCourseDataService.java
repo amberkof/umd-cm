@@ -7,7 +7,7 @@ import java.util.Map;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
 import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.search.dto.SearchParam;
-import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchRequestInfo;
 import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.search.dto.SearchResultCell;
 import org.kuali.student.common.search.dto.SearchResultRow;
@@ -90,7 +90,7 @@ public class UMDCourseDataService extends CourseDataService {
             qpRelOrgType.setValue("kuali.org.College");
             queryParamValues.add(qpRelOrgType);
 
-            SearchRequest searchRequest = new SearchRequest();
+            SearchRequestInfo searchRequest = new SearchRequestInfo();
             searchRequest.setSearchKey("org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId");
             searchRequest.setParams(queryParamValues);
             

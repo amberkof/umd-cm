@@ -28,8 +28,10 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class TestOrganizationServiceUMD {
 
+    
+    
 	@Test
-	@Ignore
+	//@Ignore
 	public void test1() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, NotSupportedException, SystemException{
 		ApplicationContext ctx = new ClassPathXmlApplicationContext(
 		        "test-umd-cm-organization-context.xml");

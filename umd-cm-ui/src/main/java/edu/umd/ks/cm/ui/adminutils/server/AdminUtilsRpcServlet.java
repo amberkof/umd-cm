@@ -1,10 +1,10 @@
 package edu.umd.ks.cm.ui.adminutils.server;
 
 import java.util.List;
-
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
+ 
+import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.student.common.util.security.SecurityUtils;
+import org.kuali.student.r2.common.dto.ContextInfo;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 

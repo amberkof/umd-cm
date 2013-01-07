@@ -26,7 +26,7 @@ import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.service.CachingSearchService;
 import org.kuali.student.common.ui.client.util.SearchUtils;
-import org.kuali.student.common.ui.client.util.SearchUtils.SearchRequestWrapper;
+import org.kuali.student.common.ui.client.util.SearchUtils.SearchRequestInfoWrapper;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
 import org.kuali.student.common.ui.client.widgets.list.SearchResultListItems;
 import org.kuali.student.common.ui.client.widgets.table.summary.ShowRowConditionCallback;
@@ -54,7 +54,7 @@ import edu.umd.ks.cm.ui.course.client.widgets.logistics.CourseFormatWidget;
 
 public class CourseSummaryConfigurerUMD extends CourseSummaryConfigurer {
 
-    private final SearchRequestWrapper activitySearchRequestWrapper = new SearchRequestWrapper();
+    private final SearchRequestInfoWrapper activitySearchRequestInfoWrapper = new SearchRequestInfoWrapper();
     private final Map<String, String> activitySortTemplate = new HashMap<String, String>();
     private Map<String, String> activityTypeMap = new HashMap<String, String>();
     private Map<String, String> ratioMap = new HashMap<String, String>();

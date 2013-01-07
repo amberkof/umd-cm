@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchRequestInfo;
 import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.ui.client.application.Application;
@@ -61,7 +61,7 @@ public class VpacAgendaView extends ViewComposite {
     protected SearchRpcServiceAsync searchServiceAsync = GWT.create(SearchRpcService.class);
 	
 	// Contains searchId, etc.
-    protected SearchRequest searchRequest = new SearchRequest();
+    protected SearchRequestInfo searchRequest = new SearchRequestInfo();
     
     /* Not currently used. May come back later and use it.
 	   protected Metadata searchMetadata; */

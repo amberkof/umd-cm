@@ -30,7 +30,7 @@ import org.kuali.student.lum.lu.ui.tools.client.configuration.ClusetView.Picker;
 import org.kuali.student.r1.common.assembly.data.LookupMetadata;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r2.core.search.infc.SearchParam;
-import org.kuali.student.r2.core.search.infc.SearchRequest;
+import org.kuali.student.r2.core.search.infc.SearchRequestInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
@@ -203,7 +203,7 @@ public class DependencyAnalysisViewUMD extends DependencyAnalysisView {
         dependencyFilter.reset();
         
         //Setup and invoke the dependency analysis search and process the results
-        SearchRequest searchRequest = new SearchRequest();
+        SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey("lu.search.dependencyAnalysis");
         
         SearchParam searchParam = new SearchParam();
