@@ -47,6 +47,8 @@ import org.kuali.student.r2.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.r2.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.r2.core.organization.infc.OrgPositionRestriction;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -95,24 +97,78 @@ public class TestOrganizationServiceUMD2 {
             assertEquals("UGST-Educational Talent Search",org.getLongName());
             List<String> ancestors = os.getAllAncestors("2216143240", null,contextInfo);
             assertEquals(3,ancestors.size());
-            /*
-            orgService.getOrg("2216143240",contextInfo);
             
-            List<OrgInfo> orgInfos = orgService.searchForOrgs(qbc, callContext);
-            assertNotNull(orgInfos);
-            assertEquals(1, orgInfos.size());
-            OrgInfo orgInfo = orgInfos.get(0);
-            assertEquals("1", orgInfo.getId());
-            assertEquals("KUSystem", orgInfo.getShortName());
-            assertEquals("Kuali University System", orgInfo.getLongName());
-            assertEquals("", orgInfo.getShortDescr().getPlain());
-            assertEquals("", orgInfo.getLongDescr().getPlain());
-            assertEquals("kuali.org.CorporateEntity", orgInfo.getTypeKey());
+            SearchRequestInfo sr = new SearchRequestInfo("subjectCode.search.subjectCodeGeneric");
+            SearchResult result = os.search(sr,contextInfo);
+            assertEquals(283,result.getRows().size());
+            
+            sr.addParam("subjectCode.queryParam.code", "HESP");
+            result = os.search(sr,contextInfo);
+            assertEquals(1,result.getRows().size());
+            assertEquals("HESP",result.getRows().get(0).getCells().get(0).getValue());
+             
+            sr = new SearchRequestInfo("subjectCode.search.orgsForSubjectCode");
+            sr.addParam("subjectCode.queryParam.code", "HHUM");
+            
+            result = os.search(sr,contextInfo);
+            assertEquals(2,result.getRows().size());
+            
+            sr = new SearchRequestInfo("org.search.generic");
+            result = os.search(sr,contextInfo);
+            assertEquals(908,result.getRows().size());
 
-            List<String> orgIds = orgService.searchForOrgIds(qbc, callContext);
-            assertNotNull(orgIds);
-            assertEquals(1, orgIds.size());
-            */
+            sr = new SearchRequestInfo("org.search.generic");
+            sr.addParam("org.queryParam.orgOptionalLongName", "SVPAAP");
+            result = os.search(sr,contextInfo);
+            assertEquals(44,result.getRows().size());
+            
+            sr = new SearchRequestInfo("org.search.generic");
+            sr.addParam("org.queryParam.orgOptionalId", "2859809809");
+            result = os.search(sr,contextInfo);
+            assertEquals(1,result.getRows().size());
+
+            sr = new SearchRequestInfo("org.search.generic");
+            List<String> ids = new ArrayList<String>();
+            ids.add("1964680419");
+            ids.add("1988286422");
+            ids.add("2073518245");
+            sr.addParam("org.queryParam.orgOptionalIds", ids);
+            result = os.search(sr,contextInfo);
+            assertEquals(3,result.getRows().size());
+
+            sr = new SearchRequestInfo("org.search.generic");
+            sr.addParam("org.queryParam.orgOptionalShortName", "SVPAAP");
+            result = os.search(sr,contextInfo);
+            assertEquals(2,result.getRows().size());
+            
+            sr = new SearchRequestInfo("org.search.generic");
+            sr.addParam("org.queryParam.startswith.orgOptionalShortName", "SVPAAP");
+            result = os.search(sr,contextInfo);
+            assertEquals(2,result.getRows().size());
+            
+            sr = new SearchRequestInfo("org.search.generic");
+            sr.addParam("org.queryParam.orgOptionalType", "kuali.org.Department");
+            result = os.search(sr,contextInfo);
+            assertEquals(420,result.getRows().size());
+
+            sr = new SearchRequestInfo("org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId");
+            sr.addParam("org.queryParam.orgId", "95634162");
+            sr.addParam("org.queryParam.relationType", "foo");
+            sr.addParam("org.queryParam.relatedOrgType", "kuali.org.College");
+            result = os.search(sr,contextInfo);
+            assertEquals(1,result.getRows().size());
+            
+            sr = new SearchRequestInfo("org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds");
+            ids = new ArrayList<String>();
+            ids.add("9875092");
+            sr.addParam("org.queryParam.relatedOrgIds", ids);
+            List<String> types = new ArrayList<String>();
+            types.add("org.kuali.College");
+            sr.addParam("org.queryParam.optionalOrgTypeList", types);
+            result = os.search(sr,contextInfo);
+            assertEquals(1,result.getRows().size());
+            
+             
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());

@@ -38,6 +38,7 @@ import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.dto.SortDirection;
 import org.kuali.student.r2.core.search.infc.SearchParam;
+import org.kuali.student.r2.core.search.service.SearchManager;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.umd.ks.cm.core.organization.dao.OrganizationAndPrefixDaoUMD;
@@ -49,9 +50,9 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
     final Logger logger = Logger.getLogger(OrganizationAndPrefixServiceImplUMD.class);
 
     private OrganizationAndPrefixDaoUMD dao;
-    SearchManagerImpl searchDispatcher;
+    // Note: this deprecated version is being used
+    SearchManager searchDispatcher;
     TypeService typeService;
-
     @Override
     public List<TypeInfo> getSearchTypes(ContextInfo contextInfo) throws OperationFailedException,
             InvalidParameterException, MissingParameterException {
@@ -298,7 +299,7 @@ public class OrganizationAndPrefixServiceImplUMD implements SubjectCodeService, 
     @Transactional(readOnly = true)
     public OrgInfo getOrg(String orgId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        Unit unit = (Unit) dao.fetch(Unit.class,  orgId );
+        Unit unit = (Unit) dao.fetch(Unit.class,   orgId );
         return toOrgInfo(unit);
     }
 
