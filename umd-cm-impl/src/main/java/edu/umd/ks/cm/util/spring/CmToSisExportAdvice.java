@@ -29,6 +29,7 @@ import org.apache.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.r1.lum.course.service.CourseServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -244,7 +245,8 @@ public class CmToSisExportAdvice implements Advice {
 			String appContent = writer.toString();
 
 			// Creating a document and sending to Workflow to "Final" state
-	        WorkflowDocument document = new WorkflowDocument(principalId, "kuali.admin.type.course.modify");
+			// 2.0 upgrade - based on code in KualiStudentPostProcessorBase line 119
+			WorkflowDocument document = WorkflowDocumentFactory.createDocument(principalId, "kuali.admin.type.course.modify");	     
 	        document.setApplicationContent(appContent);
 	        document.saveDocument("");
 	        document.approve("Audit course change to approve");
