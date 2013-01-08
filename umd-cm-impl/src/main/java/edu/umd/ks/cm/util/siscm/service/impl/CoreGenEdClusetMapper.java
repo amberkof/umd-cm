@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -12,8 +14,11 @@ import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
 import org.kuali.student.r2.lum.clu.service.CluService;
- 
 
+import com.google.common.cache.Cache;
+ 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 public class CoreGenEdClusetMapper {
 	
 	private static final String CLUSET_ENGLISH_TO_GUID_MAP = "A";
@@ -23,31 +28,57 @@ public class CoreGenEdClusetMapper {
 	protected int cacheMaxAgeSeconds = 300;
 	
 	private CluService luservice;
+	 
+	protected Cache<String, Map<String,String>> cacheInternal;
 	
-	protected Map<String,MaxAgeSoftReference<Map<String,String>>> cache = Collections.synchronizedMap(new MaxSizeMap<String,MaxAgeSoftReference<Map<String,String>>>( cacheMaxSize ));
 	
-	protected Map<String,String> getCache(String key) {
-		MaxAgeSoftReference<Map<String,String>> ref = cache.get(key);
-		if ( ref != null ) {
-			return ref.get();
-		}
-		return null;
-	}
-	protected Map<String,String> getCluSetEnglishToGuidMap(ContextInfo contextInfo){
-		Map<String,String> map = getCache(CLUSET_ENGLISH_TO_GUID_MAP);
-		if ( map == null ) {
-			map = doSearchAndAddToCaches(CLUSET_ENGLISH_TO_GUID_MAP,contextInfo);
-		}
-		return map;
+	protected Cache<String, Map<String,String>> buildCache(){
+	     return  CacheBuilder.newBuilder()
+                 .expireAfterAccess(cacheMaxAgeSeconds, TimeUnit.SECONDS)
+                 .maximumSize(cacheMaxSize)
+                 .softValues()
+                 .build();
+	    
 	}
 	
-	protected Map<String,String> getCluSetEnglishToDescriptionMap(ContextInfo contextInfo){
-		Map<String,String> map = getCache(CLUSET_ENGLISH_TO_DESCRIPTION_MAP);
-		if ( map == null ) {
-			map = doSearchAndAddToCaches(CLUSET_ENGLISH_TO_DESCRIPTION_MAP,contextInfo);
-		}
-		return map;
-	}
+	protected  Cache<String, Map<String,String>> getCache() {
+		 if (cacheInternal == null)
+		     cacheInternal = buildCache();
+		 
+		 return cacheInternal;
+		 
+    }
+
+    protected Map<String, String> getCluSetEnglishToGuidMap(ContextInfo contextInfo) {
+        Map<String, String> map = null;
+        try {
+            map = getCache().get(CLUSET_ENGLISH_TO_GUID_MAP);
+            if (map == null) {
+                map = doSearchAndAddToCaches(CLUSET_ENGLISH_TO_GUID_MAP, contextInfo);
+            }
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+
+        }
+        return map;
+    }
+
+    protected Map<String, String> getCluSetEnglishToDescriptionMap(ContextInfo contextInfo) {
+
+        Map<String, String> map = null;
+        try {
+            map = getCache().get(CLUSET_ENGLISH_TO_DESCRIPTION_MAP);
+            if (map == null) {
+                map = doSearchAndAddToCaches(CLUSET_ENGLISH_TO_DESCRIPTION_MAP, contextInfo);
+            }
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+
+        }
+        return map;
+    }
 
 	private Map<String, String> doSearchAndAddToCaches(String key, ContextInfo contextInfo) {
 		try{
@@ -78,8 +109,8 @@ public class CoreGenEdClusetMapper {
 				descrMap.put(sisCode, name);
 			}
 			
-			cache.put(CLUSET_ENGLISH_TO_GUID_MAP, new MaxAgeSoftReference<Map<String,String>>(cacheMaxAgeSeconds, guidMap));
-			cache.put(CLUSET_ENGLISH_TO_DESCRIPTION_MAP, new MaxAgeSoftReference<Map<String,String>>(cacheMaxAgeSeconds, descrMap));
+			getCache().put(CLUSET_ENGLISH_TO_GUID_MAP, guidMap);
+			getCache().put(CLUSET_ENGLISH_TO_DESCRIPTION_MAP, descrMap); 
 			
 			if(CLUSET_ENGLISH_TO_GUID_MAP.equals(key)){
 				return guidMap;
