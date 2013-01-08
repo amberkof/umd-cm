@@ -115,12 +115,12 @@ public class TestOrganizationServiceUMD2 {
             
             sr = new SearchRequestInfo("org.search.generic");
             result = os.search(sr,contextInfo);
-            assertEquals(908,result.getRows().size());
+            assertEquals(1157,result.getRows().size());
 
             sr = new SearchRequestInfo("org.search.generic");
             sr.addParam("org.queryParam.orgOptionalLongName", "SVPAAP");
             result = os.search(sr,contextInfo);
-            assertEquals(44,result.getRows().size());
+            assertEquals(80,result.getRows().size());
             
             sr = new SearchRequestInfo("org.search.generic");
             sr.addParam("org.queryParam.orgOptionalId", "2859809809");
@@ -149,7 +149,7 @@ public class TestOrganizationServiceUMD2 {
             sr = new SearchRequestInfo("org.search.generic");
             sr.addParam("org.queryParam.orgOptionalType", "kuali.org.Department");
             result = os.search(sr,contextInfo);
-            assertEquals(420,result.getRows().size());
+            assertEquals(523,result.getRows().size());
 
             sr = new SearchRequestInfo("org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId");
             sr.addParam("org.queryParam.orgId", "95634162");
@@ -166,7 +166,7 @@ public class TestOrganizationServiceUMD2 {
             types.add("org.kuali.College");
             sr.addParam("org.queryParam.optionalOrgTypeList", types);
             result = os.search(sr,contextInfo);
-            assertEquals(1,result.getRows().size());
+            assertEquals(2,result.getRows().size());
             
              
         } catch (Exception e) {
