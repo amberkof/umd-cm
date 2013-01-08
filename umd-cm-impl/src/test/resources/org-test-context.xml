@@ -37,13 +37,13 @@
         <property name="shouldLoadData" value="true"/>
         <property name="preloadMap">
             <map>
-                <entry key="Organization">
-                    <value>classpath:ks-org.sql</value>
+                <entry key="umdOrganization">
+                    <value>classpath:umd-org.sql</value>
                 </entry>
             </map>
         </property>
     </bean>
--->
+ -->
     <bean id="AtomikosTxMgr"
         class="com.atomikos.icatch.jta.UserTransactionManager"
         init-method="init" destroy-method="close" depends-on="systemPropertyConfigurer" autowire-candidate="false" autowire="no">
@@ -89,8 +89,8 @@
     </bean>
     
    <bean id="entityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no">
-        <property name="persistenceUnitName" value="Organization"/>
-        <property name="persistenceXmlLocation" value="classpath:META-INF/organization-persistence.xml" />
+        <property name="persistenceUnitName" value="umdOrganization"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/umd-cm-organization-persistence-test.xml" />
         <property name="dataSource" ref="dataSource" />
    </bean>
 
@@ -101,7 +101,7 @@
     <!-- Organization Service -->
      <bean id="orgDao"
         class="edu.umd.ks.cm.core.organization.dao.OrganizationAndPrefixDaoImplUMD">
-        <property name="em" ref="orgEntityManager" />
+        <property name="em" ref="entityManager" />
     </bean>
 
     <bean id="dictionaryServiceNew" class="org.kuali.student.r1.common.dictionary.service.impl.DictionaryServiceImpl">

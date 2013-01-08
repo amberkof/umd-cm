@@ -84,13 +84,13 @@ public class OrganizationAndPrefixDaoImplUMD extends AbstractCrudDaoImpl impleme
 		return new ArrayList<Unit>(nextLevelUnits.values());
 	}
 
+	   @Override
+	    public <T> T fetch(Class<T> clazz, String key) throws DoesNotExistException {
+	        T entity = em.find(clazz, Long.parseLong(key));
+	        if (entity == null) {
+	            throw new DoesNotExistException("No entity for key '" + key + "' found for " + clazz);
+	        }
+	        return entity;
+	    }
  
-	@Override
-	public <T> T fetch(Class<T> clazz, String key) throws DoesNotExistException {
-		T entity = em.find(clazz, key);
-		if (entity == null) {
-			throw new DoesNotExistException("No entity for key '" + key + "' found for " + clazz);
-		}
-		return entity;
-	}
 }

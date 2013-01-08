@@ -11,6 +11,13 @@
 		transaction-type="JTA">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
 
+
+		<class>edu.umd.ks.cm.core.organization.entity.Prefix</class>
+		<class>edu.umd.ks.cm.core.organization.entity.PrefixUnitRelation</class>
+		<class>edu.umd.ks.cm.core.organization.entity.Unit</class>
+		<class>edu.umd.ks.cm.core.organization.entity.UnitRelation</class>
+ 
+ 
         <class>org.kuali.student.r2.common.entity.BaseAttributeEntity</class>
 
         <class>org.kuali.student.enrollment.class1.lpr.model.LprEntity</class>

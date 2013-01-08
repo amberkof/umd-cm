@@ -72,16 +72,16 @@ import static org.junit.Assert.fail;
 public class TestOrganizationServiceUMD2 {
     
     @Resource(name="orgServiceImpl")
-    public OrganizationService orgService;
+    public OrganizationService os;
     
     public static String principalId = "123";
     
-    public ContextInfo callContext = null;
+    public ContextInfo contextInfo = null;
     
     @Before
     public void setUp() {
-        callContext = new ContextInfo();
-        callContext.setPrincipalId(principalId);
+        contextInfo = new ContextInfo();
+        contextInfo.setPrincipalId(principalId);
     }
     
     @Test
@@ -90,6 +90,14 @@ public class TestOrganizationServiceUMD2 {
         qbcBuilder.setPredicates(PredicateFactory.equal("id", "1"));
         QueryByCriteria qbc = qbcBuilder.build();
         try {
+            
+            OrgInfo org = os.getOrg("2216143240",contextInfo);
+            assertEquals("UGST-Educational Talent Search",org.getLongName());
+            List<String> ancestors = os.getAllAncestors("2216143240", null,contextInfo);
+            assertEquals(3,ancestors.size());
+            /*
+            orgService.getOrg("2216143240",contextInfo);
+            
             List<OrgInfo> orgInfos = orgService.searchForOrgs(qbc, callContext);
             assertNotNull(orgInfos);
             assertEquals(1, orgInfos.size());
@@ -104,7 +112,9 @@ public class TestOrganizationServiceUMD2 {
             List<String> orgIds = orgService.searchForOrgIds(qbc, callContext);
             assertNotNull(orgIds);
             assertEquals(1, orgIds.size());
+            */
         } catch (Exception e) {
+            e.printStackTrace();
             fail(e.getMessage());
         }        
     }

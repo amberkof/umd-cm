@@ -8,8 +8,7 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import edu.umd.ks.cm.core.organization.entity.Unit;
 
 public interface OrganizationAndPrefixDaoUMD extends CrudDao {
-	public <T> T fetch(Class<T> clazz, Long key) throws DoesNotExistException;
-	
+	 
 	public List<Long> getAllAncestors(Long orgId, String orgHierarchy);
 
 	public List<Unit> getOrganizationsByIdList(List<Long> orgIdList);
