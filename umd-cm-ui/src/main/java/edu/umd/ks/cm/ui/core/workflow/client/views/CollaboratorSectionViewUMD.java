@@ -13,6 +13,7 @@ import org.kuali.student.core.workflow.ui.client.views.CollaboratorSectionView;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r1.common.rice.StudentWorkflowConstants.ActionRequestType;
 import org.kuali.student.r1.common.rice.authorization.PermissionType;
+import org.kuali.student.r2.lum.clu.CLUConstants;
 
 import com.google.gwt.core.client.GWT;
 
@@ -94,16 +95,16 @@ public class CollaboratorSectionViewUMD extends CollaboratorSectionView{
 		
       
     	if(viewContext.getId() != null && !viewContext.getId().isEmpty()){
-    		if (currentDocType.equals(LUConstants.PROPOSAL_TYPE_COURSE_CREATE))   
+    		if (currentDocType.equals(CLUConstants.PROPOSAL_TYPE_COURSE_CREATE))   
     	        {
-    			attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_CREATE);
-    		} else if (currentDocType.equals(LUConstants.PROPOSAL_TYPE_COURSE_MODIFY)){
+    			attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, CLUConstants.PROPOSAL_TYPE_COURSE_CREATE);
+    		} else if (currentDocType.equals(CLUConstants.PROPOSAL_TYPE_COURSE_MODIFY)){
     			//Copy id provided, so creating a proposal for modification
-    			attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_MODIFY);
+    			attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, CLUConstants.PROPOSAL_TYPE_COURSE_MODIFY);
     		}
     	} else{
     		//No id in view context, so creating new empty proposal
-			attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_CREATE);    		
+			attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, CLUConstants.PROPOSAL_TYPE_COURSE_CREATE);    		
     	}    	
 	}
 	
