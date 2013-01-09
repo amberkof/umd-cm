@@ -3,8 +3,6 @@ package edu.umd.ks.cm.ui.course.client.configuration;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -21,6 +19,8 @@ import org.kuali.student.lum.lu.ui.course.client.widgets.RecentlyViewedBlock;
 import org.kuali.student.lum.lu.ui.main.client.configuration.CurriculumHomeConfigurer;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
@@ -29,10 +29,6 @@ import com.google.gwt.user.client.ui.Widget;
 
 import edu.umd.ks.cm.ui.common.client.lu.LUUIPermissionsUMD;
 import edu.umd.ks.cm.ui.common.client.widgets.AppLocationsUMD;
-
-import edu.umd.ks.cm.ui.course.client.configuration.UMDConstants;
-
-
 
 /**
  * 

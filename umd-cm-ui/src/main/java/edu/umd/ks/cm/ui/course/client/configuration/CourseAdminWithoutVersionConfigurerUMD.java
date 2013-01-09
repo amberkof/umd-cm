@@ -1,7 +1,5 @@
 package edu.umd.ks.cm.ui.course.client.configuration;
 
-import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.RequiredContainer;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
@@ -18,6 +16,8 @@ import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminControll
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminWithoutVersionController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsViewController;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r2.common.dto.DtoConstants;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -25,6 +25,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 
 import edu.umd.ks.cm.ui.common.client.lu.LUUIConstantsUMD;
+
 
 public class CourseAdminWithoutVersionConfigurerUMD extends CourseProposalConfigurerUMD {
 	protected CourseRequirementsViewController requisitesSection;
