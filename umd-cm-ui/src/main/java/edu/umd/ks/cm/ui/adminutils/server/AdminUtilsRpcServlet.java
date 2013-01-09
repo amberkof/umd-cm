@@ -5,6 +5,7 @@ import java.util.List;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -22,7 +23,7 @@ public class AdminUtilsRpcServlet extends RemoteServiceServlet implements AdminU
 	public boolean exportAllCourses() {
 		isAuthorized();
 		try {
-			return siscmService.exportAllCourses();
+			return siscmService.exportAllCourses(ContextUtils.getContextInfo());
 		} catch (Exception e) {
 			throw new RuntimeException("Error exporting courses.",e);
 		}
@@ -32,7 +33,7 @@ public class AdminUtilsRpcServlet extends RemoteServiceServlet implements AdminU
 	public boolean exportCourses(List<String> courseIds) {
 		isAuthorized();
 		try {
-			return siscmService.exportCourses(courseIds);
+			return siscmService.exportCourses(courseIds,ContextUtils.getContextInfo());
 		} catch (Exception e) {
 			throw new RuntimeException("Error exporting courses.",e);
 		}
@@ -42,7 +43,7 @@ public class AdminUtilsRpcServlet extends RemoteServiceServlet implements AdminU
 	public String updateCourseOrgsForPrefix(String prefixes) {
 		isAuthorized();
 		try {
-			return siscmService.updateCourseOrgsForPrefix(prefixes);
+			return siscmService.updateCourseOrgsForPrefix(prefixes,ContextUtils.getContextInfo());
 		} catch (Exception e) {
 			throw new RuntimeException("Error updating prefixes.",e);
 		}
@@ -51,11 +52,14 @@ public class AdminUtilsRpcServlet extends RemoteServiceServlet implements AdminU
 	private void isAuthorized() {
 		if(true)return;
 		String user = SecurityUtils.getCurrentPrincipalId();
-		AttributeSet permissionDetails = null;
-		AttributeSet qualification = null;
+		//AttributeSet permissionDetails = null;
+		//AttributeSet qualification = null;
+		// CM20 upgrade: this code does not work.  I don't think we are using admin tools.
+		/*
 		if(!permissionService.isAuthorized(user, "", "", permissionDetails, qualification)){
 			throw new RuntimeException("User is not authorized.");
 		}
+		*/
 	}
 	
 	public void setSiscmService(SiscmService siscmService) {
