@@ -3,10 +3,6 @@ package edu.umd.ks.cm.ui.vpac.agenda.client.views;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.search.dto.SearchRequestInfo;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -22,7 +18,11 @@ import org.kuali.student.common.ui.client.widgets.field.layout.layouts.VerticalF
 import org.kuali.student.common.ui.client.widgets.headers.KSDocumentHeader;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
-import org.kuali.student.lum.lu.LUConstants;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.infc.SearchResult;
+import org.kuali.student.r2.core.search.infc.SearchResultRow;
+import org.kuali.student.r2.lum.clu.CLUConstants;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.cellview.client.CellTable;
@@ -37,54 +37,6 @@ import edu.umd.ks.cm.ui.common.client.widgets.search.SearchResultsTableUMD.CellT
 import edu.umd.ks.cm.ui.course.client.configuration.UMDConstants;
 import edu.umd.ks.cm.ui.vpac.agenda.client.configuration.VPACViews;
 import edu.umd.ks.cm.ui.vpac.agenda.client.controllers.VpacAgendaController;
-
-import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.application.KSAsyncCallback;
-import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
-import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
-import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
-import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
-import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
-import org.kuali.student.common.ui.client.widgets.KSDatePicker;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSTextArea;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
-import org.kuali.student.common.ui.client.widgets.headers.KSDocumentHeader;
-import org.kuali.student.common.ui.client.widgets.search.KSPicker;
-import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
-import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldBlock;
-import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldRow;
-import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
-import org.kuali.student.lum.common.client.lu.LUUIConstants;
-import org.kuali.student.lum.common.client.widgets.CluSetDetailsWidget;
-import org.kuali.student.lum.common.client.widgets.CluSetEditorWidget;
-import org.kuali.student.lum.common.client.widgets.CluSetManagementRpcService;
-import org.kuali.student.lum.common.client.widgets.CluSetManagementRpcServiceAsync;
-import org.kuali.student.lum.common.client.widgets.CluSetRetriever;
-import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;
-import org.kuali.student.r1.common.assembly.data.LookupMetadata;
-import org.kuali.student.r1.common.assembly.data.Metadata;
-import org.kuali.student.r1.common.assembly.data.QueryPath;
-
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.HasText;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
 
 /** The view for the Vpac agenda screen
  *  Uses metadata and search services to hit lu.search.VPACProposals defined in
@@ -302,11 +254,11 @@ public class VpacAgendaView extends ViewComposite {
 		
 		// Obtain screen path based on docType
 		String partScreenPath="";
-        if ((docType.equals(LUConstants.PROPOSAL_TYPE_COURSE_CREATE)) ||
-            (docType.equals(LUConstants.PROPOSAL_TYPE_COURSE_MODIFY))) {
+        if ((docType.equals(CLUConstants.PROPOSAL_TYPE_COURSE_CREATE)) ||
+            (docType.equals(CLUConstants.PROPOSAL_TYPE_COURSE_MODIFY))) {
         	partScreenPath = Locations.COURSE_PROPOSAL.getLocation();
         } else
-            if (docType.equals(LUConstants.PROPOSAL_TYPE_COURSE_RETIRE)) {
+            if (docType.equals(CLUConstants.PROPOSAL_TYPE_COURSE_RETIRE)) {
             	partScreenPath = Locations.COURSE_RETIRE_BY_PROPOSAL.getLocation();
             }        
         	
