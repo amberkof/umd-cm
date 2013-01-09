@@ -11,7 +11,6 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CourseWorkflowActionList;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-
 public class CourseWorkflowActionListUMD extends CourseWorkflowActionList {
 
 	public CourseWorkflowActionListUMD() {

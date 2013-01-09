@@ -29,8 +29,8 @@ import org.kuali.student.lum.lu.ui.dependency.client.widgets.DependencyResultPan
 import org.kuali.student.lum.lu.ui.tools.client.configuration.ClusetView.Picker;
 import org.kuali.student.r1.common.assembly.data.LookupMetadata;
 import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.infc.SearchParam;
-import org.kuali.student.r2.core.search.infc.SearchRequestInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
@@ -41,7 +41,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
 import edu.umd.ks.cm.ui.dependency.client.widgets.DependencyResultPanelUMD;
-
 public class DependencyAnalysisViewUMD extends DependencyAnalysisView {
 
     public DependencyAnalysisViewUMD() {

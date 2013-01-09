@@ -2,6 +2,7 @@ package edu.umd.ks.cm.ui.dependency.client.widgets;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.lum.lu.ui.dependency.client.widgets.DependencyResultPanel;
+
 public class DependencyResultPanelUMD extends DependencyResultPanel {
 
 	// KSCM-2125 Insert UMD Specific Instructions into Dep.Res.Panel

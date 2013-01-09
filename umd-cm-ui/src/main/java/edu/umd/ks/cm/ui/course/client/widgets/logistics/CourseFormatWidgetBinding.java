@@ -1,10 +1,10 @@
 package edu.umd.ks.cm.ui.course.client.widgets.logistics;
 
-import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
 
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LabelBase;
@@ -12,7 +12,6 @@ import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.Widget;
 
 import edu.umd.ks.cm.ui.course.client.configuration.UMDConstants;
-
 public class CourseFormatWidgetBinding extends ModelWidgetBindingSupport<CourseFormatWidget> {
 
     public static CourseFormatWidgetBinding INSTANCE = new CourseFormatWidgetBinding();

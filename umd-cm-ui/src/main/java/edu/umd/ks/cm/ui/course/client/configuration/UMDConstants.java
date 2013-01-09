@@ -1,7 +1,7 @@
 package edu.umd.ks.cm.ui.course.client.configuration;
 
 public interface UMDConstants {
-    
+     
     //CreditCourseConstants
     public static final String ADDITIONAL_COURSE_INFORMATION = "additionalCourseInformation";
     public static final String RETIRE_COMMENT = "retirementComment";

@@ -1,15 +1,11 @@
 package edu.umd.ks.cm.ui.course.client.widgets.rules;
 
-import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.LabelPanel;
-import org.kuali.student.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-
 public class RuleInfoHeader extends FlowPanel {
 
     public RuleInfoHeader() {

@@ -14,7 +14,6 @@ import org.kuali.student.lum.program.server.StatementDataService;
 import org.kuali.student.r1.core.statement.dto.ReqComponentTypeInfo;
 
 
-
 public class StatementDataServiceUMD extends StatementDataService{
 	
 	final static Logger LOG = Logger.getLogger(StatementDataServiceUMD.class);

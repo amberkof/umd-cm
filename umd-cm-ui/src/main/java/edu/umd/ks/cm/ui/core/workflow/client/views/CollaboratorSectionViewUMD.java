@@ -4,18 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.student.common.rice.StudentIdentityConstants;
-import org.kuali.student.common.rice.StudentWorkflowConstants.ActionRequestType;
-import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
-import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.SecurityRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
-import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.workflow.ui.client.views.CollaboratorSectionView;
-import org.kuali.student.lum.lu.LUConstants;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r1.common.rice.StudentWorkflowConstants.ActionRequestType;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
 
 import com.google.gwt.core.client.GWT;
 

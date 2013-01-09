@@ -53,6 +53,8 @@
 
 package org.kuali.student.core.statement.dto;
 
+import org.kuali.student.r1.core.statement.dto.ReqComponentTypeInfo;
+
 
 public class ReqComponentTypeInfoUMD extends ReqComponentTypeInfo implements Comparable<ReqComponentTypeInfoUMD>{
 	private static final long serialVersionUID = 1L;

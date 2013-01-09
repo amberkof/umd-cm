@@ -3,8 +3,6 @@ package edu.umd.ks.cm.ui.course.client.configuration;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
@@ -16,12 +14,14 @@ import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSCharCount;
 import org.kuali.student.core.comments.ui.client.widgets.decisiontool.DecisionPanel;
 import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentTool;
-import org.kuali.student.core.proposal.ProposalConstants;
 import org.kuali.student.core.workflow.ui.client.views.CollaboratorSectionView;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminRetireController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r1.core.proposal.ProposalConstants;
+import org.kuali.student.r2.common.dto.DtoConstants;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -29,7 +29,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 
 import edu.umd.ks.cm.ui.common.client.lu.LUUIConstantsUMD;
 import edu.umd.ks.cm.ui.common.client.widgets.commenttool.CommentToolUMD;
-
 
 /**
  * Shell of Configurer for Retire by Proposal

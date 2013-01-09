@@ -32,7 +32,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import edu.umd.ks.cm.ui.course.client.widgets.rules.RuleInfoHeader;
-
 public class CourseRequirementsSummaryViewUMD extends CourseRequirementsSummaryView {
 	boolean displayInitialized = false;
     @Override
