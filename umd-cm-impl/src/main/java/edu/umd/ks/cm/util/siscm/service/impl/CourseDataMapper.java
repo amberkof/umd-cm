@@ -32,6 +32,8 @@ import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.lum.lo.dto.LoInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 
 import edu.umd.ks.cm.course.service.utils.CM20;
 import edu.umd.ks.cm.util.siscm.dto.SisToCmImportCourseInfo;
@@ -179,18 +181,18 @@ public class CourseDataMapper {
 		courseInfo.setTranscriptTitle(transTitle.replaceAll("\\p{Cntrl}", ""));
 		courseInfo.setCourseTitle(formalTitle.replaceAll("\\p{Cntrl}", ""));
 		courseInfo.setLevel(crs_cd.charAt(4)+"00");
-		
+	 	
 		//Credits
 		if(minCredits!=null && maxCredits!=null){
-			courseInfo.setCreditOptions(new ArrayList<ResultComponentInfo>());
-			ResultComponentInfo creditInfo = new ResultComponentInfo();
+			courseInfo.setCreditOptions(new ArrayList<ResultValuesGroupInfo>());
+			ResultValuesGroupInfo creditInfo = new ResultValuesGroupInfo();
 			if(minCredits.equals(maxCredits)){
-				creditInfo.setType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED);
-				creditInfo.getAttributes().put(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_FIXED_CREDIT_VALUE, maxCredits);
-			}else{
-				creditInfo.setType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE);
-				creditInfo.getAttributes().put(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MAX_CREDIT_VALUE, maxCredits);
-				creditInfo.getAttributes().put(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MIN_CREDIT_VALUE, minCredits);
+				creditInfo.setTypeKey(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED);
+				creditInfo.getResultValueRange().setMaxValue(maxCredits);
+ 			}else{
+				creditInfo.setTypeKey(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE);
+				creditInfo.getResultValueRange().setMaxValue(maxCredits);
+				creditInfo.getResultValueRange().setMinValue(minCredits); 
 			}
 			courseInfo.getCreditOptions().add(creditInfo);	
 		}

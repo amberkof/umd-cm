@@ -56,6 +56,7 @@ import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.umd.ks.cm.course.service.utils.CM20;
@@ -276,17 +277,22 @@ public class SisCmDaoImpl extends AbstractCrudDaoImpl implements SisCmDao {
 		return year+month;		
 	}
 	
-	private String[] getCredits(List<ResultComponentInfo> creditOptions) {
+	private String[] getCredits(List<ResultValuesGroupInfo> creditOptions) {
 		String minCredits = "";
 		String maxCredits = "";
-		for (ResultComponentInfo creditInfo:creditOptions) {
-
-			if (creditInfo.getType().equals(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED)) {
-				minCredits = creditInfo.getAttributes().get(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_FIXED_CREDIT_VALUE);
+		for (ResultValuesGroupInfo creditOption:creditOptions) {
+		 
+		    //Depending on the type, set the id, type and result values differently
+            if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED.equals(creditOption.getTypeKey())){
+      
+			//2.0 upgrade: This is return a float.  Float.parseFloat.  
+				minCredits =  creditOption.getResultValueRange().getMinValue();
 				maxCredits = minCredits;
 			} else {
-				minCredits = creditInfo.getAttributes().get(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MIN_CREDIT_VALUE);
-				maxCredits = creditInfo.getAttributes().get(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MAX_CREDIT_VALUE);
+			    // 2.0 upgrade: now there is both variable and multiple credit values in the CourseAssembler
+			    // I think we only use min max an UMD?
+				minCredits = creditOption.getResultValueRange().getMinValue();
+				maxCredits = creditOption.getResultValueRange().getMinValue();
 			}
 		}
 		String[] credits = {minCredits, maxCredits};

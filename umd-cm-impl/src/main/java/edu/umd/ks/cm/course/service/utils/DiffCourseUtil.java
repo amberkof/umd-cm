@@ -13,6 +13,7 @@ import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
  
 import edu.umd.ks.cm.util.siscm.dto.SisToCmImportCourseInfo;
 import edu.umd.ks.cm.util.siscm.entity.DiffCourse;
@@ -400,11 +401,12 @@ public class DiffCourseUtil {
      * @param cmField
      * @param diffs
      */
-    protected void diffCredits(String sisMinCredits, String sisMaxCredits, List<ResultComponentInfo> cmField,
+    protected void diffCredits(String sisMinCredits, String sisMaxCredits, List<ResultValuesGroupInfo> cmField,
             List<String> diffs) {
-
+ 
+        
         // Loop over all CM field credit fields
-        for (ResultComponentInfo r : cmField) {
+        for (ResultValuesGroupInfo r : cmField) {
             if (sisMinCredits != null && sisMaxCredits != null) {
 
                 // strip the .0 since credits are stored inconsistently in the
@@ -415,8 +417,9 @@ public class DiffCourseUtil {
                 // If min and max credits are the same, CM stores as fixed
                 // credits
                 if (sisMinCredits.equals(sisMaxCredits)) {
-                    String cmMinMax = r.getAttributes().get(
-                            CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_FIXED_CREDIT_VALUE);
+                  
+                    
+                    String cmMinMax =   r.getResultValueRange().getMaxValue();
 
                     // strip the .0 since credits are stored inconsistently in
                     // the system (sometimes with 0 and sometimes not)
@@ -428,10 +431,8 @@ public class DiffCourseUtil {
 
                 } else {
                     // variable credits because min and max differ
-                    String cmMin = r.getAttributes().get(
-                            CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MIN_CREDIT_VALUE);
-                    String cmMax = r.getAttributes().get(
-                            CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MAX_CREDIT_VALUE);
+                    String cmMin =  r.getResultValueRange().getMinValue();
+                    String cmMax =  r.getResultValueRange().getMaxValue();
 
                     // strip the .0 since credits are stored inconsistently in
                     // the system (sometimes with 0 and sometimes not)
