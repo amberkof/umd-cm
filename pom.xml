@@ -17,6 +17,7 @@
 		<developerConnection>scm:svn:https://svn.dev.umd.edu/sds/kuali/umd-ks20/trunk</developerConnection>
 	</scm>
 	<properties>
+		<umd.ks.version>2.0.0-CM20-UMD</umd.ks.version>
 		<ks.api.version>2.0.0-M6-CM20</ks.api.version>
 		<ks.core.version>2.0.0-CM20</ks.core.version>
 		<ks.enroll.version>1.0.0-CM20</ks.enroll.version>
@@ -394,6 +395,12 @@
 		</repository>
 	</repositories>
 	<dependencyManagement>
+	
+	<!-- Override the version numbers of KS classes that UMD is patching -->
+	<!-- Needed since we are selectively applying patches to UI modules, so -->
+	<!-- versions will differ -->
+	
+	
 		<dependencies>
 			<dependency>
 				<groupId>org.slf4j</groupId>
@@ -1290,6 +1297,82 @@
 				<version>${httpcomponents.httpclient.version}</version>
 				<scope>compile</scope>
 			</dependency>
+			
+			<!-- KUALI -->
+			<dependency>
+				<groupId>org.kuali.student.core</groupId> 
+				<artifactId>ks-core</artifactId>
+			    <version>${umd.ks.version}</version>
+			</dependency>			
+			<dependency>
+				<groupId>org.kuali.student.core</groupId> 
+				<artifactId>ks-common</artifactId>
+			    <version>${umd.ks.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.kuali.student.core</groupId> 
+				<artifactId>ks-common-impl</artifactId>
+			    <version>${umd.ks.version}</version>
+			</dependency>		
+			<dependency>
+				<groupId>org.kuali.student.core</groupId> 
+				<artifactId>ks-common-ui</artifactId>
+			    <version>${umd.ks.version}</version>
+			</dependency>						
+			<dependency>
+				<groupId>org.kuali.student.core</groupId> 
+				<artifactId>ks-common-util</artifactId>
+			    <version>${umd.ks.version}</version>
+			</dependency>			
+
+			<dependency>
+				<groupId>org.kuali.student.core</groupId> 
+				<artifactId>ks-core-impl</artifactId>
+			    <version>${umd.ks.version}</version>
+			</dependency>			
+		 	<dependency>
+				<groupId>org.kuali.student.core</groupId> 
+				<artifactId>ks-core-ui</artifactId>
+			    <version>${umd.ks.version}</version>
+			</dependency>			
+			<dependency>
+				<groupId>org.kuali.student.core</groupId> 
+				<artifactId>ks-core-web</artifactId>
+			    <version>${umd.ks.version}</version>
+			</dependency>			
+			
+			<!-- LUM -->
+			<dependency>
+				<groupId>org.kuali.student.lum</groupId> 
+				<artifactId>ks-lum-impl</artifactId>
+			    <version>${umd.ks.version}</version>
+			</dependency>			
+			<dependency>
+				<groupId>org.kuali.student.lum</groupId> 
+				<artifactId>ks-lum-program</artifactId>
+			    <version>${umd.ks.version}</version>
+			</dependency>			
+			<dependency>
+				<groupId>org.kuali.student.lum</groupId> 
+				<artifactId>ks-lum-rice</artifactId>
+			    <version>${umd.ks.version}</version>
+			</dependency>			
+			<dependency>
+				<groupId>org.kuali.student.lum</groupId> 
+				<artifactId>ks-lum-ui</artifactId>
+			    <version>${umd.ks.version}</version>
+			</dependency>			
+			<dependency>
+				<groupId>org.kuali.student.lum</groupId> 
+				<artifactId>ks-lum-ui-common</artifactId>
+			    <version>${umd.ks.version}</version>
+			</dependency>			
+			<dependency>
+				<groupId>org.kuali.student.lum</groupId> 
+				<artifactId>ks-lum-web</artifactId>
+			    <version>${umd.ks.version}</version>
+			</dependency>			
+						
 		</dependencies>
 	</dependencyManagement>
 
