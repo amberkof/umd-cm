@@ -11,76 +11,7 @@
       Parent pom for building UMD Enroll
     </description>
 
-	<repositories>
-		<repository>
-			<id>kuali.builds</id>
-			<name>Kuali Builds</name>
-			<url>http://maven.kuali.org/builds</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<!-- This fixes build by bypassing broken Archiva -->
-			<id>swe.release.afs</id>
-			<name>SWE Release AFS</name>
-			<url>file:///dept/oit/src/repository/archiva/swe-release</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		<!-- This fixes build by bypassing broken Archiva -->
-		<repository>
-			<id>swe.snapshot.afs</id>
-			<name>SWE Snapshot AFS</name>
-			<url>file:///dept/oit/src/repository/archiva/swe-snapshot</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>kuali.nexus</id>
-			<name>Nexus Repository Manager</name>
-			<url>http://nexus.kuali.org/content/groups/public</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
 
-
-	<profiles>
-		<profile>
-			<id>default</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<modules>
-				<module>umd-cm-impl</module>
-				<module>umd-cm-ui</module>
-				<module>umd-ks-web</module>
-			</modules>
-		</profile>
-		<profile>
-			<id>skip-all-wars</id>
-			<modules>
-				<module>umd-cm-impl</module>
-				<module>umd-cm-ui</module>
-			</modules>
-		</profile>
-	</profiles>
 	<scm>
 		<connection>scm:svn:https://svn.dev.umd.edu/sds/kuali/umd-ks20/trunk</connection>
 		<developerConnection>scm:svn:https://svn.dev.umd.edu/sds/kuali/umd-ks20/trunk</developerConnection>
@@ -218,9 +149,9 @@
 					<configuration>
 						<!-- Don't compile sources that are in jars -->
 						<compilerArgument>-implicit:none</compilerArgument>
- 						<source>1.6</source>
+						<source>1.6</source>
 						<target>1.6</target>
- 				</configuration>
+					</configuration>
 
 				</plugin>
 				<plugin>
@@ -328,8 +259,13 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-war-plugin</artifactId>
+
 					<version>${maven.war.plugin.version}</version>
 					<configuration>
+						<!-- The WAR needs to have this name for Eric's deployment scripts 
+							to work -->
+						<!-- We may eventually use a profile or global property for this instead -->
+						<warName>umd-cm</warName>
 						<webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
 					</configuration>
 				</plugin>
@@ -389,6 +325,74 @@
 			</plugin>
 		</plugins>
 	</build>
+	<profiles>
+		<profile>
+			<id>default</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<modules>
+				<module>umd-cm-impl</module>
+				<module>umd-cm-ui</module>
+				<module>umd-cm-web</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>skip-all-wars</id>
+			<modules>
+				<module>umd-cm-impl</module>
+				<module>umd-cm-ui</module>
+			</modules>
+		</profile>
+	</profiles>
+	<repositories>
+		<repository>
+			<id>kuali.builds</id>
+			<name>Kuali Builds</name>
+			<url>http://maven.kuali.org/builds</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<!-- This fixes build by bypassing broken Archiva -->
+			<id>swe.release.afs</id>
+			<name>SWE Release AFS</name>
+			<url>file:///dept/oit/src/repository/archiva/swe-release</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<!-- This fixes build by bypassing broken Archiva -->
+		<repository>
+			<id>swe.snapshot.afs</id>
+			<name>SWE Snapshot AFS</name>
+			<url>file:///dept/oit/src/repository/archiva/swe-snapshot</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>kuali.nexus</id>
+			<name>Nexus Repository Manager</name>
+			<url>http://nexus.kuali.org/content/groups/public</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
