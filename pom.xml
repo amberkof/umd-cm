@@ -17,7 +17,7 @@
 		<developerConnection>scm:svn:https://svn.dev.umd.edu/sds/kuali/umd-ks20/trunk</developerConnection>
 	</scm>
 	<properties>
-		<umd.ks.version>2.0.0-CM20-UMD</umd.ks.version>
+		<umd.ks.version>2.0.0-CM20-UMD-SR1-SNAPSHOT</umd.ks.version>
 		<ks.api.version>2.0.0-M6-CM20</ks.api.version>
 		<ks.core.version>2.0.0-CM20</ks.core.version>
 		<ks.enroll.version>1.0.0-CM20</ks.enroll.version>
