@@ -18,6 +18,7 @@ import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.service.CachingSearchService;
 import org.kuali.student.common.ui.client.util.SearchUtils;
+import org.kuali.student.common.ui.client.util.SearchUtils.SearchRequestWrapper;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
@@ -67,7 +68,7 @@ public class CourseFormatWidget extends VerticalSection implements HasValueChang
 
 	
     protected CachingSearchService cachingSearchService = CachingSearchService.getSearchService();
-    protected SearchRequestInfoWrapper searchRequestWrapper = new SearchRequestInfoWrapper();
+    protected final SearchRequestWrapper searchRequestWrapper = new SearchRequestWrapper();
     protected FlexTable activityTable = new FlexTable();
     protected DecimalFormat format = new DecimalFormat("#.##");
     protected ModelDefinition modelDefinition;
@@ -531,7 +532,7 @@ public class CourseFormatWidget extends VerticalSection implements HasValueChang
 
         SearchUtils.initializeSearchRequestInfo(lookupMetadata, searchRequestWrapper);
 
-        cachingSearchService.search(searchRequestWrapper.getSearchRequestInfo(), new KSAsyncCallback<SearchResult>() {
+        cachingSearchService.search(searchRequestWrapper.getSearchRequest(), new KSAsyncCallback<SearchResult>() {
 
             @Override
             public void onSuccess(SearchResult result) {
