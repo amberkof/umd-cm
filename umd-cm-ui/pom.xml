@@ -25,7 +25,7 @@
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-ui</artifactId>
-			<version>${ks.lum.version}</version>
+			<version>${umd.ks.version}</version>
 		</dependency>
 
 		<dependency>
