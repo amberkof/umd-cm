@@ -43,7 +43,7 @@ import org.kuali.student.r1.common.assembly.data.ModelDefinition;
 import org.kuali.student.r1.common.assembly.data.QueryPath;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
-import org.kuali.student.r2.core.search.infc.SearchResult;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
 
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -530,12 +530,12 @@ public class CourseFormatWidget extends VerticalSection implements HasValueChang
 
         final Map<String, String> resultMap = new HashMap<String, String>();
 
-        SearchUtils.initializeSearchRequestInfo(lookupMetadata, searchRequestWrapper);
+        SearchUtils.initializeSearchRequest(lookupMetadata, searchRequestWrapper);
 
-        cachingSearchService.search(searchRequestWrapper.getSearchRequest(), new KSAsyncCallback<SearchResult>() {
+        cachingSearchService.search(searchRequestWrapper.getSearchRequest(), new KSAsyncCallback<SearchResultInfo>() {
 
             @Override
-            public void onSuccess(SearchResult result) {
+            public void onSuccess(SearchResultInfo result) {
                 if (result != null) {
                     SearchResultListItems srList = new SearchResultListItems(result.getRows(), lookupMetadata);
                     int displayKey = srList.getItemTextAttrNdx();
