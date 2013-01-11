@@ -20,6 +20,7 @@ import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
 import org.kuali.student.r2.lum.clu.CLUConstants;
@@ -347,7 +348,7 @@ public class VpacAgendaView extends ViewComposite {
 	        }
 
 	        // Perform the search and process results.
-	        searchServiceAsync.search(searchRequest, new KSAsyncCallback<SearchResult>(){
+	        searchServiceAsync.search(searchRequest, new KSAsyncCallback<SearchResultInfo>(){
 
 	            @Override
 	            public void handleFailure(Throwable cause) {
@@ -356,7 +357,7 @@ public class VpacAgendaView extends ViewComposite {
 	            }
 
 	            @Override
-	            public void onSuccess(SearchResult results) {
+	            public void onSuccess(SearchResultInfo results) {
 	       		 
 	    			// List of Row Results for GWT Cell Table.
 	    			List<VpacTableRow> vpacResultRows = new ArrayList<VpacTableRow>();
