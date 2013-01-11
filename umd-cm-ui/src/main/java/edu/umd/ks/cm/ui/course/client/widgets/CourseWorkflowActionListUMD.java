@@ -1,7 +1,5 @@
 package edu.umd.ks.cm.ui.course.client.widgets;
 
-import static org.kuali.student.lum.lu.ui.course.client.widgets.CourseWorkflowActionList.courseServiceAsync;
-
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
