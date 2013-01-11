@@ -20,8 +20,8 @@ import org.kuali.student.common.ui.client.widgets.search.SearchResultsTable;
 import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.r1.common.assembly.data.LookupResultMetadata;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SortDirection;
-import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
 
@@ -306,7 +306,7 @@ public class SearchResultsTableUMD extends SearchResultsTable {
                     }
                 }
 
-                searchRpcServiceAsync.search(searchRequest, new KSAsyncCallback<SearchResult>() {
+                searchRpcServiceAsync.search(searchRequest, new KSAsyncCallback<SearchResultInfo>() {
 
                     @Override
                     public void handleFailure(Throwable cause) {
@@ -314,7 +314,7 @@ public class SearchResultsTableUMD extends SearchResultsTable {
                         Window.alert("Failed to perform search");
                     }
 
-                    public void onSuccess(SearchResult results) {
+                    public void onSuccess(SearchResultInfo results) {
                         List<Map<String, String>> newDataList = new ArrayList<Map<String, String>>();
                         if (results != null && results.getRows() != null && results.getRows().size() != 0) {
                             for (SearchResultRow r : results.getRows()) {
