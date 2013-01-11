@@ -25,13 +25,13 @@ import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lu.ui.dependency.client.controllers.DependencyAnalysisController;
 import org.kuali.student.lum.lu.ui.dependency.client.views.DependencyAnalysisView;
-import org.kuali.student.lum.lu.ui.dependency.client.widgets.DependencyResultPanel.DependencyTypeSection;
+import org.kuali.student.lum.lu.ui.dependency.client.widgets.DependencyTypeSection;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.ClusetView.Picker;
 import org.kuali.student.r1.common.assembly.data.LookupMetadata;
 import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.infc.SearchParam;
-import org.kuali.student.r2.core.search.infc.SearchResult;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
 
@@ -41,6 +41,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
 import edu.umd.ks.cm.ui.dependency.client.widgets.DependencyResultPanelUMD;
+
 public class DependencyAnalysisViewUMD extends DependencyAnalysisView {
 
     public DependencyAnalysisViewUMD() {
@@ -205,15 +206,15 @@ public class DependencyAnalysisViewUMD extends DependencyAnalysisView {
         SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey("lu.search.dependencyAnalysis");
         
-        SearchParam searchParam = new SearchParam();
-        searchParam.setKey("lu.queryParam.luOptionalCluId");
-        searchParam.setValue(selectedCourseId);             
-        searchRequest.getParams().add(searchParam);
+		SearchParamInfo searchParam = new SearchParamInfo();
+		searchParam.setKey("lu.queryParam.luOptionalCluId");
+		searchParam.getValues().add(selectedCourseId);
+		searchRequest.getParams().add(searchParam);
                 
-        searchServiceAsync.search(searchRequest, new KSAsyncCallback<SearchResult>(){
+        searchServiceAsync.search(searchRequest, new KSAsyncCallback<SearchResultInfo>(){	   
 
             @Override
-            public void onSuccess(SearchResult searchResults) {             
+            public void onSuccess(SearchResultInfo searchResults) {             
                 for (SearchResultRow searchResultRow : searchResults.getRows ()) {
                     
                     //TODO: This should not use hard-coded result columns 
