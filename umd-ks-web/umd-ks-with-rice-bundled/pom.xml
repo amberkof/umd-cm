@@ -55,7 +55,7 @@
                 <configuration>
                     <modules>
                         <!--<module>${ks.gwt.module.org}</module>-->
-                        <module>${umd.gwt.module.lum}}</module>
+                        <module>${umd.gwt.module.lum}</module>
                     </modules>
                 </configuration>
             </plugin>
