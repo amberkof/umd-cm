@@ -5,8 +5,8 @@
     <groupId>edu.umd.ks.cm</groupId>
     <artifactId>umd-cm-web</artifactId>
     <packaging>pom</packaging>
-    <name>UMD KS Web</name>
-    <description>Project for building UMD KS Wars</description>
+    <name>UMD CM Web</name>
+    <description>Project for building UMD CM Wars</description>
     <parent>
         <groupId>edu.umd.ks.cm</groupId>
         <artifactId>umd-cm</artifactId>

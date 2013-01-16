@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>umd-cm-standalone</artifactId>
     <packaging>war</packaging>
-    <name>UMD KS Standalone</name>
+    <name>UMD CM Standalone</name>
     <description>Contains all KS modules</description>
     <parent>
         <groupId>edu.umd.ks.cm</groupId>
