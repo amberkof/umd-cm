@@ -71,7 +71,7 @@
                         </systemProperty>
                     </systemProperties>
                     <webAppConfig>
-                        <contextPath>/umd-ks-with-rice-bundled-dev</contextPath>
+                        <contextPath>/umd-cm-with-rice-bundled-dev</contextPath>
                     </webAppConfig>
                     <stopKey>foo</stopKey>
                     <stopPort>9999</stopPort>
@@ -95,7 +95,7 @@
                 <artifactId>tomcat-maven-plugin</artifactId>
                 <version>1.0-beta-1</version>
                 <configuration>
-                    <path>/umd-ks-with-rice-bundled-dev</path>
+                    <path>/umd-cm-with-rice-bundled-dev</path>
                     <port>8282</port>
                     <!--
                               <path>/kr-dev</path>

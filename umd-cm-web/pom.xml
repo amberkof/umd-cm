@@ -19,10 +19,8 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-                <module>umd-ks-with-rice-bundled</module>
-
-
-
+                <module>umd-cm-with-rice-bundled</module>
+                <module>umd-cm-standalone</module>
             </modules>
         </profile>
         <profile>
@@ -33,13 +31,13 @@
         <profile>
             <id>standalone-only-wars</id>
             <modules>
-                <module>umd-ks-standalone</module>
+                <module>umd-cm-standalone</module>
              </modules>
         </profile>
         <profile>
             <id>bundled-only-war</id>
             <modules>
-                <module>umd-ks-with-rice-bundled</module>
+                <module>umd-cm-with-rice-bundled</module>
             </modules>
         </profile>
     </profiles>
