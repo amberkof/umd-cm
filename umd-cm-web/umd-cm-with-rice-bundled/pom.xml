@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>umd-cm-with-rice-bundled</artifactId>
     <packaging>war</packaging>
-    <name>KS Bundled with Rice</name>
+    <name>UMD CM Bundled with Rice</name>
     <description>Contains all KS modules and Rice</description>
     <parent>
         <groupId>edu.umd.ks.cm</groupId>
