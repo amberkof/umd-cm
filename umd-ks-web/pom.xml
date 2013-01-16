@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>edu.umd.ks.cm</groupId>
-    <artifactId>umd-ks-web</artifactId>
+    <artifactId>umd-cm-web</artifactId>
     <packaging>pom</packaging>
     <name>UMD KS Web</name>
     <description>Project for building UMD KS Wars</description>
