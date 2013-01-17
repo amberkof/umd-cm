@@ -20,7 +20,7 @@
             </activation>
             <modules>
                 <module>umd-cm-with-rice-bundled</module>
-                <module>umd-cm-standalone</module>
+           <!--      <module>umd-cm-standalone</module> -->
             </modules>
         </profile>
         <profile>
@@ -28,12 +28,12 @@
             <modules>
             </modules>
         </profile>
-        <profile>
+   <!--    <profile>
             <id>standalone-only-wars</id>
             <modules>
                 <module>umd-cm-standalone</module>
              </modules>
-        </profile>
+        </profile> -->
         <profile>
             <id>bundled-only-war</id>
             <modules>
