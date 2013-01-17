@@ -17,7 +17,7 @@
 		<developerConnection>scm:svn:https://svn.dev.umd.edu/sds/kuali/umd-cm20/trunk</developerConnection>
 	</scm>
 	<properties>
-		<umd.ks.version>2.0.0-CM20-UMD-SR1-SNAPSHOT</umd.ks.version>
+		<umd.ks.version>2.0.0-cm-UMD-SR1-SNAPSHOT</umd.ks.version>
 		<ks.api.version>2.0.0-cm</ks.api.version>
 		<ks.core.version>2.0.0-cm</ks.core.version>
 		<ks.lum.version>2.0.0-cm</ks.lum.version>
@@ -1338,7 +1338,7 @@
 			<dependency>
 				<groupId>org.kuali.student.core</groupId> 
 				<artifactId>ks-common-impl</artifactId>
-			    <version>${umd.ks.version}</version>
+			    <version>${ks.core.version}</version>
 			</dependency>		
 			<dependency>
 				<groupId>org.kuali.student.core</groupId> 
@@ -1348,13 +1348,13 @@
 			<dependency>
 				<groupId>org.kuali.student.core</groupId> 
 				<artifactId>ks-common-util</artifactId>
-			    <version>${umd.ks.version}</version>
+			    <version>${ks.core.version}</version>
 			</dependency>			
 
 			<dependency>
 				<groupId>org.kuali.student.core</groupId> 
 				<artifactId>ks-core-impl</artifactId>
-			    <version>${umd.ks.version}</version>
+			    <version>${ks.core.version}</version>
 			</dependency>			
 		 	<dependency>
 				<groupId>org.kuali.student.core</groupId> 
@@ -1371,7 +1371,7 @@
 			<dependency>
 				<groupId>org.kuali.student.lum</groupId> 
 				<artifactId>ks-lum-impl</artifactId>
-			    <version>${umd.ks.version}</version>
+			    <version>${ks.lum.version}</version>
 			</dependency>			
 			<dependency>
 				<groupId>org.kuali.student.lum</groupId> 
