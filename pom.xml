@@ -13,8 +13,8 @@
 
 
 	<scm>
-		<connection>scm:svn:https://svn.dev.umd.edu/sds/kuali/umd-cm20/trunk</connection>
-		<developerConnection>scm:svn:https://svn.dev.umd.edu/sds/kuali/umd-cm20/trunk</developerConnection>
+		<connection>scm:svn:https://svn.dev.umd.edu/sds/kuali/umd-cm/branches/umd-cm-2.x-latest</connection>
+		<developerConnection>scm:svn:https://svn.dev.umd.edu/sds/kuali/umd-cm/branches/umd-cm-2.x-latest</developerConnection>
 	</scm>
 	<properties>
 		<umd.ks.version>2.0.0-cm-UMD-SR1-SNAPSHOT</umd.ks.version>
