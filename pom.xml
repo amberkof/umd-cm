@@ -65,6 +65,7 @@
 		<maven.min.version>3.0.4</maven.min.version>
 		<maven.source.plugin.version>2.2.1</maven.source.plugin.version>
 		<maven.compiler.plugin.version>2.5.1</maven.compiler.plugin.version>
+		<maven.release.plugin.version>2.2.2</maven.release.plugin.version>
 		<maven.war.plugin.version>2.3</maven.war.plugin.version>
 		<maven.jar.plugin.version>2.3.2</maven.jar.plugin.version>
 		<maven.clean.plugin.version>2.4.1</maven.clean.plugin.version>
@@ -155,6 +156,17 @@
 						<target>1.6</target>
 					</configuration>
 
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>${maven.release.plugin.version}</version>
+					<configuration>
+				        <checkModificationExcludes>
+							<checkModificationExclude>build-number.txt</checkModificationExclude>
+						</checkModificationExcludes>
+						<remoteTagging>true</remoteTagging>
+					</configuration>
 				</plugin>
 				<plugin>
 					<artifactId>maven-clean-plugin</artifactId>
@@ -388,9 +400,9 @@
 		</repository>
 		<repository>
 			<!-- This fixes build by bypassing broken Archiva -->
-			<id>swe.release.afs</id>
+			<id>swe.release</id>
 			<name>SWE Release AFS</name>
-			<url>file:///dept/oit/src/repository/archiva/swe-release</url>
+			<url>https://devtools.umd.edu/archiva/repository/swe-release</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
@@ -400,9 +412,9 @@
 		</repository>
 		<!-- This fixes build by bypassing broken Archiva -->
 		<repository>
-			<id>swe.snapshot.afs</id>
+			<id>swe.snapshot</id>
 			<name>SWE Snapshot AFS</name>
-			<url>file:///dept/oit/src/repository/archiva/swe-snapshot</url>
+			<url>https://devtools.umd.edu/archiva/repository/swe-snapshot</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
