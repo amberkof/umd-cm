@@ -128,9 +128,11 @@
   	<!-- KSCM-1067 -->
     <bean id="WorkflowRpcGwtServlet"
           class="edu.umd.ks.cm.ui.core.workflow.server.gwt.WorkflowRpcGwtServletUMD">
-        <property name="simpleDocService" ref="simpleDocActionsClient"/>
+        <property name="workflowDocumentActionsService" ref="workflowDocumentActionsClient"/>
+        <property name="permissionService" ref="permissionServiceClient"/>
         <property name="identityService" ref="identityServiceClient"/>
-        <property name="workflowUtilityService" ref="workflowUtilityClient"/>
+        <property name="workflowDocumentService" ref="workflowDocumentClient"/>
+        <property name="documentTypeService" ref="documentTypeServiceClient"/>
     </bean>
     
     <!-- Use our custom UMD CourseDataService -->
@@ -138,7 +140,7 @@
           class="edu.umd.ks.cm.ui.course.server.gwt.UMDCourseDataService">
         <property name="permissionService" ref="permissionServiceClient"/>
         <property name="courseService" ref="courseClient"/>
-        <property name="luService" ref="luClient"/>
+        <property name="cluService" ref="cluClient"/>
         <property name="transformationManager" ref="courseTransformationManager"/>
         <property name="orgService" ref="orgClient"/>
     </bean>
@@ -148,9 +150,9 @@
         <property name="permissionService" ref="permissionServiceClient"/>
         <property name="courseService" ref="courseClient"/>
         <property name="proposalService" ref="proposalClient"/>
-        <property name="luService" ref="luClient"/>
+        <property name="cluService" ref="cluClient"/>
         <property name="transformationManager" ref="courseProposalTransformationManager"/>
-        <property name="workflowUtilityService" ref="workflowUtilityClient"/>
+        <property name="workflowDocumentService" ref="workflowDocumentClient"/>
 		<property name="orgService" ref="orgClient"/>
     </bean>
     
@@ -179,7 +181,7 @@
     
     <!-- Override statementDataService to allow UMD customization based on Statement Attributes -->
     <bean id="statementDataService" class="edu.umd.ks.cm.ui.lum.program.server.StatementDataServiceUMD">
-   		<property name="luService" ref="luClient"/>
+   		<property name="cluService" ref="cluClient"/>
         <property name="statementService" ref="statementServiceClient"/>
     </bean>  
 </beans>

@@ -11,7 +11,7 @@
 	<bean id="courseInfo.courseSpecificLOs.loInfo.desc" parent="uilookupconfig-parent">
 		<property name="path" value="courseInfo.courseSpecificLOs.loInfo.desc" />
 		<property name="initialLookup">
-			<bean class="org.kuali.student.common.assembly.data.UILookupData">
+			<bean class="org.kuali.student.r1.common.assembly.data.UILookupData">
 				<property name="id"
 					value="kuali.lu.lookup.advanced.learningObjectives" />
 				<property name="name" value="Search for Learning Objectives" />
@@ -60,7 +60,7 @@
 		<property name="initialLookup" ref="kuali.lu.lookup.mathEligCodes" />
 	</bean>
 
-	<bean id="kuali.lu.lookup.gradepointvalue" class="org.kuali.student.common.assembly.data.UILookupData"
+	<bean id="kuali.lu.lookup.gradepointvalue" class="org.kuali.student.r1.common.assembly.data.UILookupData"
 		parent="kuali.common.lookup.gradepointvalue">
 		<property name="name" value="Get enumerations" />
 		<property name="desc" value="Get enumerated lists of values given context" />
@@ -121,7 +121,7 @@
 
 	<!-- Overriding this bean so that the list order (params) for the advanced 
 		search is now according the key values determined by catalogue messages. -->
-	<bean id="kuali.lu.lookup.findCourse.advanced" class="org.kuali.student.common.assembly.data.UILookupData">
+	<bean id="kuali.lu.lookup.findCourse.advanced" class="org.kuali.student.r1.common.assembly.data.UILookupData">
 		<property name="id" value="kuali.lu.lookup.findCourse.advanced" />
 		<property name="searchTypeId" value="lu.search.mostCurrent.union" />
 		<property name="name" value="Course" />
@@ -306,7 +306,7 @@
 		</property>
 	</bean>
 
-	<bean id="kuali.lu.lookup.classStanding" class="org.kuali.student.common.assembly.data.UILookupData"
+	<bean id="kuali.lu.lookup.classStanding" class="org.kuali.student.r1.common.assembly.data.UILookupData"
 		parent="kuali.common.lookup.classStanding">
 		<property name="name" value="Get enumerations" />
 		<property name="desc" value="Get enumerated lists of values given context" />
@@ -365,7 +365,7 @@
 		<property name="id" value="kuali.lu.lookup.classStanding" />
 	</bean>
 
-	<bean id="kuali.lu.lookup.operatorOption" class="org.kuali.student.common.assembly.data.UILookupData"
+	<bean id="kuali.lu.lookup.operatorOption" class="org.kuali.student.r1.common.assembly.data.UILookupData"
 		parent="kuali.common.lookup.operatorOption">
 		<property name="name" value="Get enumerations" />
 		<property name="desc" value="Get enumerated lists of values given context" />
@@ -436,7 +436,7 @@
 		</property>
 	</bean>
 
-	<bean id="kuali.lu.lookup.mathEligCodes" class="org.kuali.student.common.assembly.data.UILookupData"
+	<bean id="kuali.lu.lookup.mathEligCodes" class="org.kuali.student.r1.common.assembly.data.UILookupData"
 		parent="kuali.common.lookup.mathEligCodes">
 		<property name="name" value="Get enumerations" />
 		<property name="desc" value="Get enumerated lists of values given context" />
@@ -497,7 +497,7 @@
 
 	<!-- Redefine this with a new search because UMD CM does not have inverse 
 		relationships -->
-	<bean id="kuali.lu.browse.departments.in.school" class="org.kuali.student.common.assembly.data.UILookupData">
+	<bean id="kuali.lu.browse.departments.in.school" class="org.kuali.student.r1.common.assembly.data.UILookupData">
 		<property name="id" value="kuali.lu.browse.departments.in.school" />
 		<property name="searchTypeId"
 			value="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgId" />
@@ -555,7 +555,7 @@
 	</bean>
 
 	<bean id="kuali.lu.lookup.credit.degree.types" parent="kuali.common.lookup.credit.degree.types"
-		class="org.kuali.student.common.assembly.data.UILookupData">
+		class="org.kuali.student.r1.common.assembly.data.UILookupData">
 		<property name="name" value="Outcomes" />
 		<property name="desc" value="Credit Options" />
 		<property name="widget" value="RADIO" />
@@ -610,7 +610,7 @@
 		<property name="initialLookup" ref="kuali.lookup.activity.creditRatio" />
 	</bean>
 
-	<bean id="kuali.lookup.activity.creditRatio" class="org.kuali.student.common.assembly.data.UILookupData"
+	<bean id="kuali.lookup.activity.creditRatio" class="org.kuali.student.r1.common.assembly.data.UILookupData"
 		parent="kuali.common.lookup.activity.creditRatio">
 		<property name="name" value="Get enumerations" />
 		<property name="desc" value="Get enumerated lists of values given context" />
@@ -674,7 +674,7 @@
 		<property name="initialLookup" ref="kuali.lookup.semesterTypes" />
 	</bean>
 
-	<bean id="kuali.lookup.semesterTypes" class="org.kuali.student.common.assembly.data.UILookupData"
+	<bean id="kuali.lookup.semesterTypes" class="org.kuali.student.r1.common.assembly.data.UILookupData"
 		parent="kuali.common.lookup.semesterTypes">
 		<property name="name" value="Get enumerations" />
 		<property name="desc" value="Get enumerated lists of values given context" />
@@ -736,7 +736,7 @@
 	<!-- Curriculum oversight constrained by subject code -->
 	<!-- overridding so we can limit to only unique orgs and only active ones -->
 	<bean id="kuali.lu.lookup.admin.orgcurriculum.fromSubjectCode"
-		class="org.kuali.student.common.assembly.data.UILookupData" parent="kuali.common.lookup.basic.orgcurriculum.fromSubjectCode">
+		class="org.kuali.student.r1.common.assembly.data.UILookupData" parent="kuali.common.lookup.basic.orgcurriculum.fromSubjectCode">
 		<property name="id"
 			value="kuali.lu.lookup.admin.orgcurriculum.fromSubjectCode" />
 		<property name="title" value="Curriculum Oversight" />
@@ -798,7 +798,7 @@
 	</bean>
 
 	<!-- restrict this lookup to valid prefixes only for the UI -->
-	<bean id="kuali.subjectCode.search.subjectAreas" class="org.kuali.student.common.assembly.data.UILookupData"
+	<bean id="kuali.subjectCode.search.subjectAreas" class="org.kuali.student.r1.common.assembly.data.UILookupData"
 		parent="kuali.common.lookup.subjectCodes">
 		<property name="id" value="kuali.subjectCode.search.subjectAreas" />
 		<property name="widget" value="SUGGEST_BOX" />
@@ -981,7 +981,7 @@
 		<property name="initialLookup" ref="umd.cm.enum.lookup.coreGeneralEducation" />
 	</bean>
 
-	<bean id="umd.cm.enum.lookup.coreGeneralEducation" class="org.kuali.student.common.assembly.data.UILookupData"
+	<bean id="umd.cm.enum.lookup.coreGeneralEducation" class="org.kuali.student.r1.common.assembly.data.UILookupData"
 		parent="umd.cm.common.lookup.coreGeneralEducation">
 		<property name="id" value="umd.cm.enum.lookup.coreGeneralEducation" />
 		<property name="name" value="Get Core and General Education enumerations" />
@@ -1045,7 +1045,7 @@
 		<property name="initialLookup" ref="umd.cm.enum.lookup.PCCInformation" />
 	</bean>
 
-	<bean id="umd.cm.enum.lookup.PCCInformation" class="org.kuali.student.common.assembly.data.UILookupData"
+	<bean id="umd.cm.enum.lookup.PCCInformation" class="org.kuali.student.r1.common.assembly.data.UILookupData"
 		parent="umd.cm.common.lookup.PCCInformation">
 		<property name="id" value="umd.cm.enum.lookup.PCCInformation" />
 		<property name="name" value="Get PCC Information enumerations" />
@@ -1406,7 +1406,7 @@
 		</property>
 	</bean>
 
-	<bean id="ks.lookup.person.suggest" class="org.kuali.student.common.assembly.data.UILookupData"
+	<bean id="ks.lookup.person.suggest" class="org.kuali.student.r1.common.assembly.data.UILookupData"
 		parent="ks.common.lookup.person.suggest">
 		<property name="name" value="Person Suggesst Search" />
 		<property name="desc" value="Returns name and id" />
@@ -1457,7 +1457,7 @@
 		<property name="id" value="ks.common.lookup.person.suggest" />
 	</bean>
 
-	<bean id="ks.lookup.person.advanced" class="org.kuali.student.common.assembly.data.UILookupData"
+	<bean id="ks.lookup.person.advanced" class="org.kuali.student.r1.common.assembly.data.UILookupData"
 		parent="ks.common.lookup.person.advanced">
 		<property name="name" value="Person Search" />
 		<property name="title" value="Person" />
@@ -1508,7 +1508,7 @@
 	</bean>
 
 	<!-- KSCM-1552 Override bean to include minQuerySize property -->
-	<bean id="kuali.lu.lookup.findCourse.suggest" class="org.kuali.student.common.assembly.data.UILookupData"
+	<bean id="kuali.lu.lookup.findCourse.suggest" class="org.kuali.student.r1.common.assembly.data.UILookupData"
 		parent="kuali.common.lookup.findCourse.suggest">
 		<property name="id" value="kuali.lu.lookup.findCourse.suggest" />
 		<property name="widget" value="SUGGEST_BOX" />
@@ -1556,7 +1556,7 @@
 
 	<!-- KSLAB-2583 Linking End Term search into retire end term fields -->
 	<!-- KSCM-1837 KSCM-1849 Reversing Sort for end Term ATP Picker -->
-	<bean id="kuali.lu.lookup.course.prevEndTerm.suggest" class="org.kuali.student.common.assembly.data.UILookupData"
+	<bean id="kuali.lu.lookup.course.prevEndTerm.suggest" class="org.kuali.student.r1.common.assembly.data.UILookupData"
 		parent="constraint.lookup.proposal.prevEndTerm">
 		<property name="id"
 			value="kuali.lu.lookup.firstexpectedoffering.suggest" />
@@ -1588,7 +1588,7 @@
 	</bean>
 
 	<!-- KSCM-1756 Override main screen proposal search to add Status -->
-	<bean id="kuali.proposal.lookup.course.advanced" class="org.kuali.student.common.assembly.data.UILookupData"
+	<bean id="kuali.proposal.lookup.course.advanced" class="org.kuali.student.r1.common.assembly.data.UILookupData"
 		parent="courseProposalSearch">
 		<property name="id" value="kuali.proposal.lookup.course.advanced" />
 		<property name="name" value="Find Proposal" />
@@ -1669,7 +1669,7 @@
 		<property name="initialLookup" ref="kuali.lu.vpacAgenda.search" />
 	</bean>
 
-	<bean id="kuali.lu.vpacAgenda.search" class="org.kuali.student.common.assembly.data.UILookupData">
+	<bean id="kuali.lu.vpacAgenda.search" class="org.kuali.student.r1.common.assembly.data.UILookupData">
 		<property name="id" value="kuali.lu.vpacAgenda.search" />
 		<property name="searchTypeId" value="lu.search.VPACProposals" />
 		<property name="name" value="VPAC Agenda" />
@@ -1728,7 +1728,7 @@
 	<!-- End VPAC Search -->
 
 	<!-- Course Version History. Overriden to include pilot box -->
-	<bean id="kuali.lu.lookup.basic.courseVersions" class="org.kuali.student.common.assembly.data.UILookupData"
+	<bean id="kuali.lu.lookup.basic.courseVersions" class="org.kuali.student.r1.common.assembly.data.UILookupData"
 		parent="kuali.common.lookup.basic.courseVersions">
 		<property name="id" value="kuali.lu.lookup.basic.courseVersions" />
 		<property name="widget" value="NO_WIDGET" />
@@ -1792,7 +1792,7 @@
 
 	<!-- KSCM-920 Override KS bean with customizations per Mike C. 
 	Change search field title to "Program or Major Code (for example, 22080 or SOCYD)" -->
-	<bean id="kuali.lu.lookup.findMajor.advanced" class="org.kuali.student.common.assembly.data.UILookupData">
+	<bean id="kuali.lu.lookup.findMajor.advanced" class="org.kuali.student.r1.common.assembly.data.UILookupData">
 		<property name="id" value="kuali.lu.lookup.findMajor.advanced" />
 		<property name="searchTypeId" value="lu.search.union.majors" />
 		<property name="name" value="Find an Academic Program" />
@@ -1941,7 +1941,7 @@
 	<bean id="search.findMajor" parent="uilookupconfig-parent">
 		<property name="path" value="search.findMajor" />
 		<property name="initialLookup">
-			<bean class="org.kuali.student.common.assembly.data.UILookupData">
+			<bean class="org.kuali.student.r1.common.assembly.data.UILookupData">
 				<property name="name" value="Find an Academic Program" />
 				<property name="desc" value="Search for Major Disciplines" />
 				<property name="widget" value="NO_WIDGET" />

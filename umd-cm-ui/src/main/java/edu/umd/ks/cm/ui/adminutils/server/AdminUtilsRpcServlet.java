@@ -2,9 +2,9 @@ package edu.umd.ks.cm.ui.adminutils.server;
 
 import java.util.List;
  
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.student.common.util.security.SecurityUtils;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -17,7 +17,7 @@ public class AdminUtilsRpcServlet extends RemoteServiceServlet implements AdminU
 	private static final long serialVersionUID = 1L;
 
 	private SiscmService siscmService;
-	private IdentityManagementService permissionService;
+	private PermissionService permissionService;
 	
 	@Override
 	public boolean exportAllCourses() {
@@ -66,7 +66,7 @@ public class AdminUtilsRpcServlet extends RemoteServiceServlet implements AdminU
 		this.siscmService = siscmService;
 	}
 
-	public void setPermissionService(IdentityManagementService permissionService) {
+	public void setPermissionService(PermissionService permissionService) {
 		this.permissionService = permissionService;
 	}
 
