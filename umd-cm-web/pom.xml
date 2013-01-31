@@ -20,7 +20,7 @@
             </activation>
             <modules>
                 <module>umd-cm-with-rice-bundled</module>
-                <module>umd-cm-standalone</module>
+                <module>umd-cm-with-rice-embedded</module>
             </modules>
         </profile>
         <profile>
