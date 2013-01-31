@@ -62,7 +62,7 @@
                 <artifactId>tomcat-maven-plugin</artifactId>
                 <configuration>
                     <path>/umd-cm-with-rice-embedded-dev</path>
-                    <port>8282</port>
+                    <port>8484</port>
                 </configuration>
                 <dependencies>
                     <dependency>
