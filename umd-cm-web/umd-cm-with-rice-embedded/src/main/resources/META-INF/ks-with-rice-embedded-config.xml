@@ -162,7 +162,7 @@
 
     <!-- Config defaults and overrides -->
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-config.xml</param>
-    <param name="config.location">${user.home}/kuali/main/${environment}/ks-with-rice-embedded-config.xml</param>
+    <param name="config.location">${user.home}/kuali/main/${environment}/umd-cm-with-rice-embedded-config.xml</param>
     <param name="config.location">${additional.config.locations}</param>
 
 </config>
