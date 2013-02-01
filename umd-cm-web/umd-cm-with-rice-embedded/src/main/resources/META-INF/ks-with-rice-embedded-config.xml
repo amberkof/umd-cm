@@ -125,9 +125,10 @@
     <param name="ks.rice.label">RICE</param>
     <param name="ks.rice.url">http://localhost:8080/ks-rice-standalone-${environment}</param>
     <param name="rice.server.url">${ks.rice.url}</param>
-    <!-- Set all services to /services instead of /remoting -->
+    <!-- Set all *CM* services to /services instead of /remoting -->
+    <!-- All Rice services should remain /remoting -->
     <param name="serviceServletUrl">${application.url}/services/</param>
-    <param name="rice.ksb.registry.serviceUrl">${rice.server.url}/services/soap/ksb/v2_0/serviceRegistry</param>
+    <param name="rice.ksb.registry.serviceUrl">${rice.server.url}/remoting/soap/ksb/v2_0/serviceRegistry</param>
 
     <!-- Rice URLS --> 
 	<param name="ks.rice.personLookup.serviceAddress">${ks.rice.url}/kr/lookup.do</param>
