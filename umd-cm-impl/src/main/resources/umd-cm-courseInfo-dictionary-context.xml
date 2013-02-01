@@ -128,7 +128,7 @@
 	</bean>
 	<bean id="activityInfo.activityType.requiredByNode" parent="courseInfo.requiredByAllNodesList-parent" />
 	<bean id="courseInfo.finalExamStatus.requiredByNode" parent="courseInfo.requiredByAllNodesList-parent" />
-	<bean id="resultComponentInfo.credit.fixedAndRange.requiredByNode" parent="courseInfo.requiredByAllNodesList-parent" />
+	<bean id="resultValuesGroupInfo.credit.fixedAndRange.requiredByNode" parent="courseInfo.requiredByAllNodesList-parent" />
 	<bean id="courseInfo.creditType.requiredByNode" parent="courseInfo.requiredByAllNodesList-parent" />
 	<bean id="courseInfo.PCCInformation.requiredByNode" parent="courseInfo.requiredByAllNodesList-parent" />
 	<bean id="courseInfo.activityTotalContactHours.requiredByNode" parent="courseInfo.requiredByAllNodesList-parent" />
@@ -262,21 +262,21 @@
 	<bean id="courseInfo.repeatableIfContentDiffers" parent="courseInfo.repeatableIfContentDiffers-parent" />
 	
 	<!-- CREDIT OPTIONS -->
-	<!-- Replace 'resultComponentInfo.type' with 'courseInfo.creditType' -->
-	<bean id="courseInfo.creditOptions.ResultComponentInfo" parent="courseInfo.creditOptions.ResultComponentInfo-parent">
+	<!-- Replace 'resultValuesGroupInfo.type' with 'courseInfo.creditType' -->
+	<bean id="courseInfo.creditOptions.resultValuesGroupInfo" parent="courseInfo.creditOptions.resultValuesGroupInfo-parent">
 		<property name="attributes">
 			<list>
-				<ref bean="resultComponentInfo.desc" />
-				<ref bean="resultComponentInfo.effectiveDate" />
-				<ref bean="resultComponentInfo.expirationDate" />
-				<ref bean="resultComponentInfo.id" />
-				<ref bean="resultComponentInfo.name" />
-				<ref bean="resultComponentInfo.resultValuesNumeric" />
-				<ref bean="course.resultComponentInfo.state" />
+				<ref bean="resultValuesGroupInfo.desc" />
+				<ref bean="resultValuesGroupInfo.effectiveDate" />
+				<ref bean="resultValuesGroupInfo.expirationDate" />
+				<ref bean="resultValuesGroupInfo.id" />
+				<ref bean="resultValuesGroupInfo.name" />
+				<ref bean="resultValuesGroupInfo.resultValuesNumeric" />
+				<ref bean="course.resultValuesGroupInfo.state" />
 				<ref bean="courseInfo.creditType" />
-				<ref bean="resultComponentInfo.minCreditValue" />
-				<ref bean="resultComponentInfo.maxCreditValue" />
-				<ref bean="resultComponentInfo.fixedCreditValue" />
+				<ref bean="resultValuesGroupInfo.minCreditValue" />
+				<ref bean="resultValuesGroupInfo.maxCreditValue" />
+				<ref bean="resultValuesGroupInfo.fixedCreditValue" />
 			</list>
 		</property>
 	</bean>
@@ -341,25 +341,25 @@
 	</bean>
 	
 	<!-- Override the validChars for the credit option values -->
-	<bean id="resultComponentInfo.minCreditValue" parent="resultComponentInfo.minCreditValue-parent">
+	<bean id="resultValuesGroupInfo.minCreditValue" parent="resultValuesGroupInfo.minCreditValue-parent">
 		<property name="validChars" ref="credit.option.numeric" />
 		<property name="maxLength" value="5" />
 		<property name="customValidatorClass" value="edu.umd.ks.cm.course.service.utils.MinCreditValidator"/>
 	</bean>
 	
-	<bean id="resultComponentInfo.maxCreditValue" parent="resultComponentInfo.maxCreditValue-parent">
+	<bean id="resultValuesGroupInfo.maxCreditValue" parent="resultValuesGroupInfo.maxCreditValue-parent">
 		<property name="validChars" ref="credit.option.numeric" />
 		<property name="maxLength" value="5" />
 	</bean>
 
-	<bean id="resultComponentInfo.fixedCreditValue" parent="resultComponentInfo.fixedCreditValue-parent">
+	<bean id="resultValuesGroupInfo.fixedCreditValue" parent="resultValuesGroupInfo.fixedCreditValue-parent">
 		<property name="validChars" ref="credit.option.numeric" />
 		<property name="maxLength" value="5" />
 	</bean>
 
 	<!-- Override the validChars for the constraints of the credit options -->
-	<bean id="resultComponentInfo.credit.fixedAndRange-constraint"
-		parent="resultComponentInfo.credit.fixedAndRange-constraint-parent">
+	<bean id="resultValuesGroupInfo.credit.fixedAndRange-constraint"
+		parent="resultValuesGroupInfo.credit.fixedAndRange-constraint-parent">
 		<property name="validChars" ref="credit.option.numeric" />
 	</bean>
 	
