@@ -4,7 +4,7 @@
        http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd">
 	
 	<!-- add a dynamic attribute to cluset -->
-	<bean id="org.kuali.student.lum.lu.dto.CluSetInfo" parent="org.kuali.student.lum.lu.dto.CluSetInfo-parent">
+	<bean id="org.kuali.student.r2.lum.clu.dto.CluSetInfo" parent="org.kuali.student.r2.lum.clu.dto.CluSetInfo-parent">
 		<property name="attributes">
 			<list merge="true">
 				<ref bean="cluSetInfo.sisCode"/>

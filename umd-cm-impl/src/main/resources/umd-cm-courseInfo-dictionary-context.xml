@@ -263,20 +263,24 @@
 	
 	<!-- CREDIT OPTIONS -->
 	<!-- Replace 'resultValuesGroupInfo.type' with 'courseInfo.creditType' -->
-	<bean id="courseInfo.creditOptions.resultValuesGroupInfo" parent="courseInfo.creditOptions.resultValuesGroupInfo-parent">
+	<!-- CREDIT OPTIONS -->
+	<!-- Replace 'resultComponentInfo.type' with 'courseInfo.creditType' -->
+
+	<!-- SNIP, Removed for now
+	<bean id="courseInfo.creditOptions.ResultComponentInfo" parent="courseInfo.creditOptions.ResultComponentInfo-parent">
 		<property name="attributes">
 			<list>
-				<ref bean="resultValuesGroupInfo.desc" />
-				<ref bean="resultValuesGroupInfo.effectiveDate" />
-				<ref bean="resultValuesGroupInfo.expirationDate" />
-				<ref bean="resultValuesGroupInfo.id" />
-				<ref bean="resultValuesGroupInfo.name" />
-				<ref bean="resultValuesGroupInfo.resultValuesNumeric" />
-				<ref bean="course.resultValuesGroupInfo.state" />
+				<ref bean="resultComponentInfo.desc" />
+				<ref bean="resultComponentInfo.effectiveDate" />
+				<ref bean="resultComponentInfo.expirationDate" />
+				<ref bean="resultComponentInfo.id" />
+				<ref bean="resultComponentInfo.name" />
+				<ref bean="resultComponentInfo.resultValuesNumeric" />
+				<ref bean="course.resultComponentInfo.state" />
 				<ref bean="courseInfo.creditType" />
-				<ref bean="resultValuesGroupInfo.minCreditValue" />
-				<ref bean="resultValuesGroupInfo.maxCreditValue" />
-				<ref bean="resultValuesGroupInfo.fixedCreditValue" />
+				<ref bean="resultComponentInfo.minCreditValue" />
+				<ref bean="resultComponentInfo.maxCreditValue" />
+				<ref bean="resultComponentInfo.fixedCreditValue" />
 			</list>
 		</property>
 	</bean>
@@ -340,29 +344,29 @@
 		</property>
 	</bean>
 	
-	<!-- Override the validChars for the credit option values -->
-	<bean id="resultValuesGroupInfo.minCreditValue" parent="resultValuesGroupInfo.minCreditValue-parent">
+	<bean id="resultComponentInfo.minCreditValue" parent="resultComponentInfo.minCreditValue-parent">
 		<property name="validChars" ref="credit.option.numeric" />
 		<property name="maxLength" value="5" />
 		<property name="customValidatorClass" value="edu.umd.ks.cm.course.service.utils.MinCreditValidator"/>
 	</bean>
 	
-	<bean id="resultValuesGroupInfo.maxCreditValue" parent="resultValuesGroupInfo.maxCreditValue-parent">
+	<bean id="resultComponentInfo.maxCreditValue" parent="resultComponentInfo.maxCreditValue-parent">
 		<property name="validChars" ref="credit.option.numeric" />
 		<property name="maxLength" value="5" />
 	</bean>
 
-	<bean id="resultValuesGroupInfo.fixedCreditValue" parent="resultValuesGroupInfo.fixedCreditValue-parent">
+	<bean id="resultComponentInfo.fixedCreditValue" parent="resultComponentInfo.fixedCreditValue-parent">
 		<property name="validChars" ref="credit.option.numeric" />
 		<property name="maxLength" value="5" />
 	</bean>
-
-	<!-- Override the validChars for the constraints of the credit options -->
-	<bean id="resultValuesGroupInfo.credit.fixedAndRange-constraint"
-		parent="resultValuesGroupInfo.credit.fixedAndRange-constraint-parent">
+ 
+	<bean id="resultComponentInfo.credit.fixedAndRange-constraint"
+		parent="resultComponentInfo.credit.fixedAndRange-constraint-parent">
 		<property name="validChars" ref="credit.option.numeric" />
 	</bean>
-	
+
+   END SNIP -->
+
 	<!-- VALID CHAR DEFINITIONS -->
  	
  	<bean id="credit.option.numeric" parent="ValidCharDefinition">
