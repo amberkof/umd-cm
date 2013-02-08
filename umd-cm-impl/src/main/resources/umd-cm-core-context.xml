@@ -31,7 +31,7 @@
     </bean>
 
     <bean id="orgSearchManager"
-        class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+        class="org.kuali.student.r2.common.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:umd-cm-organization-prefix-search-config.xml" />
     </bean>
 

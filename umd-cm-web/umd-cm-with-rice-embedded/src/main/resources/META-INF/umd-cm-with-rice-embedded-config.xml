@@ -24,15 +24,15 @@
     <param name="config.location">classpath:META-INF/ks-lum-config.xml</param>
     <param name="config.location">classpath:ks-security-config.xml</param>
     
-    <param name="module.name">ks-with-rice-embedded</param>
+    <param name="module.name">umd-cm-with-rice-embedded</param>
     <param name="db.vendor">oracle</param>
     <param name="jpa.vendor">hibernate</param>
 
-    <param name="app.code">ks-with-rice-embedded</param>
+    <param name="app.code">umd-cm-with-rice-embedded</param>
     <param name="application.id">ks-with-rice-embedded</param>
     <param name="appserver.url">http://localhost:8081</param>
 	
-    <param name="serviceNamespace">ks-with-rice-embedded</param>
+    <param name="serviceNamespace">umd-cm-with-rice-embedded</param>
     <param name="rice.ksb.loadKNSModuleConfiguration">false</param>
     <param name="rice.logging.configure">true</param>
     <param name="log4j.settings.path">classpath:log4j.properties</param>
@@ -69,21 +69,13 @@
     <param name="rice.jpa.UseSerialization">false</param>
 
     <param name="datasource.ojb.platform">Oracle9i</param>
- 
-    <param name="rice.ksb.jpa.enabled.derby">true</param>
-    <param name="rice.jpa.DatabasePlatform.derby">org.hibernate.dialect.DerbyDialect</param>
-    <param name="datasource.driver.name.derby">org.apache.derby.jdbc.ClientDriver</param>
-    <param name="datasource.url.derby">jdbc:derby://localhost:1527/derby/rice-db;create=true</param>
-    <param name="datasource.username.derby">rice</param>
-    <param name="datasource.password.derby">r1c3</param>
-    <param name="datasource.pool.validationQuery.derby">values(1)</param>
     
-    <param name="rice.ksb.jpa.enabled.oracle">false</param>
+    <param name="rice.ksb.jpa.enabled.oracle">true</param>
     <param name="rice.jpa.DatabasePlatform.oracle">org.hibernate.dialect.Oracle10gDialect</param>
 	<param name="datasource.driver.name.oracle">oracle.jdbc.OracleDriver</param>
 	<param name="datasource.url.oracle">jdbc:oracle:thin:@localhost:1521:XE</param>
-	<param name="datasource.username.oracle">KSRICE</param>
-	<param name="datasource.password.oracle">KSRICE</param>
+	<param name="datasource.username.oracle">riceumd</param>
+	<param name="datasource.password.oracle">riceumd</param>
 	<param name="datasource.pool.validationQuery.oracle">select 1 from dual</param>  
 	
 	<param name="rice.jpa.DatabasePlatform">${rice.jpa.DatabasePlatform.${db.vendor}}</param>
@@ -113,7 +105,7 @@
         Setting this property allows selective loading lum or core project or both
     -->
     <param name="ks.projects">classpath:ksb/ks-core-context.xml,classpath:ksb/ks-lu-context.xml,
-        classpath:ks-spring-security-saml.xml,classpath:ksb/ks-with-rice-embedded-admin-context.xml
+        classpath:ks-spring-security-saml.xml, classpath:umd-cm-core-context.xml, classpath:umd-cm-lum-context.xml
 	</param>
 
     <!-- additional context files -->
@@ -123,7 +115,7 @@
     
     
     <param name="ks.rice.label">RICE</param>
-    <param name="ks.rice.url">http://localhost:8080/ks-rice-standalone-${environment}</param>
+    <param name="ks.rice.url">http://localhost:8080/kr-${environment}</param>
     <param name="rice.server.url">${ks.rice.url}</param>
     <!-- Set all *CM* services to /services instead of /remoting -->
     <!-- All Rice services should remain /remoting -->
@@ -161,9 +153,22 @@
     <param name="ks.lum.gwt.cache.config.file">classpath:ks-lum-gwt-ehcache.xml</param>
     <param name="ks.lum.gwt.metadata.enable.caching">true</param>
 
+
+    <!-- UMD-CM persistence unit for our unit/prefix tables -->
+    <!-- use 'umdOrganization' for non-local schema -->
+    <param name="umd.cm.organization.persistenceUnit">umdOrganizationDev</param>
+    <param name="umd.cm.sis.persistenceUnit">sisDev</param>
+    <param name="umd.cm.sis.enablePushToSis">false</param>
+    <param name="umd.cm.sis.enableWFDoc">true</param>
+
     <!-- Config defaults and overrides -->
-    <param name="config.location">${user.home}/kuali/main/${environment}/ks-config.xml</param>
     <param name="config.location">${user.home}/kuali/main/${environment}/umd-cm-with-rice-embedded-config.xml</param>
     <param name="config.location">${additional.config.locations}</param>
+    
+    <param name="ks.lum.dictionary.serviceContextLocations">classpath:ks-courseInfo-dictionary-context.xml, classpath:ks-programInfo-dictionary-context.xml, classpath:ks-statement-dictionary-context.xml, classpath:ks-lrc-dictionary-context.xml, classpath:umd-cm-courseInfo-dictionary-context.xml, classpath:umd-cm-programInfo-dictionary-context.xml, classpath:umd-cm-clusetInfo-dictionary-context.xml, classpath:umd-cm-cluset-ui-object-dictionary-context.xml, classpath:umd-cm-base-dictionary-context.xml</param>    
+	<param name="ks.lum.ui.lookupContextLocations">classpath:umd-cm-ui-lookup-context.xml</param>
+	
+	<param name="ks.core.dictionary.serviceContextLocations">classpath:ks-proposalInfo-dictionary-context.xml, classpath:ks-workflow-dictionary-context.xml, classpath:ks-document-dictionary-context.xml, classpath:ks-comment-dictionary-context.xml, classpath:ks-atp-dictionary-context.xml, classpath:ks-lrc-dictionary-context.xml, classpath:umd-cm-proposalInfo-dictionary-context.xml, classpath:umd-cm-clusetInfo-dictionary-context.xml, classpath:umd-cm-cluset-ui-object-dictionary-context.xml, classpath:umd-cm-base-dictionary-context.xml, classpath:umd-cm-statement-dictionary-context.xml</param>
+    
 
 </config>

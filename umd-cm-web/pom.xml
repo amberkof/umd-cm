@@ -28,12 +28,6 @@
             <modules>
             </modules>
         </profile>
-         <profile>
-            <id>standalone-only-wars</id>
-            <modules>
-                <module>umd-cm-standalone</module>
-             </modules>
-        </profile> 
         <profile>
             <id>bundled-only-war</id>
             <modules>

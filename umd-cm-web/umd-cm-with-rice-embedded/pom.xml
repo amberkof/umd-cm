@@ -3,8 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>umd-cm-with-rice-embedded</artifactId>
     <packaging>war</packaging>
-    <name>UMD CM  with Rice Embedded</name>
-    <description>KS with Embedded Rice components accessing remote Rice Server.</description>
+    <name>UMD CM with Rice Embedded</name>
+    <description>UMD CM with Embedded Rice components accessing remote Rice Server.</description>
     <parent>
         <groupId>edu.umd.ks.cm</groupId>
         <artifactId>umd-cm-web</artifactId>
