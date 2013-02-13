@@ -48,6 +48,26 @@
    	<import resource="classpath:org/kuali/rice/core/RiceDataSourceSpringBeans.xml"/>
     <import resource="classpath:org/kuali/rice/config/RiceSpringBeans.xml"/>
 
+	<!-- Define UMD CM Datasource - reusing core config properties so don't have to create new props
+	     This is to allow single umd-cm datasource for core, lu, and ksb message tables 
+	-->
+	<bean id="umdCmDataSource" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
+        <property name="transactionManager" ref="userTransaction" />
+        <property name="driverClassName" value="${ks.core.datasource.driver.name}" />
+        <property name="maxSize" value="${ks.core.datasource.maxSize}" />
+        <property name="minSize" value="${ks.core.datasource.minSize}" />
+        <property name="maxWait" value="${ks.core.datasource.maxWait}" />
+        <property name="validationQuery" value="${ks.core.datasource.validationQuery}" />
+        <property name="url" value="${ks.core.datasource.url}" />
+        <property name="username" value="${ks.core.datasource.username}" />
+        <property name="password" value="${ks.core.datasource.password}" />
+	</bean>
+
+	<!-- Alias the UMD Cm Datasource, so additional ones don't get created for bean defs in ks-core-context and ks-lu-context -->
+	<alias name="umdCmDataSource" alias="coreDataSource"/>
+	<alias name="umdCmDataSource" alias="lumDataSource"/>
+
+
     <alias name="jtaUserTransaction" alias="userTransaction"/>
 
     <import resource="classpath:org/kuali/rice/core/CommonSpringBeans.xml"/>
