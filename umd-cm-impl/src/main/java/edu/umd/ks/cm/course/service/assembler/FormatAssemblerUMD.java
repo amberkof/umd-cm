@@ -1,5 +1,5 @@
-package edu.umd.ks.cm.core.organization.entity;
-
+package edu.umd.ks.cm.course.service.assembler;
+ 
 import java.util.Iterator;
 import java.util.List;
 

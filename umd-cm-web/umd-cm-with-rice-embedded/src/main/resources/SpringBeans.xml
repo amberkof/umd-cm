@@ -22,7 +22,14 @@
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
    		<property name="properties" ref="configProperties" />
    	</bean>
+   	
+ 
+   	
 
+<!-- * ks-spring-security.xml is already loaded in web.xml
+ 	 * Referencing variable rice.additionalSpringFiles from this file is not resolving properly,
+ 	   so I am manually adding the entires here in the bootstrap config.
+ -->
    	<bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
    		<property name="configLocations">
    			<list>
@@ -31,6 +38,24 @@
    			</list>
    		</property>
    	</bean>
+   	
+   	<!--
+   	classpath:ksb/ks-core-context.xml,classpath:ksb/ks-lu-context.xml,
+        classpath:ks-spring-security-saml.xml, classpath:umd-cm-core-context.xml, classpath:umd-cm-lum-context.xml
+   	  -->
+   	
+   	<!--  
+    <param name="ks.projects">classpath:ksb/ks-core-context.xml,classpath:ksb/ks-lu-context.xml,
+        classpath:ks-spring-security-saml.xml,classpath:ksb/ks-with-rice-embedded-admin-context.xml
+	</param>
+ 
+    <param name="ks.authentication.context">classpath:ks-spring-security.xml</param>
+    <param name="rice.additionalSpringFiles">${ks.projects},${ks.authentication.context},${ks.institutional.context}</param>
+	--> 
+	
+	<!-- Workaround ?
+   <import resource="classpath:umd-cm-core-context.xml"/>
+   -->
 
    	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
    		<property name="staticMethod" value="org.kuali.rice.core.impl.config.property.ConfigInitializer.initialize" />
@@ -66,14 +91,22 @@
 	<!-- Alias the UMD Cm Datasource, so additional ones don't get created for bean defs in ks-core-context and ks-lu-context -->
 	<alias name="umdCmDataSource" alias="coreDataSource"/>
 	<alias name="umdCmDataSource" alias="lumDataSource"/>
-
+ 
 
     <alias name="jtaUserTransaction" alias="userTransaction"/>
 
     <import resource="classpath:org/kuali/rice/core/CommonSpringBeans.xml"/>
 
+
     <import resource="classpath:ks-transaction-context.xml"/>
    	<import resource="classpath:ksb/ks-core-no-tx-context.xml"/>
     <import resource="classpath:ksb/ks-lu-no-tx-context.xml"/>
+    
+     <!--  UMD custom overrides moved here for CM version 2.0 as old variables are no longer used  -->
+    <import resource="classpath:umd-cm-core-context.xml"/>
+    <import resource="classpath:umd-cm-lum-context.xml"/>
+     
+   
+     
 
 </beans>

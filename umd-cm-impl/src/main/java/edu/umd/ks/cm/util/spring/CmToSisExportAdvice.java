@@ -35,7 +35,7 @@ import org.kuali.student.r1.lum.course.service.CourseServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.r2.core.statement.service.StatementService;
+import org.kuali.student.r1.core.statement.service.StatementService;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -270,7 +270,7 @@ public class CmToSisExportAdvice implements Advice {
 			statements = courseService.getCourseStatements(courseInfo.getId(), null, null,contextInfo);
 
 			for(StatementTreeViewInfo statement : statements){					
-				String nl = statementService.getNaturalLanguageForStatement(statement.getId(), "KUALI.RULE", "en",contextInfo);
+				String nl = statementService.getNaturalLanguageForStatement(statement.getId(), "KUALI.RULE", "en");
 				
 				if (statement.getType().equals("kuali.statement.type.course.academicReadiness.studentEligibility"))
 					course.setStudentEligibilityNL(nl);

@@ -1,3 +1,5 @@
+   
+ 
 <!--
 
     Copyright 2010 The Kuali Foundation Licensed under the
@@ -16,7 +18,7 @@
 -->
 
 <config>
-    
+ 
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
     <param name="config.location">classpath:META-INF/common-config-locations.xml</param>
 
@@ -100,20 +102,36 @@
     <!-- run modes -->
     <param name="ksb.mode">THIN</param>
 
+
+    <!--   -->
+
     <!-- additional config files -->
+    
+    <!-- NOTE FROM CHRIS / WILL ABOUT ks.projects, ks.authentication.context, rice.additionalSpringFiles
+        These variables are no longer used.
+        
+        The ks.projects variable, ks.authentication.context, and rice.additionalSpringFiles variable need to be
+        removed from ks-with-rice-embedded-config.xml and ks-with-rice-bundled-config.xml.  The files / information
+        referenced by these variables is no longer used (it has been moved out to other files such as ks-lu-no-context.xml
+        and is loaded directly from SpringBeans.xml).
+    
+    	We are moving to two UMD override files to the bottom of SpringBeans.xml
+    
+     -->
     <!--
         Setting this property allows selective loading lum or core project or both
-    -->
+    
     <param name="ks.projects">classpath:ksb/ks-core-context.xml,classpath:ksb/ks-lu-context.xml,
         classpath:ks-spring-security-saml.xml, classpath:umd-cm-core-context.xml, classpath:umd-cm-lum-context.xml
 	</param>
-
-    <!-- additional context files -->
+    -->
+    <!-- additional context files
     <param name="ks.authentication.context">classpath:ks-spring-security.xml</param>
+     -->
+     <!--   
     <param name="rice.additionalSpringFiles">${ks.projects},${ks.authentication.context},${ks.institutional.context}</param>
-    
-    
-    
+     -->
+   
     <param name="ks.rice.label">RICE</param>
     <param name="ks.rice.url">http://localhost:8080/kr-${environment}</param>
     <param name="rice.server.url">${ks.rice.url}</param>
@@ -163,12 +181,14 @@
 
     <!-- Config defaults and overrides -->
     <param name="config.location">${user.home}/kuali/main/${environment}/umd-cm-with-rice-embedded-config.xml</param>
+    <param name="config.location">${rice.additionalSpringFiles}</param>
     <param name="config.location">${additional.config.locations}</param>
+    
+    
     
     <param name="ks.lum.dictionary.serviceContextLocations">classpath:ks-courseInfo-dictionary-context.xml, classpath:ks-programInfo-dictionary-context.xml, classpath:ks-statement-dictionary-context.xml, classpath:ks-lrc-dictionary-context.xml, classpath:umd-cm-courseInfo-dictionary-context.xml, classpath:umd-cm-programInfo-dictionary-context.xml, classpath:umd-cm-clusetInfo-dictionary-context.xml, classpath:umd-cm-cluset-ui-object-dictionary-context.xml, classpath:umd-cm-base-dictionary-context.xml</param>    
 	<param name="ks.lum.ui.lookupContextLocations">classpath:umd-cm-ui-lookup-context.xml</param>
 	
 	<param name="ks.core.dictionary.serviceContextLocations">classpath:ks-proposalInfo-dictionary-context.xml, classpath:ks-workflow-dictionary-context.xml, classpath:ks-document-dictionary-context.xml, classpath:ks-comment-dictionary-context.xml, classpath:ks-atp-dictionary-context.xml, classpath:ks-lrc-dictionary-context.xml, classpath:umd-cm-proposalInfo-dictionary-context.xml, classpath:umd-cm-clusetInfo-dictionary-context.xml, classpath:umd-cm-cluset-ui-object-dictionary-context.xml, classpath:umd-cm-base-dictionary-context.xml, classpath:umd-cm-statement-dictionary-context.xml</param>
-    
-
+     
 </config>
