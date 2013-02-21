@@ -102,10 +102,10 @@
    	<import resource="classpath:ksb/ks-core-no-tx-context.xml"/>
     <import resource="classpath:ksb/ks-lu-no-tx-context.xml"/>
     
-     <!--  UMD custom overrides moved here for CM version 2.0 as old variables are no longer used  -->
+     <!--  UMD custom overrides moved here for CM version 2.0 as old variables are no longer used 
     <import resource="classpath:umd-cm-core-context.xml"/>
     <import resource="classpath:umd-cm-lum-context.xml"/>
-     
+      -->
    
      
 
