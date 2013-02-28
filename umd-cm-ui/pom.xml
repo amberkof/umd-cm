@@ -8,7 +8,7 @@
     <parent>
         <groupId>edu.umd.ks.cm</groupId>
         <artifactId>umd-cm</artifactId>
-        <version>2.0.0-cm-UMD-SR1-SNAPSHOT</version>
+        <version>2.0.0-cm-UMD-SR1</version>
     </parent>
         <properties>
       <selenium.pattern>**/selenium/**/*Test.java</selenium.pattern>
