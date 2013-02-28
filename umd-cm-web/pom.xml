@@ -25,7 +25,7 @@
                     environments and dev/qa/prod.
                     
                 <module>umd-cm-with-rice-bundled</module>
-                --->
+                -->
                 <module>umd-cm-with-rice-embedded</module>
             </modules>
         </profile>
