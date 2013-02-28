@@ -18,7 +18,14 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
+                 <!-- The decision has been made at UMD to 
+                    not use bundled, instead we plan to do
+                    all development with embedded to promote 
+                    consistency and understanding between local
+                    environments and dev/qa/prod.
+                    
                 <module>umd-cm-with-rice-bundled</module>
+                --->
                 <module>umd-cm-with-rice-embedded</module>
             </modules>
         </profile>
