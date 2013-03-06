@@ -26,7 +26,12 @@
     
     <bean id="orgDao"
           class="edu.umd.ks.cm.core.organization.dao.OrganizationAndPrefixDaoImplUMD">
-        <property name="em" ref="coreEntityManager" />
+        <property name="em" ref="orgEntityManager" />
+    </bean>
+ 
+ 
+    <bean id="orgEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="orgEntityManagerFactory" />
     </bean>
  
      	
