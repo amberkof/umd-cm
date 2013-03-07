@@ -411,7 +411,7 @@
 				<enabled>true</enabled>
 			</releases>
 			<snapshots>
-				<enabled>true</enabled>
+				<enabled>false</enabled>
 			</snapshots>
 		</repository>
 		<!-- This fixes build by bypassing broken Archiva -->
@@ -420,7 +420,7 @@
 			<name>SWE Snapshot AFS</name>
 			<url>https://devtools.umd.edu/archiva/repository/swe-snapshot</url>
 			<releases>
-				<enabled>true</enabled>
+				<enabled>false</enabled>
 			</releases>
 			<snapshots>
 				<enabled>true</enabled>
