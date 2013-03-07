@@ -182,7 +182,7 @@
     <!-- Config defaults and overrides -->
     <param name="config.location">${user.home}/kuali/main/${environment}/umd-cm-with-rice-embedded-config.xml</param>
     <param name="config.location">${rice.additionalSpringFiles}</param>
-    <param name="config.location">${additional.config.locations}</param>
+    <param name="config.location">${umd.cm.additional.config.locations}</param>
     
     
     
