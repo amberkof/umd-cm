@@ -225,7 +225,10 @@ public class CourseFormatWidget extends VerticalSection implements HasValueChang
 
         FieldDescriptor semesterType = getFieldDescriptor(null, QueryPath.parse(UMDConstants.COURSE_SEMESTER_TYPE));
 
-        
+// patch by Dyak of 3/7/2013 Jira KSCM-2187
+        // this was trying to use a wrong type of widget
+      if (semesterType.getFieldWidget() instanceof KSPicker) {
+
         KSPicker picker = (KSPicker) semesterType.getFieldWidget();
         final KSDropDown dropdown = (KSDropDown) picker.getInputWidget();
 
@@ -246,7 +249,8 @@ public class CourseFormatWidget extends VerticalSection implements HasValueChang
             }
 
         });
-
+      }
+      
         //Modelwidgetbinding calls setValue before widgets fields are initialized
         this.setWidgetReadyCallback(new Callback<DataModel>() {
 

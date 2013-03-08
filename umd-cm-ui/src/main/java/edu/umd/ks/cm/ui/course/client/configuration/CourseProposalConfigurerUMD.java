@@ -247,11 +247,14 @@ public class CourseProposalConfigurerUMD extends CourseProposalConfigurer {
         
         //Semester Type
         FieldDescriptor semesterTypeFD = addField(creditInfoSection, COURSE + "/" + UMDConstants.COURSE_SEMESTER_TYPE, generateMessageInfo(UMDConstants.COURSE_SEMESTER_TYPE_LABEL_KEY));
-        
-        KSPicker picker = (KSPicker) semesterTypeFD.getFieldWidget();
-        final KSDropDown dropdown = (KSDropDown) picker.getInputWidget();
-        dropdown.setBlankFirstItem(false);
-       
+
+        // patch by Dyak of 3/7/2013 Jira KSCM-2187
+        // this was trying to use a wrong type of widget
+        if (semesterTypeFD.getFieldWidget() instanceof KSPicker) {
+         KSPicker picker = (KSPicker) semesterTypeFD.getFieldWidget();
+         final KSDropDown dropdown = (KSDropDown) picker.getInputWidget();
+         dropdown.setBlankFirstItem(false);
+        }
         
         //Hour Commitment per Week
         final CourseFormatWidget courseFormatWidget = new CourseFormatWidget(modelDefinition, COURSE, state, type, groupName);
