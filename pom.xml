@@ -16,7 +16,7 @@
 		<developerConnection>scm:svn:https://svn.dev.umd.edu/sds/kuali/umd-cm/branches/umd-cm-2.x-latest</developerConnection>
 	</scm>
 	<properties>
-		<umd.ks.version>2.0.0-cm-UMD-SR1-SNAPSHOT</umd.ks.version>
+		<umd.ks.version>2.0.0-cm-UMD-SR1-M2</umd.ks.version>
 		<kuali.ks.version>2.0.0-cm</kuali.ks.version>		
 		<ks.api.version>2.0.0-cm</ks.api.version>
 		<ks.core.version>2.0.0-cm</ks.core.version>
