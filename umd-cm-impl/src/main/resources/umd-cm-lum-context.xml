@@ -30,6 +30,10 @@
     <import resource="classpath:statement-context.xml"/>
     <import resource="classpath:program-context.xml"/>
  -->  
+ <!-- patch by dyak on 3/12/2013 for KSCM-2187  -->
+ <!-- fixed many problems with course proposals -->
+    <import resource="classpath:umd-cm-statement-context.xml"/> 
+
    
     <bean id="courseAssembler"
           class="org.kuali.student.r2.lum.course.service.assembler.CourseAssembler">
