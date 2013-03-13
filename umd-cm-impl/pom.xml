@@ -45,7 +45,7 @@
 		<dependency>
 			<groupId>org.kuali.student.api</groupId>
 			<artifactId>ks-core-api</artifactId>
-			<version>${ks.api.version}</version>
+			<version>${umd.ks.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
