@@ -1344,6 +1344,16 @@
 			
 			<!-- KUALI -->
 			<dependency>
+				<groupId>org.kuali.student.api</groupId> 
+				<artifactId>ks-common-api</artifactId>
+			    <version>${umd.ks.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.kuali.student.api</groupId> 
+				<artifactId>ks-core-api</artifactId>
+			    <version>${umd.ks.version}</version>
+			</dependency>	
+			<dependency>
 				<groupId>org.kuali.student.core</groupId> 
 				<artifactId>ks-core</artifactId>
 			    <version>${umd.ks.version}</version>
