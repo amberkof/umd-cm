@@ -599,7 +599,7 @@ public class CourseSummaryConfigurerUMD extends CourseSummaryConfigurer {
                                 list = list
                                         + binding.getStringList(model,
                                                 outcomesKey + "/" + number
-                                                + "/" + "resultValues")
+                                                + "/" + "resultValueKeys")
                                                 + ", ";
                             }
                         }
