@@ -358,7 +358,7 @@ public class CourseFormatWidget extends VerticalSection implements HasValueChang
                                 .getFieldWidget());
 
                         container.removeField(buildPath(parentPath, "contactHours/unitQuantity", index));
-                        container.removeField(buildPath(parentPath, "contactHours/unitType", index));
+                        container.removeField(buildPath(parentPath, "contactHours/unitTypeKey", index));
                         container.removeField(buildPath(parentPath, "credits", index));
                     }
                     addField(parentPath, buildPath(parentPath, "credits", index),
@@ -394,7 +394,7 @@ public class CourseFormatWidget extends VerticalSection implements HasValueChang
                 for (int index = 0; index < activityTypeMap.size(); index++) {
                     addField(parentPath, buildPath(parentPath, "contactHours/unitQuantity", index),
                             new KSTextBox(), index + 1, header.indexOf("Hours/Week"));
-                    addField(parentPath, buildPath(parentPath, "contactHours/unitType", index),
+                    addField(parentPath, buildPath(parentPath, "contactHours/unitTypeKey", index),
                             new KSLabel(), index + 1, -1);
                     container.removeField(buildPath(parentPath, "credits", index));
                     addField(parentPath, buildPath(parentPath, "credits", index),
@@ -494,7 +494,7 @@ public class CourseFormatWidget extends VerticalSection implements HasValueChang
 
         Metadata activityTypeMetadata = this.modelDefinition.getMetadata(parentPath + "/" + FORMATS + "/*/"
                 + ACTIVITIES
-                + "/*/" + ACTIVITY_TYPE);
+                + "/*/" + TYPE_KEY);
         Metadata ratioMetadata = this.modelDefinition.getMetadata(parentPath + "/" + FORMATS + "/*/" + ACTIVITIES
                 + "/*/"
                 + "creditRatio");
@@ -571,7 +571,7 @@ public class CourseFormatWidget extends VerticalSection implements HasValueChang
             key = sortTemplate.get(Integer.toString(index));
             key = key.substring(0, key.lastIndexOf(".ratio"));
             
-            addField(parentPath, buildPath(parentPath, "activityType", index),
+            addField(parentPath, buildPath(parentPath, "typeKey", index),
                     getSimpleListItemsWidget(key, activityTypeMap.get(key)), index + 1, header.indexOf("Activity"));
             addField(parentPath, buildPath(parentPath, "creditRatio", index),
                     new KSLabel(typeRatioMap.get(key)), index + 1, header.indexOf("Credit Ratio"));
@@ -619,7 +619,7 @@ public class CourseFormatWidget extends VerticalSection implements HasValueChang
                         widget.addStyleName("activity-textBox");
                     }
 
-                } else if ((fieldKey.contains("contactHours/unitType")) && (widget instanceof KSLabel)) {
+                } else if ((fieldKey.contains("contactHours/unitTypeKey")) && (widget instanceof KSLabel)) {
                     ((KSLabel) widget).setText(UNIT_TYPE);
                 }
             }

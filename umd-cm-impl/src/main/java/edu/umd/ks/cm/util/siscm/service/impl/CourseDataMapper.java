@@ -355,9 +355,9 @@ public class CourseDataMapper {
 	        return courseInfo;
 	    }
 	
-	private static ActivityInfo makeActivity(String activityType, String hours) {
+	private static ActivityInfo makeActivity(String typeKey, String hours) {
 		ActivityInfo activity = new ActivityInfo();
-		activity.setTypeKey(activityType);
+		activity.setTypeKey(typeKey);
 		activity.setState("Active");
 		AmountInfo amount = new AmountInfo();
 		amount.setUnitTypeKey("kuali.atp.duration.week");
