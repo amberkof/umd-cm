@@ -281,6 +281,7 @@ public class CourseProposalConfigurerUMD extends CourseProposalConfigurer {
 
     protected Section generateCreditOptionsSection() {
         Section creditOptionsSection = new VerticalSection();
+        
         String path = COURSE + QueryPath.getPathSeparator() + CREDIT_OPTIONS;
         QueryPath creditOptionsTypePath = QueryPath.concat(path, "0",
                 CreditCourseConstants.TYPE);
@@ -306,8 +307,8 @@ public class CourseProposalConfigurerUMD extends CourseProposalConfigurer {
         FieldDescriptor maxCreditDescriptor = addField(variableSection, creditOptionMaxFullPath.toString(),
                 generateMessageInfo(LUUIConstants.CREDIT_OPTION_MAX_CREDITS_LABEL_KEY));
         maxCreditDescriptor.setIgnoreShowRequired(true);
-        swapSection.addSection(fixedSection, "kuali.resultComponentType.credit.degree.fixed");
-        swapSection.addSection(variableSection, "kuali.resultComponentType.credit.degree.range");
+        swapSection.addSection(fixedSection, "kuali.result.values.group.type.fixed");
+        swapSection.addSection(variableSection, "kuali.result.values.group.type.range");
         creditOptionsSection.addSection(swapSection);
         swapSection.setSwapEventHandler(new SwapEventHandler() {
 

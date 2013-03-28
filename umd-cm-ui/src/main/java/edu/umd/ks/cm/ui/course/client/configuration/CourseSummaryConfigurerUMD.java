@@ -234,11 +234,11 @@ public class CourseSummaryConfigurerUMD extends CourseSummaryConfigurer {
                         }
 
                         if (data1 != null && data1 instanceof String) {
-                            if (!((String) data1).equals("kuali.resultComponentType.credit.degree.fixed")) {
+                            if (!((String) data1).equals("kuali.result.values.group.type.fixed")) {
                                 row.setShown(false);
                             }
                         } else if (data2 != null && data2 instanceof String) {
-                            if (!((String) data2).equals("kuali.resultComponentType.credit.degree.fixed")) {
+                            if (!((String) data2).equals("kuali.result.values.group.type.fixed")) {
                                 row.setShown(false);
                             }
                         }
@@ -257,11 +257,11 @@ public class CourseSummaryConfigurerUMD extends CourseSummaryConfigurer {
                         }
 
                         if (data1 != null && data1 instanceof String) {
-                            if (!((String) data1).equals("kuali.resultComponentType.credit.degree.range")) {
+                            if (!((String) data1).equals("kuali.result.values.group.type.range")) {
                                 row.setShown(false);
                             }
                         } else if (data2 != null && data2 instanceof String) {
-                            if (!((String) data2).equals("kuali.resultComponentType.credit.degree.range")) {
+                            if (!((String) data2).equals("kuali.result.values.group.type.range")) {
                                 row.setShown(false);
                             }
                         }
@@ -391,11 +391,11 @@ public class CourseSummaryConfigurerUMD extends CourseSummaryConfigurer {
                     }
 
                     if (data1 != null && data1 instanceof String) {
-                        if (!((String) data1).equals("kuali.resultComponentType.credit.degree.multiple")) {
+                        if (!((String) data1).equals("kuali.result.values.group.type.multiple")) {
                             row.setShown(false);
                         }
                     } else if (data2 != null && data2 instanceof String) {
-                        if (!((String) data2).equals("kuali.resultComponentType.credit.degree.multiple")) {
+                        if (!((String) data2).equals("kuali.result.values.group.type.multiple")) {
                             row.setShown(false);
                         }
                     }

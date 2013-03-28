@@ -93,8 +93,8 @@
 					<property name="writeAccess" value="NEVER"/>
 					<property name="defaultValueList">
 						<list>
-							<value>kuali.resultComponent.grade.letter</value>
-							<value>kuali.resultComponent.grade.satisfactory</value>
+							<value>kuali.result.scale.grade.letter</value>
+							<value>kuali.result.scale.grade.pnp</value>
 						</list>
 					</property>
 				</bean>

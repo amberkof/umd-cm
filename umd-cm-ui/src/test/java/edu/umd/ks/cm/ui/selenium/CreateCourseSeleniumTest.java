@@ -235,7 +235,7 @@ public class CreateCourseSeleniumTest {
         driver.findElement(byCompleteAssessment).click();
         
         WebElement outcome1Type = driver.findElement(By.xpath("//select[@id='gwt-debug-creditOptions-0-type']"));
-        clickOptionInSelectList(outcome1Type, "kuali.resultComponentType.credit.degree.fixed");
+        clickOptionInSelectList(outcome1Type, "kuali.result.values.group.type.fixed");
         
         WebElement outcome1CreditValue = driver.findElement(By
                 .xpath("//input[@id='gwt-debug-creditOptions-0-fixedCreditValue']"));

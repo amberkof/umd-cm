@@ -279,7 +279,7 @@ public class CourseFormatWidget extends VerticalSection implements HasValueChang
                 if (radio.getSelectedItem() != null) {
                 	setIsDirty(false);
                     ValueChangeEvent.fire(CourseFormatWidget.this, "");
-                    if (radio.getSelectedItem().equals("kuali.resultComponentType.credit.degree.fixed") && !hasFixedHandlers) {
+                    if (radio.getSelectedItem().equals("kuali.result.values.group.type.fixed") && !hasFixedHandlers) {
                         FieldDescriptor creditOptionFixed = getFieldDescriptor(null, creditOptionFixedFullPath);
                         TextBoxBase fixedTB = (TextBoxBase) ((CreditOptionGuidanceLabelUMD) creditOptionFixed.getFieldWidget()).getInputWidget();
                         fixedTB.addValueChangeHandler(new ValueChangeHandler<String>() {
@@ -291,7 +291,7 @@ public class CourseFormatWidget extends VerticalSection implements HasValueChang
                         });
                         hasFixedHandlers = true;
 
-                    } else if (radio.getSelectedItem().equals("kuali.resultComponentType.credit.degree.range") && !hasRangeHandlers) {
+                    } else if (radio.getSelectedItem().equals("kuali.result.values.group.type.range") && !hasRangeHandlers) {
                         FieldDescriptor creditOptionMin = getFieldDescriptor(null, creditOptionMinFullPath);
                         TextBoxBase minTB =   (TextBoxBase) ((CreditOptionGuidanceLabelUMD) creditOptionMin.getFieldWidget()).getInputWidget();
                         minTB.addValueChangeHandler(new ValueChangeHandler<String>() {
@@ -1019,13 +1019,13 @@ public class CourseFormatWidget extends VerticalSection implements HasValueChang
         double totalActivityBasedCredits = getTotal("Credits");
         double totalActivityBasedContactHours = getTotal("Contact Hours");
 
-        if ("kuali.resultComponentType.credit.degree.fixed".equals(creditOptionType)) {
+        if ("kuali.result.values.group.type.fixed".equals(creditOptionType)) {
             creditOptionFixed = parseDouble(((CreditOptionGuidanceLabelUMD) getFieldDescriptor(null,
                     creditOptionFixedFullPath)
                         .getFieldWidget()).getText());
             totalCreditContactHours = creditOptionFixed * creditRatioConstant;
             
-        } else if ("kuali.resultComponentType.credit.degree.range".equals(creditOptionType)) {
+        } else if ("kuali.result.values.group.type.range".equals(creditOptionType)) {
             creditOptionMin = parseDouble(((CreditOptionGuidanceLabelUMD) getFieldDescriptor(null,
                     creditOptionMinFullPath)
                         .getFieldWidget()).getText());
@@ -1045,7 +1045,7 @@ public class CourseFormatWidget extends VerticalSection implements HasValueChang
             } else
 
             //#Fixed Credit Courses
-            if (creditOptionType.equals("kuali.resultComponentType.credit.degree.fixed")) {
+            if (creditOptionType.equals("kuali.result.values.group.type.fixed")) {
                 //Validation Messages : https://confluence.umd.edu/display/KSCM/Prototypes+Supporting+JIRAs#
                 //#3
                 if (creditOptionFixed > totalActivityBasedCredits) {
@@ -1062,7 +1062,7 @@ public class CourseFormatWidget extends VerticalSection implements HasValueChang
                     results.add(vr);
                 }*/
                 //#Variable Credit Courses 
-            } else if (creditOptionType.equals("kuali.resultComponentType.credit.degree.range")) {
+            } else if (creditOptionType.equals("kuali.result.values.group.type.range")) {
                 //#5
                 if (creditOptionMin >= creditOptionMax) {
                     ValidationResultInfo vr = new ValidationResultInfo();
