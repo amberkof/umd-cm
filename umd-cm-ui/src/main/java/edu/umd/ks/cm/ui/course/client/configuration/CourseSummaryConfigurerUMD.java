@@ -97,7 +97,7 @@ public class CourseSummaryConfigurerUMD extends CourseSummaryConfigurer {
 
         block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + UMDConstants.ADDITIONAL_COURSE_INFORMATION, generateMessageInfo(UMDConstants.ADDITIONAL_COURSE_INFORMATION)));
 
-        block.addSummaryTableFieldRow(getFieldRow("proposal/rationale", generateMessageInfo(LUUIConstants.PROPOSAL_RATIONALE_LABEL_KEY)));
+        block.addSummaryTableFieldRow(getFieldRow(PROPOSAL + "/" + PROPOSED_RATIONALE + "/" + RichTextInfoConstants.PLAIN, generateMessageInfo(LUUIConstants.PROPOSAL_RATIONALE_LABEL_KEY)));
         block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + CURRICULUM_OVERSIGHT_ORGS_, generateMessageInfo(LUUIConstants.ACADEMIC_SUBJECT_ORGS_KEY)));
         block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + UMDConstants.COURSE_PCC_INFORMATION, generateMessageInfo(UMDConstants.COURSE_PCC_INFORMATION_LABEL_KEY)));
         block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + UMDConstants.COURSE_AP_AND_IB, generateMessageInfo(UMDConstants.COURSE_AP_AND_IB_LABEL_KEY)));

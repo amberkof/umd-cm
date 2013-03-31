@@ -229,8 +229,8 @@ public class CourseProposalConfigurerUMD extends CourseProposalConfigurer {
         String courseDescPlainKey = COURSE + "/" + DESCRIPTION + "/" + RichTextInfoConstants.PLAIN;
         addField(description, courseDescPlainKey, generateMessageInfo(LUUIConstants.DESCRIPTION_LABEL_KEY));        
         addField(description, COURSE + "/" + UMDConstants.ADDITIONAL_COURSE_INFORMATION, generateMessageInfo(UMDConstants.ADDITIONAL_COURSE_INFORMATION));
-        addField(description, "proposal/rationale", generateMessageInfo(LUUIConstants.PROPOSAL_RATIONALE_LABEL_KEY),
-                new KSCharCount(modelDefinition.getMetadata(QueryPath.parse("proposal/rationale"))));
+        addField(description,  PROPOSAL_PATH + "/" + PROPOSED_RATIONALE + "/" + RichTextInfoConstants.PLAIN, generateMessageInfo(LUUIConstants.PROPOSAL_RATIONALE_LABEL_KEY),
+                new KSCharCount(modelDefinition.getMetadata(QueryPath.parse(PROPOSAL_PATH + "/" + PROPOSED_RATIONALE + "/" + RichTextInfoConstants.PLAIN))));
         return description;
     }
 

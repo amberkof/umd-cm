@@ -16,6 +16,7 @@ import org.kuali.student.core.comments.ui.client.widgets.decisiontool.DecisionPa
 import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.core.workflow.ui.client.views.CollaboratorSectionView;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.base.RichTextInfoConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminRetireController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
@@ -134,8 +135,8 @@ public class CourseRetireByProposalConfigurerUMD extends CourseProposalConfigure
         fd.hideLabel();
     	
         addField(section, PROPOSAL_TITLE_PATH, generateMessageInfo(LUUIConstants.PROPOSED_PROPOSAL_TITLE_LABEL_KEY));
-        addField(section, PROPOSAL_PATH + "/" + PROPOSED_RATIONALE, generateMessageInfo(LUUIConstants.RETIREMENT_RATIONALE_LABEL_KEY),
-                new KSCharCount(modelDefinition.getMetadata(QueryPath.parse(PROPOSAL_PATH + "/" + PROPOSED_RATIONALE))));
+        addField(section, PROPOSAL_PATH + "/" + PROPOSED_RATIONALE + "/" + RichTextInfoConstants.PLAIN, generateMessageInfo(LUUIConstants.RETIREMENT_RATIONALE_LABEL_KEY),
+                new KSCharCount(modelDefinition.getMetadata(QueryPath.parse(PROPOSAL_PATH + "/" + PROPOSED_RATIONALE + "/" + RichTextInfoConstants.PLAIN))));
         addReadOnlyField(section, COURSE + "/" + START_TERM, generateMessageInfo(LUUIConstants.START_TERM_LABEL_KEY));
         addField(section, PROPOSAL_PATH + "/" + PROPOSED_END_TERM, generateMessageInfo(LUUIConstants.PROPOSED_END_TERM_LABEL_KEY));
         addField(section, PROPOSAL_PATH + "/" + OTHER_COMMENTS, generateMessageInfo(LUUIConstants.OTHER_COMMENTS_LABEL_KEY));  
