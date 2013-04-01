@@ -111,9 +111,7 @@
 			</bean>
 		</property>
 	</bean>
- 
-  
-		
+ 	
 	<bean id="switchUserProcessingFilter"
 		class="org.springframework.security.web.authentication.switchuser.SwitchUserFilter">
 		<property name="userDetailsService" ref="ksRiceUserDetailsService" />
@@ -125,10 +123,5 @@
 	<bean id="ksLogoutFilter" class="org.kuali.student.security.filter.KSLogoutFilter" >
 		<property name="logoutSuccessUrl" value="${ks.logout.url}" />
 	</bean>
-	<!-- 
-	<bean id="ksLogoutFilter" class="org.kuali.student.security.filter.KSLogoutFilter">
-		<security:custom-filter position="LOGOUT_FILTER" />
-		<property name="logoutSuccessUrl" value="${ks.logout.url}" />
-	</bean>
-	 -->
+ 
 </beans>
