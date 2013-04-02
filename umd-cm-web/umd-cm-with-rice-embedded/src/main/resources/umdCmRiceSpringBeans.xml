@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+
+ 
+   	
+
+	<!-- 
+ 	These beans used to be deployed in rice.  We have moved them back to CM and
+	exposed them on the service bus.
+ 	 -->
+
+
+
+    <!-- Use our own custom xml parser which also parses passwords
+    THIS MAY NEED TO BE ADDED BACK IN.  WE DON'T KNOW WHAT IT DOES.
+    WILL SAID TO COMMENT IT OUT!
+   	<bean id="enUserXmlService" class="org.kuali.rice.student.kew.xml.KSUserXmlServiceImpl" />
+     -->
+  
+    <bean id="ks.exp.ksOrgCommitteeRoleTypeService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="ksOrgCommitteeRoleTypeService" />
+                <property name="serviceInterface"
+                          value="org.kuali.rice.kim.framework.role.RoleTypeService"/>
+                <property name="localServiceName" value="ksOrgCommitteeRoleTypeService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/organization" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+     <!-- Org Derived role (anyone that's related to this org) -->
+	<bean id="ksOrgCommitteeRoleTypeService"
+		class="org.kuali.student.lum.kim.role.type.OrgDerivedRoleTypeServiceImpl">
+		<property name="excludedOrgPersonRelationTypes">
+			<list>
+				<value>kuali.org.PersonRelation.Chair</value>
+				<value>kuali.org.PersonRelation.CurriculumManager</value>
+			</list>
+		</property>
+		<!--<property name="orgService" ref="orgClient"/>-->
+	</bean>
+   	
+ 
+   		<!-- OrgAdmin Derived role (AdministrativeOfficer of this org) -->
+     <bean id="ks.exp.ksOrgAdminRoleTypeService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="ksOrgAdminRoleTypeService" />
+                <property name="serviceInterface"
+                          value="org.kuali.rice.kim.framework.role.RoleTypeService"/>
+                <property name="localServiceName" value="ksOrgAdminRoleTypeService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/organization" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+	<bean id="ksOrgAdminRoleTypeService"
+		class="org.kuali.student.lum.kim.role.type.OrgDerivedRoleTypeServiceImpl">
+		<property name="includedOrgPersonRelationTypes">
+			<list>
+				<value>kuali.org.PersonRelation.Chair</value>
+			</list>
+		</property>
+		<!--<property name="orgService" ref="orgClient"/>-->
+	</bean>
+
+
+      <bean id="ks.exp.ksOrgCurriculumManagerRoleTypeService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="ksOrgCurriculumManagerRoleTypeService" />
+                <property name="serviceInterface"
+                          value="org.kuali.rice.kim.framework.role.RoleTypeService"/>
+                <property name="localServiceName" value="ksOrgCurriculumManagerRoleTypeService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/organization" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+	<bean id="ksOrgCurriculumManagerRoleTypeService"
+		class="org.kuali.student.lum.kim.role.type.OrgDerivedRoleTypeServiceImpl">
+		<property name="includedOrgPersonRelationTypes">
+			<list>
+				<value>kuali.org.PersonRelation.CurriculumManager</value>
+			</list>
+		</property>
+	</bean>
+ 
+  
+    <!-- Action Request Derived role (type - Non Adhoc) (status - ACTIVE) -->
+    <bean id="ks.exp.ksNonAdhocActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="ksNonAdhocActionRequestDerivedRoleTypeServiceImpl" />
+                <property name="serviceInterface"
+                          value="org.kuali.rice.kim.framework.role.RoleTypeService"/>
+                <property name="localServiceName" value="ksNonAdhocActionRequestDerivedRoleTypeServiceImpl" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/organization" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+    <bean id="ksNonAdhocActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.role.type.KSNonAdhocActionRequestDerivedRoleTypeServiceImpl"/>
+
+    <!-- Action Request Derived role (type = Adhoc) (status - ACTIVE) -->
+    <bean id="ks.exp.ksAdhocActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="ksAdhocActionRequestDerivedRoleTypeServiceImpl" />
+                <property name="serviceInterface"
+                          value="org.kuali.rice.kim.framework.role.RoleTypeService"/>
+                <property name="localServiceName" value="ksAdhocActionRequestDerivedRoleTypeServiceImpl" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/organization" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+    <bean id="ksAdhocActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.role.type.KSAdhocActionRequestDerivedRoleTypeServiceImpl"/>
+
+    <!-- Action Request Derived role (type = Non Adhoc) (status - DONE) -->
+        <bean id="ks.exp.ksNonAdhocDoneActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="ksNonAdhocDoneActionRequestDerivedRoleTypeServiceImpl" />
+                <property name="serviceInterface"
+                          value="org.kuali.rice.kim.framework.role.RoleTypeService"/>
+                <property name="localServiceName" value="ksNonAdhocDoneActionRequestDerivedRoleTypeServiceImpl" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/organization" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+    <bean id="ksNonAdhocDoneActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.role.type.KSNonAdhocDoneActionRequestDerivedRoleTypeServiceImpl"/>
+
+    <!-- Action Request Derived role (type = Adhoc) (status - DONE) -->
+    <bean id="ks.exp.ksAdhocDoneActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="ksAdhocDoneActionRequestDerivedRoleTypeServiceImpl" />
+                <property name="serviceInterface"
+                          value="org.kuali.rice.kim.framework.role.RoleTypeService"/>
+                <property name="localServiceName" value="ksAdhocDoneActionRequestDerivedRoleTypeServiceImpl" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/organization" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+    <bean id="ksAdhocDoneActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.role.type.KSAdhocDoneActionRequestDerivedRoleTypeServiceImpl"/>
+
+    <!-- Route Log Derived role -->
+        <bean id="ks.exp.ksRouteLogDerivedRoleTypeServiceImpl" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="ksRouteLogDerivedRoleTypeServiceImpl" />
+                <property name="serviceInterface"
+                          value="org.kuali.rice.kim.framework.role.RoleTypeService"/>
+                <property name="localServiceName" value="ksRouteLogDerivedRoleTypeServiceImpl" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/organization" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+    <bean id="ksRouteLogDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.role.type.KSRouteLogDerivedRoleTypeServiceImpl">
+        <property name="checkFutureRequests" value="false" />
+    </bean>    
+   
+    <!-- add comments to document -->
+    <bean id="ks.exp.ksCommentOnDocumentRoleTypeService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="ksCommentOnDocumentRoleTypeService" />
+                <property name="serviceInterface"
+                          value="org.kuali.rice.kim.framework.role.RoleTypeService"/>
+                <property name="localServiceName" value="ksCommentOnDocumentRoleTypeService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/organization" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean> 
+     <bean id="ksCommentOnDocumentRoleTypeService" class="org.kuali.rice.krad.kim.PermissionDerivedRoleTypeServiceImpl">
+        <property name="permissionTemplateNamespace" value="KS-SYS" />
+        <property name="permissionTemplateName" value="Comment on Document" />
+    </bean>
+
+	<!-- edit documents -->
+    <bean id="ks.exp.ksEditDocumentRoleTypeService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="ksEditDocumentRoleTypeService" />
+                <property name="serviceInterface"
+                          value="org.kuali.rice.kim.framework.role.RoleTypeService"/>
+                <property name="localServiceName" value="ksEditDocumentRoleTypeService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/organization" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean> 
+    <bean id="ksEditDocumentRoleTypeService" class="org.kuali.rice.krad.kim.PermissionDerivedRoleTypeServiceImpl">
+        <property name="permissionTemplateNamespace" value="KS-SYS" />
+        <property name="permissionTemplateName" value="Edit Document" />
+    </bean>
+
+    <!-- Organization Hierarchy Role Type -->
+    <bean id="ks.exp.ksOrganizationHierarchyRoleTypeService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="ksOrganizationHierarchyRoleTypeService" />
+                <property name="serviceInterface"
+                          value="org.kuali.rice.kim.framework.role.RoleTypeService"/>
+                <property name="localServiceName" value="ksOrganizationHierarchyRoleTypeService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/organization" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean> 
+    <bean id="ksOrganizationHierarchyRoleTypeService" class="org.kuali.student.lum.kim.role.type.OrganizationHierarchyRoleTypeService"/>
+
+	<!-- Affiliation Derived role (anyone that's either a Staff or Faculty affiliation) -->
+	<bean id="ks.exp.ksAffiliationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="ksAffiliationService" />
+                <property name="serviceInterface"
+                          value="org.kuali.rice.kim.framework.role.RoleTypeService"/>
+                <property name="localServiceName" value="ksAffiliationService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/organization" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean> 
+	<bean id="ksAffiliationService"
+		class="org.kuali.student.lum.kim.role.type.AffiliationDerivedRoleTypeServiceImpl">
+		<property name="includedAffiliationTypes">
+			<!-- See KimConstants.PersonAffiliationTypes -->
+			<list>
+				<value>STAFF</value>
+				<value>FCLTY</value>
+			</list>
+		</property>
+	</bean>
+	 
+ 
+ 
+</beans>
