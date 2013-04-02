@@ -34,7 +34,7 @@
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:ks-spring-security.xml</param-value>
+        <param-value>classpath:umd-cm-embedded-security.xml</param-value>
     </context-param>
 
     <filter>
