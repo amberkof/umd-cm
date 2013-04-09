@@ -166,14 +166,14 @@
         <dependency>
             <groupId>org.kuali.student.api</groupId>
             <artifactId>ks-common-api</artifactId>
-            <version>${umd.ks.version}</version>
+            <version>${ks.api.version}</version>
             <classifier>sources</classifier>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.api</groupId>
             <artifactId>ks-core-api</artifactId>
-            <version>${umd.ks.version}</version>
+            <version>${ks.api.version}</version>
             <classifier>sources</classifier>
             <scope>provided</scope>
         </dependency>
