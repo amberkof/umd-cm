@@ -346,6 +346,7 @@ public class DiffCourseUtil {
 
         List<String> cmField = cmCourse.getGradingOptions();
 
+        // if this place is broken, ask Daniil to fix it - he has some experience with grading
         Map<String, String> attributes = CM20.attributeInfoToMap(cmCourse.getAttributes());
 
         // Create a map of all types of grading options
