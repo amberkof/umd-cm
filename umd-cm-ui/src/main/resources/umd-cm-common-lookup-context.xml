@@ -83,7 +83,9 @@
 					<property name="desc" value="Result Component Type"/>
 					<property name="dataType" value="STRING"/>
 					<property name="writeAccess" value="NEVER"/>
-					<property name="defaultValueString" value="kuali.resultComponentType.grade.finalGrade"/>
+					<!-- Daniil's response to KSCM-2224 -->
+					<property name="defaultValueString" value="kuali.result.values.group.type.multiple"/>
+					<!-- property name="defaultValueString" value="kuali.resultComponentType.grade.finalGrade"/ -->
 				</bean>
 				<bean parent="param">
 					<property name="key" value="lrc.queryParam.resultComponent.idRestrictionList"/>
