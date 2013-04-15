@@ -94,9 +94,16 @@
 					<property name="dataType" value="STRING"/>
 					<property name="writeAccess" value="NEVER"/>
 					<property name="defaultValueList">
-						<list>
+						<list> 
+						    <!-- Daniil's response to KSCM-2237 -->
+                            <value>kuali.resultComponent.grade.letter</value>
+                            <value>kuali.resultComponent.grade.satisfactory</value>
+                            <!-- value>kuali.resultComponent.grade.passFail</value --> <!-- does not work well, shows both Letter and PassFail in grading method -->					    
+                            <!-- value>kuali.result.group.grade.pnp.standard</value -->
+						    <!-- 
 							<value>kuali.result.scale.grade.letter</value>
 							<value>kuali.result.scale.grade.pnp</value>
+                             -->	
 						</list>
 					</property>
 				</bean>
